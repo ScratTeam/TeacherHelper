@@ -9,10 +9,11 @@
 ## 所涉及的技术
 
 1. 前端框架：[Angular 2](https://angular.io/)；
-2. UI：[Angular 2 Material](https://material.angular.io/)；
-3. 后对框架：[Koa](http://koajs.com/)；
-4. 数据库：[MongoDB](https://www.mongodb.com/)；
-5. 数据库辅助：[Mongoose](http://mongoosejs.com/)。
+2. 前端命令行工具：[Angular CLI](https://cli.angular.io/)；
+3. UI：[Angular 2 Material](https://material.angular.io/)；
+4. 后对框架：[Koa](http://koajs.com/)；
+5. 数据库：[MongoDB](https://www.mongodb.com/)；
+6. 数据库辅助：[Mongoose](http://mongoosejs.com/)。
 
 ## 团队成员
 
