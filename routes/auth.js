@@ -5,6 +5,7 @@ module.exports = function(app) {
   // 创建 router
   var router = new Router({prefix: '/auth'});
 
+  // 对请求进行响应
   router.get('/', function(ctx, next) {
     ctx.body = 'Hello!';
   });
