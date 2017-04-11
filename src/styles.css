@@ -9,3 +9,20 @@ body {
   padding: 0px;
   height: 100%;
 }
+
+/* loader */
+.loader-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eeeeee;
+}
+.loader-logo {
+  height: 100px;
+  background-image: url(/assets/images/logo.png);
+  background-size: 64px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
