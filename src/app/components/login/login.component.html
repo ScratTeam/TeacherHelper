@@ -18,7 +18,7 @@
         <md-input-container>
           <input mdInput placeholder="确认密码">
         </md-input-container>
-        <div class="error-message">改用户已存在，请尝试其他用户名</div>
+        <div class="error-message">{{signUpError}}</div>
         <button md-raised-button class="submit-button">注 册</button>
       </form>
       <!-- 登录页表单 -->
@@ -29,17 +29,17 @@
         <md-input-container>
           <input mdInput placeholder="密码">
         </md-input-container>
-        <div class="error-message">用户名密码错误</div>
+        <div class="error-message">{{signInError}}</div>
         <button md-raised-button class="submit-button">登 录</button>
       </form>
     </md-card>
     <md-card *ngIf="router.url == '/login/sign-up'">
       <span>已有 Scrat 教师账号？</span>
-      <button md-button class="change-button">直接登录</button>
+      <button md-button class="change-button" (click)="changePage()">直接登录</button>
     </md-card>
     <md-card *ngIf="router.url == '/login/sign-in'">
       <span>还没有 Scrat 教师账号？</span>
-      <button md-button class="change-button">立即注册</button>
+      <button md-button class="change-button" (click)="changePage()">立即注册</button>
     </md-card>
   </div>
   <div fxFlex></div>
