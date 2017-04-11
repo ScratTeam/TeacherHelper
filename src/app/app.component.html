@@ -2,7 +2,11 @@
   <!-- 顶栏 -->
   <header>
     <md-toolbar color="primary" class="fixed-toolbar">
-      <span>这里是 toolbar</span>
+      <div class="toolbar-layout" fxLayout="row">
+        <div fxFlex="10" fxHide.xs></div>
+        <div fxFlex="80" fxFlex.xs="100" class="toolbar-content">这里是 toolbar</div>
+        <div fxFlex="10" fxHide.xs></div>
+      </div>
     </md-toolbar>
   </header>
   <!-- 用于占位的假顶栏 -->

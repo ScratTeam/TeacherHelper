@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 
 // 引入前端路由文件
@@ -23,6 +24,8 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    // 动态响应模块
+    FlexLayoutModule,
     // Material Design 模块
     MaterialModule,
     // 路由模块
