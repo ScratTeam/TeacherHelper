@@ -1,16 +1,3 @@
-// 定义主题
-@import '~@angular/material/theming'
-@include mat-core()
-
-$candy-app-primary: mat-palette($mat-grey, 50)
-$candy-app-accent: mat-palette($mat-blue)
-
-$candy-app-warn: mat-palette($mat-red)
-
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn)
-
-@include angular-material-theme($candy-app-theme)
-
 // 页面布局
 .holy-grail
   display: flex
@@ -22,6 +9,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     z-index: 1000
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.24)
     padding: 0px
+    background-color: #ffffff
 
     .toolbar-layout
       width: 100%

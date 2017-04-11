@@ -1,1 +1,27 @@
-<div class="login-layout">这里是 login 页面</div>
+<div class="login-layout" fxLayout="row">
+  <div fxFlex></div>
+  <div fxFlex="320px">
+    <div class="logo"></div>
+    <div class="name">注册成为 Scrat 教师</div>
+    <md-card class="login-card">
+      <form #signUpInfo="ngForm">
+        <md-input-container>
+          <input mdInput placeholder="用户名">
+        </md-input-container>
+        <md-input-container>
+          <input mdInput placeholder="密码">
+        </md-input-container>
+        <md-input-container>
+          <input mdInput placeholder="确认密码">
+        </md-input-container>
+        <div class="error-message">改用户已存在，请尝试其他用户名</div>
+        <button md-raised-button class="submit-button">注 册</button>
+      </form>
+    </md-card>
+    <md-card>
+      <span>已有 Scrat 教师账号？</span>
+      <button md-button class="change-button">直接登录</button>
+    </md-card>
+  </div>
+  <div fxFlex></div>
+</div>
