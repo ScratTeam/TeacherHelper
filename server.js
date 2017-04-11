@@ -1,6 +1,5 @@
 // 申明依赖
 const Koa = require('koa');
-const Router = require('koa-router');
 const send = require('koa-send');
 
 // 创建 app

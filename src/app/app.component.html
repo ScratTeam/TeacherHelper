@@ -1,5 +1,19 @@
-<md-toolbar color="primary">
-  <span>顶栏</span>
-</md-toolbar>
+<div class="holy-grail">
+  <!-- 顶栏 -->
+  <header>
+    <md-toolbar color="primary" class="fixed-toolbar">
+      <span>这里是 toolbar</span>
+    </md-toolbar>
+  </header>
+  <!-- 用于占位的假顶栏 -->
+  <md-toolbar></md-toolbar>
 
-<router-outlet></router-outlet>
+  <!-- 内容 -->
+  <div class="holy-grail-body">
+    <!-- 子页面 -->
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- 底栏 -->
+  <footer>这里是 footer</footer>
+</div>
