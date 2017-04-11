@@ -7,11 +7,11 @@ import { LoginComponent } from './components/login/login.component';
 const appRouters: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'login/sign-in',
     pathMatch: 'full'
   },
   {
-    path: 'login',
+    path: 'login/:page',
     component: LoginComponent
   }
 ];
