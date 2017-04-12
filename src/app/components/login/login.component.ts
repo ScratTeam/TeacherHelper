@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../services/auth/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,6 +22,16 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/login', 'sign-up']);
     else if (this.router.url == '/login/sign-up')
       this.router.navigate(['/login', 'sign-in']);
+  }
+
+  // 提交注册表单
+  signUpSubmit(formValue) {
+    console.log(formValue);
+  }
+
+  // 提交登录表单
+  signInSubmit(formValue) {
+    console.log(formValue)
   }
 
 }
