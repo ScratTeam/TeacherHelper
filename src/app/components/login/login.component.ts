@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     // 如果没有错误，则提交表单中的用户名和密码
     if (this.signUpError == '') {
       this.authService.signUp(formValue.username, formValue.password);
-      // 根据返回值进行下一步的操作
+      // TODO 根据返回值进行下一步的操作
     }
   }
 
@@ -50,8 +50,8 @@ export class LoginComponent implements OnInit {
   signInSubmit(formValue) {
     this.signInError = this.validator.signInCheck(-1, formValue);
     if (this.signInError == '') {
-      this.authService.signIp(formValue.username, formValue.password);
-      // 根据返回值进行下一步的操作
+      this.authService.signIn(formValue.username, formValue.password);
+      // TODO 根据返回值进行下一步的操作
     }
   }
 

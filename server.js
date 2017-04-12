@@ -2,12 +2,20 @@
 const Koa = require('koa');
 const send = require('koa-send');
 const session = require('koa-session');
+const bodyParser = require('koa-bodyparser');
+const json = require('koa-json');
 
 // 创建 app
 var app = new Koa();
 
 // 静态文件
 app.use(require('koa-static')(`${__dirname}/dist`));
+
+// body parser
+app.use(bodyParser());
+
+// json
+app.use(json());
 
 // sessions
 app.keys = ['liuren shuqian wangzi'];

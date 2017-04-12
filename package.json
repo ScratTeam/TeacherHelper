@@ -26,6 +26,8 @@
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
     "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-json": "^2.0.2",
     "koa-router": "^7.1.1",
     "koa-send": "^4.0.0",
     "koa-session": "^5.0.0",
