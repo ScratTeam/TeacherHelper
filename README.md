@@ -17,13 +17,16 @@
 3. UI：[Angular 2 Material](https://material.angular.io/)；
 4. 后对框架：[Koa](http://koajs.com/)；
 5. 数据库：[MongoDB](https://www.mongodb.com/)；
-6. 数据库辅助：[Mongoose](http://mongoosejs.com/)。
+6. 数据库辅助：[Mongoose](http://mongoosejs.com/)；
+7. 另外还需要学习 Material Design 设计风格、前端布局 flex-layout、基于 session 的认证系统（借助 cookies）、TypeScript 等相关知识。
 
 ## 如何运行
 
 1. 确保已安装较新版本的 Node 和 npm（参考：Node v7.8.0，npm v4.4.4）；
 2. 安装 Angular CLI：```npm install -g @angular/cli```；
-3. 将仓库克隆到本地：```git clone https://github.com/ScratTeam/TeacherHelper.git```；
-4. 进入项目根路径；
-5. 安装依赖：```npm install```；
-6. 编译前端并运行后端：```ng build && node server.js```。如果想实时调试的话应使用 ```ng build --watch```，并在另一个命令行窗口内输入 ```node server.js```。
+3. 安装 MongoDB：安装方法可以参考其 [官网](https://www.mongodb.com/)；
+4. 将仓库克隆到本地：```git clone https://github.com/ScratTeam/TeacherHelper.git```；
+5. 进入项目根路径；
+6. 安装依赖：```npm install```；
+7. 运行数据库（后期部署时再对数据库进行安全认证，现暂不考虑）：mongod --dpath=/data（Mac 上去掉“/”）；
+8. 编译前端并运行后端：```ng build && node server.js```。如果想实时调试的话应使用 ```ng build --watch```，并在另一个命令行窗口内输入 ```node server.js```。
