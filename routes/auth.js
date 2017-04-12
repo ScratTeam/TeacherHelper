@@ -1,5 +1,13 @@
 // 申明依赖
 const Router = require('koa-router');
+const mongoose = require('mongoose');
+
+// 定义凭证
+const passportSchema = new mongoose.Schema({
+  username: String,
+  password: String
+});
+const Passport = mongoose.model('Passport', passportSchema);
 
 module.exports = function(app) {
   // 创建 router
@@ -33,11 +41,27 @@ module.exports = function(app) {
 
   // 对请求进行响应
   // 注册
-  router.post('/sign-up', function(ctx, next) {
+  router.post('/sign-up', async function(ctx, next) {
     if (!validator(ctx)) {
       ctx.status = 403;
     } else {
-      ctx.body = { isOK: true };
+      // 创建新的凭证
+      let passport = new Passport({
+        username: ctx.request.body.username,
+        password: ctx.request.body.password
+      });
+      // 在数据库中匹配，若不存在该用户名则可以注册
+      await Passport.find({ username: passport.username }, async function(err, passport_) {
+        // 成功注册
+        if (passport_.length == 0) {
+          await passport.save(function(err, passport__) {
+            ctx.body = { isOK: true, message: '' };
+          });
+        // 该用户已存在
+        } else {
+          ctx.body = { isOK: false, message: '该用户已存在，请更换用户名或直接登录' };
+        }
+      });
     }
   });
 
@@ -46,7 +70,22 @@ module.exports = function(app) {
     if (!validator(ctx)) {
       ctx.status = 403;
     } else {
-      ctx.body = { isOK: true };
+      // 创建新的凭证
+      let passport = new Passport({
+        username: ctx.request.body.username,
+        password: ctx.request.body.password
+      });
+      // 匹配成功则登录成功
+      await Passport.find({ username: passport.username,
+                            password: passport.password }, function(err, passport_) {
+        console.log(passport_);
+        // 登录成功
+        if (passport_.length == 1)
+          ctx.body = { isOK: true, message: '' };
+        // 登录失败
+        else
+          ctx.body = { isOK: false, message: '用户名密码错误' };
+      });
     }
   });
 
