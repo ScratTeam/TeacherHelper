@@ -1,12 +1,17 @@
 // 申明依赖
 const Koa = require('koa');
 const send = require('koa-send');
+const session = require('koa-session');
 
 // 创建 app
 var app = new Koa();
 
-// 配置静态文件
+// 静态文件
 app.use(require('koa-static')(`${__dirname}/dist`));
+
+// sessions
+app.keys = ['liuren shuqian wangzi'];
+app.use(session({ key: 'scrat:sess' }, app));
 
 // 引入路径
 require('./routes/auth')(app);

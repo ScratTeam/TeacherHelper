@@ -6,9 +6,7 @@ module.exports = function(app) {
   var router = new Router({prefix: '/auth'});
 
   // 对请求进行响应
-  router.get('/', function(ctx, next) {
-    ctx.body = 'Hello!';
-  });
+  router.get('/', async function(ctx, next) {});
 
   // 在 app 中打入 routes
   app.use(router.routes());
