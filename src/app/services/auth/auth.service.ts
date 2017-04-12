@@ -19,22 +19,20 @@ export class AuthService {
 
   // 注册
   signUp(username: string, password: string) {
-    this.http.post('/auth/sign-up',
-                   { username: username,
-                     password: this.encryptPassword(password) },
-                   { headers: this.headers })
-             .map((res) => res.json())
-             .subscribe();
+    return this.http.post('/auth/sign-up',
+                          { username: username,
+                            password: this.encryptPassword(password) },
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
   // 登录
   signIn(username: string, password: string) {
-    this.http.post('/auth/sign-in',
-                   { username: username,
-                     password: this.encryptPassword(password) },
-                   { headers: this.headers })
-             .map((res) => res.json())
-             .subscribe();
+    return this.http.post('/auth/sign-in',
+                          { username: username,
+                            password: this.encryptPassword(password) },
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
   // 推出登录
