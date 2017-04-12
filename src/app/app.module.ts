@@ -15,6 +15,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 
+// 引入 services
+import { AuthService } from './services/auth/auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +36,7 @@ import { HomeComponent } from './components/home/home.component';
     // 路由模块
     RoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

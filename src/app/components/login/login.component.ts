@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Validator } from '../../services/auth/validator';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   signUpError: string = '';  // 注册的校验错误
   validator: Validator = new Validator();  // 前端校验器
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
@@ -33,7 +34,11 @@ export class LoginComponent implements OnInit {
   // 提交注册表单
   signUpSubmit(formValue) {
     this.signUpError = this.validator.signUpCheck(-1, formValue);
-    console.log(formValue);
+    // 如果没有错误，则提交表单中的用户名和密码
+    if (this.signUpError == '') {
+      this.authService.signUp(formValue.username, formValue.password);
+      // 根据返回值进行下一步的操作
+    }
   }
 
   // 登录表单校验
@@ -44,7 +49,10 @@ export class LoginComponent implements OnInit {
   // 提交登录表单
   signInSubmit(formValue) {
     this.signInError = this.validator.signInCheck(-1, formValue);
-    console.log(formValue)
+    if (this.signInError == '') {
+      this.authService.signIp(formValue.username, formValue.password);
+      // 根据返回值进行下一步的操作
+    }
   }
 
 }
