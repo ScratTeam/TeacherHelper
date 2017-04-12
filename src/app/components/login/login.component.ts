@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../services/auth/auth.service';
+import { Validator } from '../../services/auth/validator';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +9,9 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
-  signInError: string = '该用户已存在，请更改用户名或直接登录';  // 登录的校验错误
-  signUpError: string = '用户名或密码错误，请再次尝试';  // 注册的校验错误
+  signInError: string = '';  // 登录的校验错误
+  signUpError: string = '';  // 注册的校验错误
+  validator: Validator = new Validator();  // 前端校验器
 
   constructor(private router: Router) {}
 
@@ -24,13 +25,25 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/login', 'sign-in']);
   }
 
+  // 注册表单校验
+  // flag 标识了哪个 input 被访问，-1 表示全部被访问
+  signUpCheck(flag: number, formValue) {
+    this.signUpError = this.validator.signUpCheck(flag, formValue);
+  }
   // 提交注册表单
   signUpSubmit(formValue) {
+    this.signUpError = this.validator.signUpCheck(-1, formValue);
     console.log(formValue);
   }
 
+  // 登录表单校验
+  // flag 标识了哪个 input 被访问，-1 表示全部被访问
+  signInCheck(flag: number, formValue) {
+    this.signInError = this.validator.signInCheck(flag, formValue);
+  }
   // 提交登录表单
   signInSubmit(formValue) {
+    this.signInError = this.validator.signInCheck(-1, formValue);
     console.log(formValue)
   }
 
