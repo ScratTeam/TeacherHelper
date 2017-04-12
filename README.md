@@ -28,5 +28,5 @@
 4. 将仓库克隆到本地：```git clone https://github.com/ScratTeam/TeacherHelper.git```；
 5. 进入项目根路径；
 6. 安装依赖：```npm install```；
-7. 运行数据库（后期部署时再对数据库进行安全认证，现暂不考虑）：mongod --dpath=/data（Mac 上去掉“/”）；
+7. 运行数据库（后期部署时再对数据库进行安全认证，现暂不考虑）：新建一个名为data的文件夹，运行```mongod --dbpath=/data（Mac 上去掉“/”）```；
 8. 编译前端并运行后端：```ng build && node server.js```。如果想实时调试的话应使用 ```ng build --watch```，并在另一个命令行窗口内输入 ```node server.js```。
