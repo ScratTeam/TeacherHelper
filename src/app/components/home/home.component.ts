@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   user: User;
 
   constructor(public userService: UserService) {
-    this.user = userService.getUser();
+
   }
 
   ngOnInit() {

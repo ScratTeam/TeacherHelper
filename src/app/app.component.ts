@@ -16,7 +16,9 @@ export class AppComponent {
   constructor(private authService: AuthService, private router: Router,
               private userService: UserService) {
     userService.getUser().subscribe((data) => {
-      if (data != null && data != undefined) this.user = data;
+      if (data.isOK) {
+        this.user = new User(data.username, data.avatar);
+      }
     });
   }
 

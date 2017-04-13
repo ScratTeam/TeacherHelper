@@ -21,7 +21,7 @@ module.exports = function(app) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.status = 401;
+        ctx.body = { isOK: false };
       } else {
         var users = await User.find({ username: ctx.session.username });
         // 如果数据库中不包含此用户名，则它为新注册用户
@@ -33,11 +33,13 @@ module.exports = function(app) {
           });
           await user.save();
           ctx.body = {
+            isOK: true,
             username: user.username,
             avatar: user.avatar
           };
         } else {
           ctx.body = {
+            isOK: true,
             username: users[0].username,
             avatar: users[0].avatar
           };
