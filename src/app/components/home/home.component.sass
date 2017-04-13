@@ -5,12 +5,45 @@
   .profile
     margin-right: 16px
 
-    .avatar-container
-      text-align: center
+    .user-avartar-container
+      padding: 16px
+      border-radius: 44px
 
-      .avatar
-        width: 80px
-        height: auto
+      #user-avartar
+        display: none
+
+      .user-avartar
+        margin: 0 auto
+        background-repeat: no-repeat
+        background-position: center center
+        background-size: cover
+        height: 88px
+        width: 88px
+        border-radius: 44px
+
+        .user-avartar-cover
+          z-index: 1
+          height: 88px
+          width: 88px
+          position: absolute
+          border-radius: 44px
+          background-color: rgba(0, 0, 0, 0)
+          color: rgba(255, 255, 255, 0)
+          line-height: 88px
+          text-align: center
+          transition: all 0.3s
+          -moz-transition: all 0.3s
+          -webkit-transition: all 0.3s
+          transition-timing-function: ease-in-out
+          -moz-transition-timing-function: ease-in-out
+          -webkit-transition-timing-function: ease-in-out
+
+        .user-avartar-cover:hover
+          background-color: rgba(0, 0, 0, 0.4)
+          color: rgba(255, 255, 255, 1)
+
+    md-card-title
+      text-align: center
 
     .info-form
         padding: 16px 16px 16px 16px
