@@ -1,7 +1,8 @@
 <div class="home-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
-  <div fxFlex="80" *ngIf="user">
-    <md-card fxFlex="30" class="profile">
+  <div fxFlex="80" fxFlex.xs="100" *ngIf="user" fxLayout.xs="column">
+    <!-- 非窄屏个人信息 -->
+    <md-card fxFlex="30" class="profile" fxHide.xs>
       <div class="user-avartar-container">
         <input type="file" accept="image/x-png, image/jpeg" (change)="avatarChange($event)" id="user-avartar">
         <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'">
@@ -23,8 +24,18 @@
         <button md-raised-button (click)="updateUserInfo(info.value)" class="submit-change-button">提交修改</button>
       </form>
     </md-card>
-    <md-card fxFlex="70" class="course">
+    <!-- 窄屏个人信息 -->
+    <md-card fxHide.gt-xs class="xs-profile">
+      <div class="user-avartar-container">
+        <input type="file" accept="image/x-png, image/jpeg" (change)="avatarChange($event)" id="user-avartar">
+        <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'">
+          <label for="user-avartar" class="user-avartar-cover">更换头像</label>
+        </div>
+      </div>
+      <md-card-title>{{user.username}}</md-card-title>
+    </md-card>
 
+    <md-card fxFlex="70" class="course">
     </md-card>
   </div>
   <div fxFlex="10" fxHide.xs></div>

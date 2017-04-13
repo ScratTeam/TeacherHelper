@@ -6,7 +6,7 @@
     margin-right: 16px
 
     .user-avartar-container
-      padding: 16px
+      padding: 0
       border-radius: 44px
 
       #user-avartar
@@ -43,13 +43,14 @@
           color: rgba(255, 255, 255, 1)
 
     md-card-title
+      margin: 8px
       text-align: center
 
     .info-form
-        padding: 16px 16px 16px 16px
         text-align: center
 
         md-input-container
+          margin-bottom: -8px
           width: 100%
 
         .error-message
@@ -61,7 +62,54 @@
           border: 1px solid #ebccd1
 
         .submit-change-button
+          margin-top: 16px
           color: #FFFFFF
           background-color: #2196F3
 
+  .xs-profile
+    margin: 0px 8px 8px 8px
+
+    .user-avartar-container
+      padding-bottom: 8px
+      border-radius: 44px
+
+      #user-avartar
+        display: none
+
+      .user-avartar
+        background-repeat: no-repeat
+        background-position: center center
+        background-size: cover
+        height: 66px
+        width: 66px
+        border-radius: 33px
+
+        .user-avartar-cover
+          z-index: 1
+          height: 66px
+          width: 66px
+          position: absolute
+          border-radius: 33px
+          background-color: rgba(0, 0, 0, 0)
+          color: rgba(255, 255, 255, 0)
+          line-height: 66px
+          text-align: center
+          transition: all 0.3s
+          -moz-transition: all 0.3s
+          -webkit-transition: all 0.3s
+          transition-timing-function: ease-in-out
+          -moz-transition-timing-function: ease-in-out
+          -webkit-transition-timing-function: ease-in-out
+
+        .user-avartar-cover:hover
+          background-color: rgba(0, 0, 0, 0.4)
+          color: rgba(255, 255, 255, 1)
+
+    md-card-title
+      text-align: center
+      width: 66px
+      font-size: 18px
+
   .course
+    @media (max-width: 600px)
+      margin: 8px
