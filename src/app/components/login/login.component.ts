@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MdSnackBar } from '@angular/material';
 
 import { Validator } from '../../services/auth/validator';
 import { AuthService } from '../../services/auth/auth.service';
@@ -14,7 +15,13 @@ export class LoginComponent implements OnInit {
   signUpError: string = '';  // 注册的校验错误
   validator: Validator = new Validator();  // 前端校验器
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService,
+              public snackBar: MdSnackBar) {
+    // 自动登录
+    authService.verify().subscribe((data) => {
+      if (data.isOK) router.navigate(['/home', data.username]);
+    });
+  }
 
   ngOnInit() {}
 
@@ -38,7 +45,14 @@ export class LoginComponent implements OnInit {
     if (this.signUpError == '') {
       this.authService.signUp(formValue.username, formValue.password)
                       .subscribe((data) => {
-        console.log(data);
+        if (data.isOK) {
+          this.router.navigate(['/login', 'sign-in']);
+          this.snackBar.open('注册成功，请登录刚刚注册账号', '知道了', {
+            duration: 2000
+          });
+        } else {
+          this.signUpError = data.message;
+        }
       });
     }
   }
@@ -54,7 +68,12 @@ export class LoginComponent implements OnInit {
     if (this.signInError == '') {
       this.authService.signIn(formValue.username, formValue.password)
                       .subscribe((data) => {
-        console.log(data);
+        if (data.isOK) {
+          this.router.navigate(['/home', formValue.username]);
+          this.snackBar.open('登录成功', '知道了', { duration: 2000 });
+        } else {
+          this.signInError = data.message;
+        }
       });
     }
   }

@@ -55,7 +55,7 @@ module.exports = function(app) {
         var passports = await Passport.find({ username: passport.username });
         if (passports.length == 0) {
           await passport.save();
-          ctx.body = { isOK: true, message: '' };
+          ctx.body = { isOK: true };
         } else {
           ctx.body = { isOK: false, message: '该用户已存在，请更换用户名或直接登录' };
         }
@@ -79,7 +79,9 @@ module.exports = function(app) {
         // 在数据库中匹配，若不存在该用户名则可以注册
         var passports = await Passport.find({ username: passport.username });
         if (passports.length == 1) {
-          ctx.body = { isOK: true, message: '' };
+          // 将用户的登录信息存进 session
+          ctx.session.username = passport.username;
+          ctx.body = { isOK: true };
         } else {
           ctx.body = { isOK: false, message: '用户名或密码错误' };
         }
@@ -87,6 +89,15 @@ module.exports = function(app) {
     } catch(error) {
       console.error(error);
     }
+  });
+
+  // 判断是否登录
+  router.post('/verify', function(ctx, next) {
+    // 如果 session 中存储了用户信息，则该用户已登录
+    if (ctx.session.username != null || ctx.session.username != undefined)
+      ctx.body = { isOK: true, username: ctx.session.username };
+    else
+      ctx.body = { isOK: false };
   });
 
   // 在 app 中打入 routes
