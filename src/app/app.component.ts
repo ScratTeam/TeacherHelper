@@ -15,7 +15,9 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router,
               private userService: UserService) {
-    this.user = userService.getUser();
+    userService.getUser().subscribe((data) => {
+      if (data != null && data != undefined) this.user = data;
+    });
   }
 
   // 退出登录

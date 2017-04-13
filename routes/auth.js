@@ -13,9 +13,6 @@ module.exports = function(app) {
   // 创建 router
   var router = new Router({prefix: '/auth'});
 
-  // 存储用户的临时变量
-  var users = [];
-
   // 后端校验
   validator = function(ctx) {
     // 后端校验规则
@@ -95,7 +92,7 @@ module.exports = function(app) {
   // 退出登录
   router.post('/sign-out', function(ctx, next) {
     // 如果 session 中存储了用户信息，则该用户已登录，可以退出
-    if (ctx.session.username != null || ctx.session.username != undefined) {
+    if (ctx.session.username != null && ctx.session.username != undefined) {
       ctx.session = null;
       ctx.body = { isOK: true };
     } else {
@@ -106,7 +103,7 @@ module.exports = function(app) {
   // 判断是否登录
   router.post('/verify', function(ctx, next) {
     // 如果 session 中存储了用户信息，则该用户已登录
-    if (ctx.session.username != null || ctx.session.username != undefined)
+    if (ctx.session.username != null && ctx.session.username != undefined)
       ctx.body = { isOK: true, username: ctx.session.username };
     else
       ctx.body = { isOK: false };

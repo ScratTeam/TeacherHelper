@@ -31,6 +31,7 @@ db.once('open', function() {
 
   // 引入路径
   require('./routes/auth')(app);
+  require('./routes/user')(app);
 
   // 将对 SPA 的直接访问重新导回 Angular 的路由
   app.use(async (ctx) => {
