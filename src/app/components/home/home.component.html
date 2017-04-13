@@ -12,13 +12,13 @@
       <md-card-title>{{user.username}}</md-card-title>
       <form #info="ngForm" class="info-form">
         <md-input-container>
-          <input mdInput placeholder="姓名" name="email" [ngModel]="user.username">
+          <input mdInput placeholder="姓名" name="username" [ngModel]="user.username">
         </md-input-container>
         <md-input-container>
-          <input mdInput placeholder="学校" name="introduction">
+          <input mdInput placeholder="学校" name="school">
         </md-input-container>
         <md-input-container>
-          <input mdInput placeholder="院系" name="field">
+          <input mdInput placeholder="院系" name="college">
         </md-input-container>
         <div class="error-message" *ngIf="errorMessage != ''">{{errorMessage}}</div>
         <button md-raised-button (click)="updateUserInfo(info.value)" class="submit-change-button">提交修改</button>
@@ -26,13 +26,11 @@
     </md-card>
     <!-- 窄屏个人信息 -->
     <md-card fxHide.gt-xs class="xs-profile">
-      <div class="user-avartar-container">
-        <input type="file" accept="image/x-png, image/jpeg" (change)="avatarChange($event)" id="user-avartar">
-        <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'">
-          <label for="user-avartar" class="user-avartar-cover">更换头像</label>
-        </div>
+      <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'"></div>
+      <div class="user-info">
+        <md-card-title>{{user.username}}</md-card-title>
+        <md-card-subtitle>中山大学</md-card-subtitle>
       </div>
-      <md-card-title>{{user.username}}</md-card-title>
     </md-card>
 
     <md-card fxFlex="70" class="course">
