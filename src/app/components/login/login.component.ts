@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   signInError: string = '';  // 登录的校验错误
   signUpError: string = '';  // 注册的校验错误
   validator: Validator = new Validator();  // 前端校验器
+  isVerified: boolean = false;
 
   constructor(private router: Router, private authService: AuthService,
               public snackBar: MdSnackBar) {
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
     authService.verify().subscribe((data) => {
       if (data.isOK) router.navigate(['/home', data.username]);
     });
+    this.isVerified = true;
   }
 
   ngOnInit() {}
