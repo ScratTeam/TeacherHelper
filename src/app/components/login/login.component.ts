@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
     // 自动登录
     authService.verify().subscribe((data) => {
       if (data.isOK) router.navigate(['/home', data.username]);
+      this.isVerified = true;
     });
-    this.isVerified = true;
   }
 
   ngOnInit() {}

@@ -36,7 +36,10 @@ export class AuthService {
   }
 
   // 推出登录
-  signOut() {}
+  signOut() {
+    return this.http.post('/auth/sign-out', {}, { headers: this.headers })
+                    .map((res) => res.json());
+  }
 
   // 判断用户是否登录
   verify() {

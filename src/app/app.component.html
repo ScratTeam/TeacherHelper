@@ -4,9 +4,18 @@
     <md-toolbar class="fixed-toolbar">
       <div class="toolbar-layout" fxLayout="row">
         <div fxFlex="10" fxHide.xs></div>
-        <div fxFlex="80" class="toolbar-content">
+        <div fxFlex.gt-xs="80" class="toolbar-content" fxLayout="row">
           <div class="logo"></div>
           <div class="name">Scrat 课程助手</div>
+          <div class="user" fxFlex>
+            <div class="user-avatar" [mdMenuTriggerFor]="user"></div>
+            <md-menu #user="mdMenu">
+              <button md-menu-item (click)="signOut()">
+                <md-icon>exit_to_app</md-icon>
+                <span>退出登录</span>
+              </button>
+            </md-menu>
+          </div>
         </div>
         <div fxFlex="10" fxHide.xs></div>
       </div>

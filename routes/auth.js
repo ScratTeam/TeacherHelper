@@ -92,6 +92,17 @@ module.exports = function(app) {
     }
   });
 
+  // 退出登录
+  router.post('/sign-out', function(ctx, next) {
+    // 如果 session 中存储了用户信息，则该用户已登录，可以退出
+    if (ctx.session.username != null || ctx.session.username != undefined) {
+      ctx.session = null;
+      ctx.body = { isOK: true };
+    } else {
+      ctx.status = 403;
+    }
+  });
+
   // 判断是否登录
   router.post('/verify', function(ctx, next) {
     // 如果 session 中存储了用户信息，则该用户已登录

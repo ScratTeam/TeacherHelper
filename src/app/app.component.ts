@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  // 退出登录
+  signOut() {
+    this.authService.signOut().subscribe((data) => {
+      // 成功退出
+      if (data.isOK) {
+        // 删除浏览器的 cookies
+        document.cookie.split(";").forEach(function(c) {
+          document.cookie = c.replace(/^ +/, "")
+                             .replace(/=.*/, "=;expires=" +
+                                      new Date().toUTCString() +
+                                      ";path=/");
+        });
+        // 前往注册页
+        this.router.navigate(['/login', 'sign-in']);
+      }
+    });
+  }
 }
