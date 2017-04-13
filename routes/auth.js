@@ -77,7 +77,8 @@ module.exports = function(app) {
           password: ctx.request.body.password
         });
         // 在数据库中匹配，若不存在该用户名则可以注册
-        var passports = await Passport.find({ username: passport.username });
+        var passports = await Passport.find({ username: passport.username,
+                                              password: passport.password });
         if (passports.length == 1) {
           // 将用户的登录信息存进 session
           ctx.session.username = passport.username;
