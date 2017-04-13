@@ -14,6 +14,7 @@ import { RoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { CourseComponent } from './components/course/course.component';
 
 // 引入 services
 import { AuthService } from './services/auth/auth.service';
@@ -23,7 +24,8 @@ import { UserService } from './services/user/user.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
