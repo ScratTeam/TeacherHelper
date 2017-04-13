@@ -1,10 +1,12 @@
 <div class="course-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
-  <div fxFlex="80" fxFlex.xs="100" *ngIf="user" fxLayout.xs="column">
+  <div fxFlex="80" fxFlex.xs="100" fxLayout.xs="column">
     <!-- 非窄屏课程信息 -->
-    <md-card fxFlex="30" class="course-info" fxHide.xs>123</md-card>
+    <md-card fxFlex="30" class="course-info" fxHide.xs>
+      <md-card-title>{{course.name}}</md-card-title>
+    </md-card>
     <!-- 窄屏课程信息 -->
-    <md-card fxHide.gt-xs class="xs-course-info">234</md-card>
+    <md-card fxHide.gt-xs class="xs-course-info"></md-card>
     <!-- 考题列表 -->
     <md-card fxFlex="70" class="test"></md-card>
   </div>

@@ -19,6 +19,7 @@ import { CourseComponent } from './components/course/course.component';
 // 引入 services
 import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
+import { CourseService } from './services/course/course.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserService } from './services/user/user.service';
   ],
   providers: [
     AuthService,
-    UserService
+    UserService,
+    CourseService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { UserService } from '../../services/user/user.service';
-import { User } from '../../services/user/user';
+import { AuthService } from '../../services/auth/auth.service';
+import { CourseService } from '../../services/course/course.service';
+import { Course } from '../../services/course/course';
 
 @Component({
   selector: 'app-course',
@@ -10,19 +11,22 @@ import { User } from '../../services/user/user';
   styleUrls: ['./course.component.sass']
 })
 export class CourseComponent implements OnInit {
-  user: User;
+  course: Course;
 
-  constructor(public userService: UserService, public router: Router) {
-    userService.getUser().subscribe((data) => {
-      if (data.isOK) {
-        this.user = new User(data.username, data.avatar);
-      } else {
-        router.navigate(['/login', 'sign-in']);
-      }
+  constructor(private authService: AuthService, private router: Router,
+              private courseService: CourseService, private activatedRoute: ActivatedRoute) {
+    // 判断是否登录
+    authService.verify().subscribe((data) => {
+      if (!data.isOK) router.navigate(['/login', 'sign-in']);
     });
   }
 
   ngOnInit() {
+    // 从 URL 中读取参数
+    this.activatedRoute.params.subscribe((params: Params) => {
+      // 取回课程信息
+      this.course = this.courseService.getCourse(params['course']);
+    });
   }
 
 }
