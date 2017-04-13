@@ -1,5 +1,27 @@
-<div class="home-layout">
+<div class="home-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
-  <div fxFlex="80">right</div>
+  <div fxFlex="80">
+    <md-card fxFlex="40" class="profile">
+      <div class="avatar-container">
+        <img class="avatar" md-card-avatar src="{{user.avatar}}">
+        <md-card-title>用户名</md-card-title>
+      </div>
+      <form #info='ngForm' class='info-form'>
+          <md-input-container>
+            <input mdInput placeholder='姓名' name='email' [ngModel]='user.username'>
+          </md-input-container>
+          <md-input-container>
+            <input mdInput placeholder='学校' name='introduction'>
+          </md-input-container>
+          <md-input-container>
+            <input mdInput placeholder='院系' name='field'>
+          </md-input-container>
+          <div class='error-message' *ngIf='errorMessage != ""'>{{errorMessage}}</div>
+          <button md-raised-button (click)='updateUserInfo(info.value)' class='submit-change-button'>提交修改</button>
+      </form>
+    </md-card>
+    <md-card fxFlex="60" class="course">
+    </md-card>
+  </div>
   <div fxFlex="10" fxHide.xs></div>
 </div>
