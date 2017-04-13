@@ -4,6 +4,16 @@
     <!-- 非窄屏课程信息 -->
     <md-card fxFlex="30" class="course-info" fxHide.xs>
       <md-card-title>{{course.name}}</md-card-title>
+      <form #info="ngForm" class="info-form" *ngIf="course">
+        <md-input-container>
+          <input mdInput placeholder="时间" name="time" [ngModel]="course.time">
+        </md-input-container>
+        <md-input-container>
+          <input mdInput placeholder="教室" name="classroom" [ngModel]="course.classroom">
+        </md-input-container>
+        <div class="error-message">{{errorMessage}}</div>
+        <button md-raised-button class="submit-button">提交修改</button>
+      </form>
     </md-card>
     <!-- 窄屏课程信息 -->
     <md-card fxHide.gt-xs class="xs-course-info"></md-card>

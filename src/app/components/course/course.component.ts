@@ -12,6 +12,7 @@ import { Course } from '../../services/course/course';
 })
 export class CourseComponent implements OnInit {
   course: Course;
+  errorMessage: string;
 
   constructor(private authService: AuthService, private router: Router,
               private courseService: CourseService, private activatedRoute: ActivatedRoute) {
