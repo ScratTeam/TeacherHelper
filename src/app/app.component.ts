@@ -15,10 +15,14 @@ export class AppComponent {
 
   constructor(private authService: AuthService, private router: Router,
               private userService: UserService) {
-    userService.getUser().subscribe((data) => {
-      if (data.isOK) {
-        this.user = new User(data.username, data.avatar);
-      }
+    // 监听页面跳转
+    this.router.events.subscribe(path => {
+      // 判断是否登录
+      userService.getUser().subscribe((data) => {
+        if (data.isOK) this.user = new User(data.username, data.avatar);
+        else this.user = null;
+      });
+      window.scrollTo(0, 0);
     });
   }
 
