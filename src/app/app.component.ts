@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './services/auth/auth.service';
+import { UserService } from './services/user/user.service';
+import { User } from './services/user/user';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +11,12 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
+  user: User;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,
+              private userService: UserService) {
+    this.user = userService.getUser();
+  }
 
   // 退出登录
   signOut() {

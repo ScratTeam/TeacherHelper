@@ -7,9 +7,9 @@
         <div fxFlex.gt-xs="80" class="toolbar-content" fxLayout="row">
           <div class="logo"></div>
           <div class="name">Scrat 课程助手</div>
-          <div class="user" fxFlex>
-            <div class="user-avatar" [mdMenuTriggerFor]="user"></div>
-            <md-menu #user="mdMenu">
+          <div class="user" fxFlex *ngIf="user">
+            <div class="user-avatar" [mdMenuTriggerFor]="userMenu" [style.background-image]="'url(' + user.avatar + ')'"></div>
+            <md-menu #userMenu="mdMenu">
               <button md-menu-item (click)="signOut()">
                 <md-icon>exit_to_app</md-icon>
                 <span>退出登录</span>
