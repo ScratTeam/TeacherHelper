@@ -5,6 +5,8 @@ import { MdSnackBar } from '@angular/material';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
 import { Validator } from '../../services/user/Validator';
+import { CourseService } from '../../services/course/course.service';
+import { Course } from '../../services/course/course';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +17,17 @@ export class HomeComponent implements OnInit {
   errorMessage: string = '';
   user: User;
   validator: Validator = new Validator();
+  courses: Course[];
 
   constructor(public userService: UserService, public router: Router,
-              public snackBar: MdSnackBar) {
+              public snackBar: MdSnackBar, public courseService: CourseService) {
     userService.getUser().subscribe((data) => {
       if (data.isOK) {
         this.user = new User(data.username, data.avatar, data.school, data.college);
+        // this.courseService.getCourses().subscribe((result) => {
+        //   this.courses = result;
+        // });
+        this.courses = this.courseService.getCourses();
       } else {
         router.navigate(['/login', 'sign-in']);
       }
@@ -65,6 +72,11 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+  }
+
+  editCourse(course) {
+    if (this.user != null)
+      this.router.navigate(['/course', this.user.username, course.name]);
   }
 
 }

@@ -34,6 +34,24 @@
     </md-card>
 
     <md-card fxFlex="70" class="course">
+      <md-list>
+        <md-list-item>
+          <h4 fxFlex="35" fxFlex.xs="80">课程名称</h4>
+          <h4 fxFlex="45" fxHide.xs>课程时间</h4>
+          <div fxFlex="10"></div>
+          <div fxFlex="10"></div>
+        </md-list-item>
+        <md-list-item *ngFor = 'let course of courses'>
+          <p fxFlex="35" fxFlex.xs="80">{{course.name}}</p>
+          <p fxFlex="45" fxHide.xs>{{course.time}}</p>
+          <button fxFlex="10" md-icon-button class='edit-button' (click)='editCourse(course)'>
+            <md-icon>mode_edit</md-icon>
+          </button>
+          <button fxFlex="10" md-icon-button class='delete-button' (click)='deleteCourse(course)'>
+            <md-icon>delete</md-icon>
+          </button>
+        </md-list-item>
+      </md-list>
     </md-card>
   </div>
   <div fxFlex="10" fxHide.xs></div>

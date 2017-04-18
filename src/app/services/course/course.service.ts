@@ -4,14 +4,26 @@ import { Course } from './course';
 
 @Injectable()
 export class CourseService {
-  course: Course;
+  courses: Course[];
 
   constructor() {
-    this.course = new Course('数据结构', '公教楼 D304', '每周四第 1 到第 3 节课');
+    this.courses = [{
+      name: '数据结构',
+      classroom: '公教楼 D304',
+      time: '每周四 1-3 节课'
+    },{
+      name: '计算机组成原理',
+      classroom: '公教楼 D301',
+      time: '每周二 6-8 节课'
+    }];
   }
 
   getCourse(course: string) {
-    return this.course;
+    return this.courses[0];
+  }
+
+  getCourses() {
+    return this.courses;
   }
 
 }

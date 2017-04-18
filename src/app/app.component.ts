@@ -43,4 +43,8 @@ export class AppComponent {
       }
     });
   }
+
+  gotoHome() {
+    this.router.navigate(['/home', this.user.username]);
+  }
 }
