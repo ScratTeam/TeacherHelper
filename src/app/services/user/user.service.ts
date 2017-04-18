@@ -17,10 +17,10 @@ export class UserService {
                     .map((res) => res.json());
   }
 
-  updateUser(user) {
+  updateUser(user, oldName) {
     return this.http.post('/user/update-user',
                           {username: user.username, avatar: user.avatar,
-                           school: user.school, college: user.college},
+                           school: user.school, college: user.college, oldName: oldName},
                           {headers: this.headers})
                     .map((res) => {
                       let temp = res.json();

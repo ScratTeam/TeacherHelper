@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateUserInfo(infoData) {
+    const oldName = this.user.username;
     this.user.username = infoData.username;
     this.user.school = infoData.school;
     this.user.college= infoData.college;
@@ -61,7 +62,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     // 从后端更新用户数据
-    this.userService.updateUser(this.user).subscribe(
+    this.userService.updateUser(this.user, oldName).subscribe(
       (data) => {
         if (data.username != undefined) {
           this.user = data;
