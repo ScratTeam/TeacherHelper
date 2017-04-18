@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 // 定义凭证
 const userSchema = new mongoose.Schema({
   username: String,
-  avatar: String
+  avatar: String,
+  school: String,
+  college: String
 });
 const User = mongoose.model('User', userSchema);
 
@@ -29,25 +31,37 @@ module.exports = function(app) {
           // 创建新的用户
           let user = new User({
             username: ctx.session.username,
-            avatar: '/assets/images/default-avatar.jpg'
+            avatar: '/assets/images/default-avatar.jpg',
+            school: '',
+            college: ''
           });
           await user.save();
           ctx.body = {
             isOK: true,
             username: user.username,
-            avatar: user.avatar
+            avatar: user.avatar,
+            school: user.school,
+            college: user.college
           };
         } else {
           ctx.body = {
             isOK: true,
             username: users[0].username,
-            avatar: users[0].avatar
+            avatar: users[0].avatar,
+            school: users[0].school,
+            college: users[0].college
           };
         }
       }
     } catch(error) {
       console.error(error);
     }
+  });
+
+  router.post('/update-user', async function(ctx, next) {
+    // TODO 校验用户提交的更新信息，并在数据库中更新用户信息
+    // 注意用户名可以更新，mongodb中每一个 schema 都有 id，以 id 为主键
+    ctx.body = {username: ctx.request.body.username};
   });
 
   // 在 app 中打入 routes

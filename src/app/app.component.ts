@@ -19,7 +19,7 @@ export class AppComponent {
     this.router.events.subscribe(path => {
       // 判断是否登录
       userService.getUser().subscribe((data) => {
-        if (data.isOK) this.user = new User(data.username, data.avatar);
+        if (data.isOK) this.user = new User(data.username, data.avatar, data.school, data.college);
         else this.user = null;
       });
       window.scrollTo(0, 0);
