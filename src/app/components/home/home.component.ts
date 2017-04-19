@@ -62,8 +62,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     // 从后端更新用户数据
-    this.userService.updateUser(this.user, oldName).subscribe(
-      (data) => {
+    this.userService.updateUser(this.user, oldName).subscribe((data) => {
         if (data.username != undefined) {
           this.user = data;
           this.snackBar.open('修改成功', '知道了', { duration: 2000 });
@@ -71,8 +70,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.errorMessage = data;
         }
-      }
-    );
+      });
   }
 
   editCourse(course) {

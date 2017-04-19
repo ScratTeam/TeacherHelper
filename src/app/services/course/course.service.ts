@@ -18,12 +18,16 @@ export class CourseService {
     }];
   }
 
-  getCourse(course: string) {
+  getCourse(courseName: string) {
     return this.courses[0];
   }
 
   getCourses() {
     return this.courses;
+  }
+
+  deleteCourse(course) {
+
   }
 
 }
