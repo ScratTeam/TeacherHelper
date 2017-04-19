@@ -47,4 +47,8 @@ export class AppComponent {
   gotoHome() {
     this.router.navigate(['/home', this.user.username]);
   }
+
+  addCourse() {
+    this.router.navigate(['/addcourse', this.user.username]);
+  }
 }

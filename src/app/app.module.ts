@@ -20,13 +20,15 @@ import { CourseComponent } from './components/course/course.component';
 import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
+import { AddcourseComponent } from './components/addcourse/addcourse.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CourseComponent
+    CourseComponent,
+    AddcourseComponent
   ],
   imports: [
     BrowserModule,

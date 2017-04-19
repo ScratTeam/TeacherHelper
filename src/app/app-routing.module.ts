@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { CourseComponent } from './components/course/course.component';
+import { AddcourseComponent } from './components/addcourse/addcourse.component';
 
 const appRouters: Routes = [
   {
@@ -23,6 +24,10 @@ const appRouters: Routes = [
   {
     path: 'course/:username/:course',
     component: CourseComponent
+  },
+  {
+    path: 'addcourse/:username',
+    component: AddcourseComponent
   }
 ];
 
