@@ -1,6 +1,6 @@
 <div class="home-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
-  <div fxFlex="80" fxFlex.xs="100" *ngIf="user" fxLayout.xs="column">
+  <div fxFlex="80" fxFlex.xs="100" *ngIf="user" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
     <!-- 非窄屏个人信息 -->
     <md-card fxFlex="30" class="profile" fxHide.xs>
       <div class="user-avartar-container">
@@ -35,16 +35,20 @@
 
     <md-card fxFlex="70" class="course">
       <md-card-title>课程列表</md-card-title>
-      <md-list>
+      <md-list >
         <md-list-item class="tableHeader">
           <p fxFlex="35" fxFlex.xs="80">课程名称</p>
-          <p fxFlex="45" fxHide.xs>课程时间</p>
-          <div fxFlex></div>
+          <div fxFlex="56px"></div>
+          <p fxFlex="35">课程时间</p>
+          <div fxFlex="56px"></div>
+          <p fxFlex="30">课程地点</p>
         </md-list-item>
         <md-list-item class="courseList" *ngFor = 'let course of courses' (click) = editCourse(course)>
           <p fxFlex="35" fxFlex.xs="80">{{course.name}}</p>
-          <p fxFlex="45" fxHide.xs>{{course.time}}</p>
-          <div fxFlex></div>
+          <div fxFlex="56px"></div>
+          <p fxFlex="35">{{course.time}}</p>
+          <div fxFlex="56px"></div>
+          <p fxFlex="30">{{course.classroom}}</p>
         </md-list-item>
       </md-list>
     </md-card>

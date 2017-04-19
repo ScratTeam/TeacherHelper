@@ -29,3 +29,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.mat-list-item-content {
+  padding: 0px !important
+}
