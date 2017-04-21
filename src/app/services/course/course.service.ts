@@ -54,9 +54,15 @@ export class CourseService {
     // TODO 在数据库中删除课程信息
   }
 
-  updateCourse(course) {
-    // TODO 在数据库中更新课程信息
-    return this.http.post('/course/update-course', {course: course}, { headers: this.headers })
+  updateCourse(course, oldName) {
+    // TODO 在数据库中更新课程信息，从 cookie 中读取用户信息
+    return this.http.post('/course/update-course', {course: course, oldName: oldName}, { headers: this.headers })
+                    .map((res) => res.json());
+  }
+
+  addCourse(course) {
+    // TODO 在数据库中增加课程，从 cookie 中读取用户信息
+    return this.http.post('/course/add-course', {course: course}, { headers: this.headers })
                     .map((res) => res.json());
   }
 

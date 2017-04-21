@@ -1,6 +1,6 @@
 <div class="course-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
-  <div fxFlex="80" fxFlex.xs="100" fxLayout.xs="column">
+  <div fxFlex="80" fxFlex.xs="100" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
     <!-- 非窄屏课程信息 -->
     <md-card fxFlex="30" class="course-info" fxHide.xs>
       <md-card-title>{{course.name}}</md-card-title>
@@ -12,7 +12,7 @@
           <input mdInput placeholder="教室" name="classroom" [ngModel]="course.classroom">
         </md-input-container>
         <div class="error-message">{{errorMessage}}</div>
-        <button md-raised-button class="submit-button" (click)="editCourse(course)">提交修改</button>
+        <button md-raised-button class="submit-button" (click)="editCourse(info.value)">提交修改</button>
       </form>
     </md-card>
     <!-- 窄屏课程信息 -->

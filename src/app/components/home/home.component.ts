@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
     userService.getUser().subscribe((data) => {
       if (data.isOK) {
         this.user = new User(data.username, data.avatar, data.school, data.college);
+        // TODO 从后端获取课程信息
         // this.courseService.getCourses().subscribe((result) => {
         //   this.courses = result;
         // });
@@ -66,7 +67,6 @@ export class HomeComponent implements OnInit {
         if (data.username != undefined) {
           this.user = data;
           this.snackBar.open('修改成功', '知道了', { duration: 2000 });
-          this.errorMessage = '';
         } else {
           this.errorMessage = data;
         }

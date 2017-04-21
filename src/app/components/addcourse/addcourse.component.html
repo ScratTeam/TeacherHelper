@@ -1,3 +1,37 @@
-<div class="addcourse-layout">
-  addcourse works!
+<div class="addcourse-layout" fxLayout.xs="row" fxLayout="column" fxLayoutAlign="start center">
+  <md-card fxFlex.xs="100">
+    <md-card-title>创建新课程</md-card-title>
+    <md-card-subtitle>在课程列表中增加一门新的课程，便于您的课堂教学和学生信息管理。</md-card-subtitle>
+    <md-card-content class="course-info">
+      <form #courseInfo="ngForm" class="info-form">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="15"><md-icon>class</md-icon></div>
+          <div fxFlex="5"></div>
+          <md-input-container fxFlex>
+            <input mdInput placeholder="名称" name="name">
+          </md-input-container>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="15"><md-icon>access_time</md-icon></div>
+          <div fxFlex="5"></div>
+          <md-input-container>
+            <input mdInput placeholder="时间" name="time">
+          </md-input-container>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="15"><md-icon>room</md-icon></div>
+          <div fxFlex="5"></div>
+          <md-input-container>
+            <input mdInput placeholder="教室" name="classroom">
+          </md-input-container>
+        </div>
+        <!-- <input type="file" id="student" class="student-name">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <label md-raised-button for="student">选择学生名单</label>
+        </div> -->
+        <div class="error-message">{{errorMessage}}</div>
+        <button md-raised-button class="submit-button" (click)="addCourse(courseInfo.value)">创建课程</button>
+      </form>
+    </md-card-content>
+  </md-card>
 </div>
