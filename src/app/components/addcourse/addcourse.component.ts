@@ -14,6 +14,7 @@ export class AddcourseComponent implements OnInit {
   course: Course;
   validator: Validator;
   errorMessage: string = '';
+  fileName: string = '';
 
   constructor(public courseService: CourseService, public snackBar: MdSnackBar) { }
 
@@ -42,4 +43,17 @@ export class AddcourseComponent implements OnInit {
     // });
   }
 
+  uploadFile(event) {
+    var reader = new FileReader();
+    var that = this;
+
+    reader.onload = function(e: any) {
+      // that.course.studentName = e.target.result;
+    };
+
+    if (event.target.files[0] != undefined) {
+      reader.readAsDataURL(event.target.files[0]);
+      this.fileName = event.target.files[0].name;
+    }
+  }
 }

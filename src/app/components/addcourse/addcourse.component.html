@@ -25,10 +25,19 @@
             <input mdInput placeholder="教室" name="classroom">
           </md-input-container>
         </div>
-        <!-- <input type="file" id="student" class="student-name">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <label md-raised-button for="student">选择学生名单</label>
-        </div> -->
+        <input type="file" id="student" class="student-name" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="uploadFile($event)">
+        <div class="input-container" *ngIf="fileName == ''">
+          <label md-raised-button for="student" fxLayout="column" fxLayoutAlign="center center">
+            <md-icon>file_upload</md-icon>
+            点击添加学生名单(.xlsx)
+          </label>
+        </div>
+        <div class="input-container" *ngIf="fileName != ''">
+          <label md-raised-button for="student" fxLayout="column" fxLayoutAlign="center center">
+            <md-icon>insert_drive_file</md-icon>
+            {{fileName}}
+          </label>
+        </div>
         <div class="error-message">{{errorMessage}}</div>
         <button md-raised-button class="submit-button" (click)="addCourse(courseInfo.value)">创建课程</button>
       </form>

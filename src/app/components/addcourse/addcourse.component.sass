@@ -6,7 +6,6 @@
     width: 40vw
 
     .course-info
-      margin-right: 16px
 
       .info-form
         text-align: center
@@ -21,12 +20,23 @@
         .student-name
           display: none
 
-        label
-          font-size: 0.9em
-          border: 1px solid #e0e0e0
-          display: inline-block
-          padding: 6px
-          cursor: pointer
+        .input-container
+
+          label
+            font-size: 0.9em
+            border: 1px solid #e0e0e0
+            width: 100%
+            height: 15vh
+            margin: 24px 0
+            padding: 6px
+            cursor: pointer
+            color: rgb(114, 114, 114)
+
+            md-icon
+              margin-bottom: 6px
+
+        .input-container:hover
+            background: #eeeeee
 
         .error-message
           font-size: 0.9em
