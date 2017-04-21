@@ -28,11 +28,8 @@ export class UserService {
                         console.log(temp);
                         return temp;
                       }
-                      console.log(user);
                       // 创建新的用户
-                      // TODO 保证后端返回的数据是以及更新的
-                      // return new User(temp.username, temp.avatar, temp.school, temp.college);
-                      return user;
+                      return new User(temp.username, temp.avatar, temp.school, temp.college);
                     });
   }
 

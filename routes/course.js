@@ -9,3 +9,15 @@ const courseSchema = new mongoose.Schema({
   time: String
 });
 const Course = mongoose.model('Course', courseSchema);
+
+module.exports = function(app, shareData) {
+  // 创建 router
+  var router = new Router({prefix: '/course'});
+
+  router.post('/update-course', async function(ctx, next) {
+    // TODO 更新课程信息
+    ctx.body = {isOk: true};
+  });
+
+  return router;
+}

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 
 import { Course } from './course';
 
 @Injectable()
 export class CourseService {
+  private headers = new Headers({'Content-Type': 'application/json'});
   courses: Course[];
 
-  constructor() {
+  constructor(private http: Http) {
     this.courses = [{
       name: '数据结构',
       classroom: '公教楼 D304',
@@ -49,7 +51,13 @@ export class CourseService {
   }
 
   deleteCourse(course) {
+    // TODO 在数据库中删除课程信息
+  }
 
+  updateCourse(course) {
+    // TODO 在数据库中更新课程信息
+    return this.http.post('/course/update-course', {course: course}, { headers: this.headers })
+                    .map((res) => res.json());
   }
 
 }

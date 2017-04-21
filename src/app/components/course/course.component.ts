@@ -30,4 +30,13 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  editCourse(course) {
+    this.courseService.updateCourse(course).subscribe((data)=> {
+      // if (data.isOK)
+      //   this.course = data;
+    });
+  }
+
+  
+
 }

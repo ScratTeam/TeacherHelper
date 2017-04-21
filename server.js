@@ -30,11 +30,12 @@ db.once('open', function() {
   app.use(session({ key: 'scrat:sess' }, app));
 
   // 共享数据
-  var shareData;
-  
+  var shareData = {};
+
   // 引入路径
   require('./routes/auth')(app, shareData);
   require('./routes/user')(app, shareData);
+  require('./routes/course')(app, shareData);
 
   // 将对 SPA 的直接访问重新导回 Angular 的路由
   app.use(async (ctx) => {

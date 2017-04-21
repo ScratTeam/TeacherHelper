@@ -12,7 +12,7 @@
           <input mdInput placeholder="教室" name="classroom" [ngModel]="course.classroom">
         </md-input-container>
         <div class="error-message">{{errorMessage}}</div>
-        <button md-raised-button class="submit-button">提交修改</button>
+        <button md-raised-button class="submit-button" (click)="editCourse(course)">提交修改</button>
       </form>
     </md-card>
     <!-- 窄屏课程信息 -->

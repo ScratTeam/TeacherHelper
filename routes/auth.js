@@ -2,9 +2,6 @@
 const Router = require('koa-router');
 const mongoose = require('mongoose');
 
-// 从server获取共享数据shareData
-var shareData = require('../server');
-
 // 定义凭证
 const passportSchema = new mongoose.Schema({
   username: String,
@@ -12,12 +9,12 @@ const passportSchema = new mongoose.Schema({
 });
 const Passport = mongoose.model('Passport', passportSchema);
 
-// 存入shareData
-shareData.Passport = Passport;
-
-module.exports = function(app) {
+module.exports = function(app, shareData) {
   // 创建 router
   var router = new Router({prefix: '/auth'});
+
+  // 存入shareData
+  shareData.Passport = Passport;
 
   // 后端校验
   validator = function(ctx) {

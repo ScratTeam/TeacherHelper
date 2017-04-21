@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  editCourse(course) {
+  gotoCourse(course) {
     if (this.user != null)
       this.router.navigate(['/course', this.user.username, course.name]);
   }

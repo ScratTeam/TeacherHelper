@@ -2,9 +2,6 @@
 const Router = require('koa-router');
 const mongoose = require('mongoose');
 
-// 从server获取共享数据shareData
-var shareData = require('../server');
-
 // 定义凭证
 const userSchema = new mongoose.Schema({
   username: String,
@@ -14,11 +11,9 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-module.exports = function(app) {
+module.exports = function(app, shareData) {
   // 创建 router
   var router = new Router({prefix: '/user'});
-
-  // TODO 后端校验
 
   validator = function(ctx) {
     // 后端校验规则
@@ -38,7 +33,6 @@ module.exports = function(app) {
     }
   }
 
-  // TODO 对请求进行响应
   // 获取用户信息
   router.post('/get-user', async function(ctx, next) {
     try {
@@ -80,9 +74,7 @@ module.exports = function(app) {
   });
 
   router.post('/update-user', async function(ctx, next) {
-    // TODO 校验用户提交的更新信息，并在数据库中更新用户信息
-    // 注意用户名可以更新，mongodb中每一个 schema 都有 id，以 id 为主键
-    // 通过oldName从 schema 中查找id
+    // 校验用户提交的更新信息，并在数据库中更新用户信息
     var users = await User.find({ username : ctx.request.body.oldName });
     var passports = await shareData.Passport.find({ username: ctx.request.body.username });
     var id = users[0]._id;
@@ -92,7 +84,7 @@ module.exports = function(app) {
       if (ctx.request.body.oldName != ctx.request.body.username && passports.length == 1) {
         // 已存在的用户
         ctx.body = { isOk: false,
-                     message: '用户已存在' 
+                     message: '用户已存在'
                    };
       } else if (validator(ctx)) {
         var conditions = { _id : id };
@@ -138,7 +130,7 @@ module.exports = function(app) {
         }
       }else {
         ctx.body = { isOk: false,
-                     message: '用户名格式错误' 
+                     message: '用户名格式错误'
                    };
       }
 
