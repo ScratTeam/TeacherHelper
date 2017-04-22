@@ -16,7 +16,7 @@ export class AddcourseComponent implements OnInit {
   errorMessage: string = '';
   fileName: string = '';
 
-  constructor(public courseService: CourseService, public snackBar: MdSnackBar) { }
+  constructor(private courseService: CourseService, private snackBar: MdSnackBar) { }
 
   ngOnInit() {
   }

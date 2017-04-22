@@ -21,7 +21,7 @@ export class CourseComponent implements OnInit {
   validator = new Validator();
 
   constructor(private authService: AuthService, private router: Router,
-              public snackBar: MdSnackBar, public testService: TestService,
+              private snackBar: MdSnackBar, private testService: TestService,
               private courseService: CourseService, private activatedRoute: ActivatedRoute) {
     // 判断是否登录
     authService.verify().subscribe((data) => {

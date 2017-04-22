@@ -12,15 +12,23 @@ export class TestService {
     this.tests = [{
       name: '考勤一',
       time: '2017/01/02 - 2017/01/03',
-      state: '已过期'
+      state: '已过期',
+      detail: 'none'
     },{
       name: '链表测试',
       time: '2017/08/02 - 2017/08/03',
-      state: '未过期'
+      state: '未过期',
+      detail: 'none'
     }];
   }
 
   getTests() {
+    // TODO 从后端获取测试信息
     return this.tests;
+  }
+
+  getTest(test) {
+    // TODO 从后端获取测试的信息
+    return this.tests[0];
   }
 }
