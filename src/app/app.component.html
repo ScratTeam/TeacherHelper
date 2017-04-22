@@ -5,7 +5,7 @@
       <div class="toolbar-layout" fxLayout="row">
         <div fxFlex="10" fxHide.xs></div>
         <div fxFlex.gt-xs="80" class="toolbar-content" fxLayout="row">
-          <div class="logo"></div>
+          <div class="logo" (click)="gotoHome()"></div>
           <div class="name">Scrat 课程助手</div>
           <div class="user" fxFlex *ngIf="user">
             <div class="user-avatar" [mdMenuTriggerFor]="userMenu" [style.background-image]="'url(' + user.avatar + ')'"></div>

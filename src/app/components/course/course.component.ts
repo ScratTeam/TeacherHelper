@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { CourseService } from '../../services/course/course.service';
 import { Course } from '../../services/course/course';
 import { Validator } from '../../services/course/validator';
+import { Test } from '../../services/test/test';
+import { TestService } from '../../services/test/test.service';
 
 @Component({
   selector: 'app-course',
@@ -14,10 +16,12 @@ import { Validator } from '../../services/course/validator';
 })
 export class CourseComponent implements OnInit {
   course: Course;
+  tests: Test[];
   errorMessage: string;
   validator = new Validator();
 
-  constructor(private authService: AuthService, private router: Router, public snackBar: MdSnackBar,
+  constructor(private authService: AuthService, private router: Router,
+              public snackBar: MdSnackBar, public testService: TestService,
               private courseService: CourseService, private activatedRoute: ActivatedRoute) {
     // 判断是否登录
     authService.verify().subscribe((data) => {
@@ -30,10 +34,11 @@ export class CourseComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       // 取回课程信息
       this.course = this.courseService.getCourse(params['course']);
+      this.tests = this.testService.getTests();
     });
   }
 
-  editCourse(courseInfo) {
+  updateCourse(courseInfo) {
     const oldName = this.course.name;
     this.course.name = courseInfo.name;
     this.course.classroom = courseInfo.classroom;
@@ -57,7 +62,5 @@ export class CourseComponent implements OnInit {
     //   }
     // });
   }
-
-
 
 }

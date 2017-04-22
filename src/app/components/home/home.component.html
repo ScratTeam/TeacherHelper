@@ -43,7 +43,7 @@
           <div fxFlex="56px"></div>
           <p fxFlex="30">课程地点</p>
         </md-list-item>
-        <md-list-item class="courseList" *ngFor = 'let course of courses' (click) = gotoCourse(course)>
+        <md-list-item class="courseList" *ngFor = "let course of courses" (click) = gotoCourse(course)>
           <p fxFlex="35" fxFlex.xs="80">{{course.name}}</p>
           <div fxFlex="56px"></div>
           <p fxFlex="35">{{course.time}}</p>

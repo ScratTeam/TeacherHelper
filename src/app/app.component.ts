@@ -45,7 +45,8 @@ export class AppComponent {
   }
 
   gotoHome() {
-    this.router.navigate(['/home', this.user.username]);
+    if (this.user != null)
+      this.router.navigate(['/home', this.user.username]);
   }
 
   addCourse() {

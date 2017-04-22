@@ -21,6 +21,7 @@ import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
 import { AddcourseComponent } from './components/addcourse/addcourse.component';
+import { TestService } from './services/test/test.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AddcourseComponent } from './components/addcourse/addcourse.component';
   providers: [
     AuthService,
     UserService,
-    CourseService
+    CourseService,
+    TestService
   ],
   bootstrap: [AppComponent]
 })
