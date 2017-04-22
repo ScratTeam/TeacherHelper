@@ -15,12 +15,13 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { CourseComponent } from './components/course/course.component';
+import { AddcourseComponent } from './components/addcourse/addcourse.component';
+import { TestComponent } from './components/test/test.component';
 
 // 引入 services
 import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
-import { AddcourseComponent } from './components/addcourse/addcourse.component';
 import { TestService } from './services/test/test.service';
 
 @NgModule({
@@ -29,7 +30,8 @@ import { TestService } from './services/test/test.service';
     LoginComponent,
     HomeComponent,
     CourseComponent,
-    AddcourseComponent
+    AddcourseComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

@@ -63,4 +63,14 @@ export class CourseComponent implements OnInit {
     // });
   }
 
+  gotoTest(test) {
+    this.authService.verify().subscribe((data) => {
+      if (!data.isOK) {
+        this.router.navigate(['/login', 'sign-in']);
+      } else {
+        this.router.navigate(['/test', data.username, this.course.name, test.name]);
+      }
+    });
+  }
+
 }
