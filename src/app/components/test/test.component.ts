@@ -12,6 +12,7 @@ import { TestService } from '../../services/test/test.service';
 })
 export class TestComponent implements OnInit {
   test: Test;
+  options: any;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private snackBar: MdSnackBar, private testService: TestService) {
@@ -22,6 +23,12 @@ export class TestComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.options = {
+      title : { text : 'simple chart' },
+      series: [{
+          data: [29.9, 71.5, 106.4, 129.2],
+      }]
+        };
   }
 
 }

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ChartModule } from 'angular2-highcharts';
 import 'hammerjs';
 
 // 引入前端路由文件
@@ -23,6 +24,8 @@ import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
 import { TestService } from './services/test/test.service';
+
+declare var require: any
 
 @NgModule({
   declarations: [
@@ -43,7 +46,9 @@ import { TestService } from './services/test/test.service';
     // Material Design 模块
     MaterialModule,
     // 路由模块
-    RoutingModule
+    RoutingModule,
+    // 图表文件
+    ChartModule.forRoot(require('highcharts'))
   ],
   providers: [
     AuthService,
