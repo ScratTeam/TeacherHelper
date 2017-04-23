@@ -5,6 +5,8 @@ import { MdSnackBar } from '@angular/material';
 import { Test } from '../../services/test/test';
 import { TestService } from '../../services/test/test.service';
 
+declare var Highcharts: any;
+
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -23,12 +25,29 @@ export class TestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.options = {
-      title : { text : 'simple chart' },
-      series: [{
-          data: [29.9, 71.5, 106.4, 129.2],
-      }]
-        };
+    var myChart = Highcharts.chart('container', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }]
+    });
   }
 
 }
