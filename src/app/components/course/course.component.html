@@ -6,6 +6,9 @@
       <md-card-title>{{course.name}}</md-card-title>
       <form #info="ngForm" class="info-form" *ngIf="course">
         <md-input-container>
+          <input mdInput placeholder="名称" name="name" [ngModel]="course.name">
+        </md-input-container>
+        <md-input-container>
           <input mdInput placeholder="时间" name="time" [ngModel]="course.time">
         </md-input-container>
         <md-input-container>
