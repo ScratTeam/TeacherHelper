@@ -15,10 +15,10 @@
           <input mdInput placeholder="姓名" name="username" [ngModel]="user.username">
         </md-input-container>
         <md-input-container>
-          <input mdInput placeholder="学校" name="school" [ngModel]="user.school">
+          <input mdInput placeholder="学校" name="university" [ngModel]="user.university">
         </md-input-container>
         <md-input-container>
-          <input mdInput placeholder="院系" name="college" [ngModel]="user.college">
+          <input mdInput placeholder="院系" name="school" [ngModel]="user.school">
         </md-input-container>
         <div class="error-message" *ngIf="errorMessage != ''">{{errorMessage}}</div>
         <button md-raised-button (click)="updateUserInfo(info.value)" class="submit-change-button">提交修改</button>
@@ -29,7 +29,7 @@
       <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'"></div>
       <div class="user-info">
         <md-card-title>{{user.username}}</md-card-title>
-        <md-card-subtitle>{{user.school}}{{user.college}}</md-card-subtitle>
+        <md-card-subtitle>{{user.university}}{{user.school}}</md-card-subtitle>
       </div>
     </md-card>
 

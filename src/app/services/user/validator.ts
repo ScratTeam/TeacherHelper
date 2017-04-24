@@ -1,7 +1,7 @@
 export class Validator {
   constructor() {}
 
-  checkUserInfo = function(image, username, school, college) {
+  checkUserInfo = function(image, username, university, school) {
     var errorMessage = '';
 
     // 定义校验规则
@@ -20,10 +20,10 @@ export class Validator {
     else if (String(username).match(usernameRegex) == null)
       errorMessage = '用户名不符合格式规范';
 
-    else if (school == null || school == undefined || school == '')  // 防止为空的恶意攻击
+    else if (university == null || university == undefined || university == '')  // 防止为空的恶意攻击
       errorMessage = '学校名不符合格式规范';
 
-    else if (college == null || college == undefined || college == '') // 防止为空的恶意攻击
+    else if (school == null || school == undefined || school == '') // 防止为空的恶意攻击
       errorMessage = '院系名不符合格式规范';
 
     return errorMessage;

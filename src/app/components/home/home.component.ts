@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
               private snackBar: MdSnackBar, private courseService: CourseService) {
     userService.getUser().subscribe((data) => {
       if (data.isOK) {
-        this.user = new User(data.username, data.avatar, data.school, data.college);
+        this.user = new User(data.username, data.avatar, data.university, data.school);
         // TODO 从后端获取课程信息
         // this.courseService.getCourses().subscribe((result) => {
         //   this.courses = result;
@@ -53,11 +53,11 @@ export class HomeComponent implements OnInit {
   updateUserInfo(infoData) {
     const oldName = this.user.username;
     this.user.username = infoData.username;
-    this.user.school = infoData.school;
-    this.user.college= infoData.college;
+    this.user.university = infoData.university;
+    this.user.school= infoData.school;
     // 提交修改
     let errorMessage = this.validator.checkUserInfo(this.user.avatar,this.user.username,
-                                                    this.user.school, this.user.college);
+                                                    this.user.university, this.user.school);
     if (errorMessage != '') {
       this.errorMessage = errorMessage;
       return;

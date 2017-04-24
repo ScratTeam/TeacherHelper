@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   username: String,
   avatar: String,
-  school: String,
-  college: String
+  university: String,
+  school: String
 });
 const User = mongoose.model('User', userSchema);
 
@@ -47,24 +47,24 @@ module.exports = function(app, shareData) {
           let user = new User({
             username: ctx.session.username,
             avatar: '/assets/images/default-avatar.jpg',
-            school: '',
-            college: ''
+            university: '',
+            school: ''
           });
           await user.save();
           ctx.body = {
             isOK: true,
             username: user.username,
             avatar: user.avatar,
-            school: user.school,
-            college: user.college
+            university: user.university,
+            school: user.school
           };
         } else {
           ctx.body = {
             isOK: true,
             username: users[0].username,
             avatar: users[0].avatar,
-            school: users[0].school,
-            college: users[0].college
+            university: users[0].university,
+            school: users[0].school
           };
         }
       }
@@ -91,8 +91,8 @@ module.exports = function(app, shareData) {
         const user = users[0];
         user.username = ctx.request.body.username;
         user.avatar = ctx.request.body.avatar;
+        user.university = ctx.request.body.university;
         user.school = ctx.request.body.school;
-        user.college = ctx.request.body.college;
         await user.save();
 
         // 更新成功
@@ -100,8 +100,8 @@ module.exports = function(app, shareData) {
                       isOK : true,
                       username: ctx.request.body.username,
                       avatar: ctx.request.body.avatar,
-                      school: ctx.request.body.school,
-                      college: ctx.request.body.college
+                      university: ctx.request.body.university,
+                      school: ctx.request.body.school
                     };
         // 更新 session
         ctx.session.username = ctx.request.body.username;

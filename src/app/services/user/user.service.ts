@@ -20,7 +20,7 @@ export class UserService {
   updateUser(user, oldName) {
     return this.http.post('/user/update-user',
                           {username: user.username, avatar: user.avatar,
-                           school: user.school, college: user.college, oldName: oldName},
+                           university: user.university, school: user.school, oldName: oldName},
                           {headers: this.headers})
                     .map((res) => {
                       let temp = res.json();
@@ -29,7 +29,7 @@ export class UserService {
                         return temp;
                       }
                       // 创建新的用户
-                      return new User(temp.username, temp.avatar, temp.school, temp.college);
+                      return new User(temp.username, temp.avatar, temp.university, temp.school);
                     });
   }
 
