@@ -97,12 +97,12 @@ module.exports = function(app, shareData) {
 
         // 更新成功
         ctx.body = {
-                      isOK : true,
-                      username: ctx.request.body.username,
-                      avatar: ctx.request.body.avatar,
-                      university: ctx.request.body.university,
-                      school: ctx.request.body.school
-                    };
+          isOK : true,
+          username: ctx.request.body.username,
+          avatar: ctx.request.body.avatar,
+          university: ctx.request.body.university,
+          school: ctx.request.body.school
+          };
         // 更新 session
         ctx.session.username = ctx.request.body.username;
 
