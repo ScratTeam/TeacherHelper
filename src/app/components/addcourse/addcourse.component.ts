@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
+import * as XLSX from 'xlsx/xlsx';
 
 import { CourseService } from '../../services/course/course.service';
 import { Course } from '../../services/course/course';
@@ -48,11 +49,18 @@ export class AddcourseComponent implements OnInit {
     var that = this;
 
     reader.onload = function(e: any) {
-      // that.course.studentName = e.target.result;
+      var workbook = XLSX.read(e.target.result, {type: 'binary'});
+      var first_sheet_name = workbook.SheetNames[0];
+      var address_of_cell = 'A1';
+      var worksheet = workbook.Sheets[first_sheet_name];
+      var desired_cell = worksheet[address_of_cell];
+      console.log(desired_cell.v);
     };
 
+
     if (event.target.files[0] != undefined) {
-      reader.readAsDataURL(event.target.files[0]);
+      // reader.readAsDataURL(event.target.files[0]);
+      reader.readAsBinaryString(event.target.files[0]);
       this.fileName = event.target.files[0].name;
     }
   }

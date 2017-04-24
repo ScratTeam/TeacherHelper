@@ -35,6 +35,7 @@
     "mongoose": "^4.9.5",
     "rxjs": "^5.3.0",
     "ts-md5": "^1.2.0",
+    "xlsx": "^0.9.12",
     "zone.js": "^0.8.8"
   },
   "devDependencies": {
