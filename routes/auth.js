@@ -11,13 +11,13 @@ const Passport = mongoose.model('Passport', passportSchema);
 
 module.exports = function(app, shareData) {
   // 创建 router
-  var router = new Router({prefix: '/auth'});
+  var router = new Router({ prefix: '/auth' });
 
   // 存入shareData
   shareData.Passport = Passport;
 
   // 后端校验
-  validator = function(ctx) {
+  authValidator = function(ctx) {
     // 后端校验规则
     let usernameRegex = /^[a-zA-Z0-9]+$/;  // 只能由字母和数字组成
     let passwordRegex = /^[a-f0-9]{32}$/;;  // 必须满足 MD5
@@ -43,7 +43,7 @@ module.exports = function(app, shareData) {
   // 注册
   router.post('/sign-up', async function(ctx, next) {
     try {
-      if (!validator(ctx)) {
+      if (!authValidator(ctx)) {
         ctx.status = 403;
       } else {
         // 创建新的凭证
@@ -68,7 +68,7 @@ module.exports = function(app, shareData) {
   // 登录
   router.post('/sign-in', async function(ctx, next) {
     try {
-      if (!validator(ctx)) {
+      if (!authValidator(ctx)) {
         ctx.status = 403;
       } else {
         // 创建新的凭证

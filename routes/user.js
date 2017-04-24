@@ -13,20 +13,34 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = function(app, shareData) {
   // 创建 router
-  var router = new Router({prefix: '/user'});
+  var router = new Router({ prefix: '/user' });
 
-  validator = function(ctx) {
+  userValidator = function(ctx) {
     // 后端校验规则
     let usernameRegex = /^[a-zA-Z0-9]+$/;  // 只能由字母和数字组成
+    // Base64 编码的图片
+    let avatarRegex = /^(?:data:image\/([a-zA-Z]*);base64,)?(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;
     // request body 为空
     if (ctx.request.body == null || ctx.request.body == undefined) {
       return false;
     } else {
       let username = ctx.request.body.username;
+      let oldName = ctx.request.body.oldName;
+      let avatar = ctx.request.body.avatar;
+      let university = ctx.request.body.university;
+      let school = ctx.request.body.school;
       // 非法请求
-      if (username == null || username == undefined || username == '' ||
+      if (username == null || username == undefined || username == '' ||  // 新用户名不合法
           username.length < 5 || username.length > 10 ||
-          username.match(usernameRegex) == null)
+          username.match(usernameRegex) == null ||
+          oldName == null || oldName == undefined || oldName == '' ||  // 旧用户名不合法
+          oldName.length < 5 || oldName.length > 10 ||
+          oldName.match(usernameRegex) == null ||
+          avatar == null || avatar == undefined ||  // 新头像不合法
+          (avatar.match(avatarRegex) == null &&
+           avatar != '/assets/images/default-avatar.jpg') ||
+          university == null || university == undefined ||  // 新大学不合法
+          school == null || school == undefined)  // 新学院不合法
         return false;
       else
         return true;
@@ -74,52 +88,58 @@ module.exports = function(app, shareData) {
   });
 
   router.post('/update-user', async function(ctx, next) {
-    // 校验用户提交的更新信息，并在数据库中更新用户信息
-    var users = await User.find({ username : ctx.request.body.oldName });
-    var passports = await shareData.Passport.find({ username: ctx.request.body.username });
-    var id = users[0]._id;
-
     try {
-      // 更新信息
-      if (ctx.request.body.oldName != ctx.request.body.username && passports.length == 1) {
-        // 已存在的用户
-        ctx.body = { isOk: false,
-                     message: '用户已存在'
-                   };
-      } else if (validator(ctx)) {
-        const users = await User.find({ _id: id });
-        const user = users[0];
-        user.username = ctx.request.body.username;
-        user.avatar = ctx.request.body.avatar;
-        user.university = ctx.request.body.university;
-        user.school = ctx.request.body.school;
-        await user.save();
-
-        // 更新成功
-        ctx.body = {
-          isOK : true,
-          username: ctx.request.body.username,
-          avatar: ctx.request.body.avatar,
-          university: ctx.request.body.university,
-          school: ctx.request.body.school
-          };
-        // 更新 session
-        ctx.session.username = ctx.request.body.username;
-
-        // 更新 Passport
-        var passports = await shareData.Passport.find({ username: ctx.request.body.oldName });
-        if (passports.length == 1) {
-          var id = passports[0]._id;
-          passport = passports[0];
-          passport.username = ctx.request.body.username;
-          passport.save();
-        } else {
-          ctx.body = { isOK: false, message: '未注册的用户' };
-        }
+      // 后盾校验
+      if (!userValidator(ctx)) {
+        ctx.status = 403;
       } else {
-        ctx.body = { isOk: false, message: '用户名格式错误' };
-      }
+        let passports = await shareData.Passport.find({
+          username: ctx.request.body.username
+        });
+        // 保证新旧用户名不同且新用户名未被用过
+        if (ctx.request.body.oldName != ctx.request.body.username &&
+            passports.length == 1) {
+          // 新用户名已经被其他用户使用
+          ctx.body = {
+            isOk: false,
+            message: '该用户已存在，请更换新用户名'
+          };
+        } else {
+          let users = await User.find({ username : ctx.request.body.oldName });
+          let passports = await shareData.Passport.find({
+            username: ctx.request.body.oldName
+          });
+          // 保证该用户存在
+          if (users.length == 1 && passports.length == 1) {
+            // 更新用户
+            let user = users[0];
+            user.username = ctx.request.body.username;
+            user.avatar = ctx.request.body.avatar;
+            user.university = ctx.request.body.university;
+            user.school = ctx.request.body.school;
+            await user.save();
 
+            // 更新凭证
+            let passport = passports[0];
+            passport.username = ctx.request.body.username;
+            await passport.save();
+
+            // 更新 session
+            ctx.session.username = ctx.request.body.username;
+
+            // 更新成功
+            ctx.body = {
+              isOK : true,
+              username: ctx.request.body.username,
+              avatar: ctx.request.body.avatar,
+              university: ctx.request.body.university,
+              school: ctx.request.body.school
+            };
+          } else {
+            ctx.body = { isOK: false, message: '401' };
+          }
+        }
+      }
     } catch(error) {
       console.log(error);
     }
