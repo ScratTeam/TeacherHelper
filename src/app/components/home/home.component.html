@@ -20,7 +20,7 @@
         <md-input-container>
           <input mdInput placeholder="院系" name="school" [ngModel]="user.school">
         </md-input-container>
-        <div class="error-message" *ngIf="errorMessage != ''">{{errorMessage}}</div>
+        <div class="error-message">{{errorMessage}}</div>
         <button md-raised-button (click)="updateUserInfo(info.value)" class="submit-change-button">提交修改</button>
       </form>
     </md-card>

@@ -24,8 +24,7 @@ export class UserService {
                           {headers: this.headers})
                     .map((res) => {
                       let temp = res.json();
-                      if (temp == 'INVALID_REQUEST' || temp.username == undefined) {
-                        console.log(temp);
+                      if (temp.username == undefined) {
                         return temp;
                       }
                       // 创建新的用户
