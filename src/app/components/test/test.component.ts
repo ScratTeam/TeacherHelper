@@ -26,27 +26,50 @@ export class TestComponent implements OnInit {
 
   ngOnInit() {
     var myChart = Highcharts.chart('container', {
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-            title: {
-                text: 'Fruit eaten'
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: '第七题答题情况'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
             }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'A',
+            y: 56.33
         }, {
-            name: 'John',
-            data: [5, 7, 3]
+            name: 'B',
+            y: 24.03,
+            sliced: true,
+            selected: true
+        }, {
+            name: 'C',
+            y: 10.38
+        }, {
+            name: 'D',
+            y: 5.88
         }]
+      }]
     });
   }
 

@@ -33,3 +33,7 @@ body {
 .mat-list-item-content {
   padding: 0px !important
 }
+
+.highcharts-credits {
+  display: none ! important
+}

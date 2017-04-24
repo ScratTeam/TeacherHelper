@@ -64,13 +64,18 @@ export class HomeComponent implements OnInit {
     }
     // 从后端更新用户数据
     this.userService.updateUser(this.user, oldName).subscribe((data) => {
-        if (data.username != undefined) {
-          this.user = data;
-          this.snackBar.open('修改成功', '知道了', { duration: 2000 });
+      if (data.isOK) {
+        this.user = data;
+        this.snackBar.open('修改成功', '知道了', { duration: 2000 });
+      } else {
+        if (data.message == '401') {
+          this.snackBar.open('凭证已过期，请重新登录', '知道了', { duration: 2000 });
+          this.router.navigate(['/login', 'sign-in']);
         } else {
-          this.errorMessage = data;
+          this.errorMessage = data.message;
         }
-      });
+      }
+    });
   }
 
   gotoCourse(course) {
