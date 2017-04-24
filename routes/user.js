@@ -87,21 +87,14 @@ module.exports = function(app, shareData) {
                      message: '用户已存在'
                    };
       } else if (validator(ctx)) {
-        var conditions = { _id : id };
-        var update = {$set : {
-            username : ctx.request.body.username,
-            avatar : ctx.request.body.avatar,
-            school : ctx.request.body.school,
-            college : ctx.request.body.college
-        }};
-        var options = { upsert : true };
-        User.update(conditions, update, options, function(err){
-          if(err) {
-            console.log(err);
-          } else {
-            console.log('User updated');
-          }
-        });
+        const users = await User.find({ _id: id });
+        const user = users[0];
+        user.username = ctx.request.body.username;
+        user.avatar = ctx.request.body.avatar;
+        user.school = ctx.request.body.school;
+        user.college = ctx.request.body.college;
+        await user.save();
+
         // 更新成功
         ctx.body = {
                       isOK : true,
@@ -110,28 +103,21 @@ module.exports = function(app, shareData) {
                       school: ctx.request.body.school,
                       college: ctx.request.body.college
                     };
-        // 更新session
+        // 更新 session
         ctx.session.username = ctx.request.body.username;
 
-        // 更新Passport
+        // 更新 Passport
         var passports = await shareData.Passport.find({ username: ctx.request.body.oldName });
         if (passports.length == 1) {
           var id = passports[0]._id;
-          var conditions = {_id: id};
-          var update = { $set: { username: ctx.request.body.username } };
-          var options = { upsert: true };
-          shareData.Passport.update(conditions, update, options, function(err) {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('Passport updated');
-            }
-          });
+          passport = passports[0];
+          passport.username = ctx.request.body.username;
+          passport.save();
+        } else {
+          ctx.body = { isOK: false, message: '未注册的用户' };
         }
-      }else {
-        ctx.body = { isOk: false,
-                     message: '用户名格式错误'
-                   };
+      } else {
+        ctx.body = { isOk: false, message: '用户名格式错误' };
       }
 
     } catch(error) {
