@@ -52,18 +52,17 @@ export class HomeComponent implements OnInit {
 
   updateUserInfo(infoData) {
     const oldName = this.user.username;
-    this.user.username = infoData.username;
-    this.user.university = infoData.university;
-    this.user.school= infoData.school;
+    var tempUser = new User(infoData.username, this.user.avatar,
+                            infoData.university, infoData.school);
     // 提交修改
-    let errorMessage = this.validator.checkUserInfo(this.user.avatar,this.user.username,
-                                                    this.user.university, this.user.school);
+    let errorMessage = this.validator.checkUserInfo(this.user.avatar,infoData.username,
+                                                    infoData.university, infoData.school);
     if (errorMessage != '') {
       this.errorMessage = errorMessage;
       return;
     }
     // 从后端更新用户数据
-    this.userService.updateUser(this.user, oldName).subscribe((data) => {
+    this.userService.updateUser(tempUser, oldName).subscribe((data) => {
       if (data.isOK) {
         this.user = data;
         this.snackBar.open('修改成功', '知道了', { duration: 2000 });

@@ -40,21 +40,19 @@ export class CourseComponent implements OnInit {
 
   updateCourse(courseInfo) {
     const oldName = this.course.name;
-    this.course.name = courseInfo.name;
-    this.course.classroom = courseInfo.classroom;
-    this.course.time = courseInfo.time;
-
+    let tempCourse = new Course(courseInfo.name, courseInfo.classroom, courseInfo.time);
     // 提交修改
-    let errorMessage = this.validator.checkCourseInfo(this.course.name,this.course.classroom,
-                                                      this.course.time);
+    let errorMessage = this.validator.checkCourseInfo(courseInfo.name,courseInfo.classroom,
+                                                      courseInfo.time);
     if (errorMessage != '') {
       this.errorMessage = errorMessage;
       return;
     }
 
     // TODO 从后端更新课程信息
-    // this.courseService.updateCourse(this.course, oldName).subscribe((data)=> {
+    // this.courseService.updateCourse(tempCourse).subscribe((data)=> {
     //   if (!data.isOK) {
+    //     TODO 承接报错信息
     //     this.errorMessage = data;
     //   } else {
     //     this.course = data;
