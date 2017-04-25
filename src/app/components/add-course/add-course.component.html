@@ -38,7 +38,7 @@
             {{fileName}}
           </label>
         </div>
-        <p class="hint" *ngIf="fileName == ''">* 请使用excel表格的形式导入，在A列输入学号,B列输入姓名</p>
+        <p class="hint" *ngIf="fileName == ''">* 请使用 Excel 表格的形式导入，在 A 列输入学号，B 列输入姓名</p>
         <div class="error-message">{{errorMessage}}</div>
         <button md-raised-button class="submit-button" (click)="addCourse(courseInfo.value)">创建课程</button>
       </form>
