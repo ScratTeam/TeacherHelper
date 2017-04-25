@@ -52,7 +52,7 @@ module.exports = function(app, shareData) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOK: false };
+        ctx.body = { isOK: false, message: '401' };
       } else {
         var users = await User.find({ username: ctx.session.username });
         // 如果数据库中不包含此用户名，则它为新注册用户
@@ -92,6 +92,8 @@ module.exports = function(app, shareData) {
       // 后盾校验
       if (!userValidator(ctx)) {
         ctx.status = 403;
+      } else if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
       } else {
         let passports = await shareData.Passport.find({
           username: ctx.request.body.username
@@ -101,7 +103,7 @@ module.exports = function(app, shareData) {
             passports.length == 1) {
           // 新用户名已经被其他用户使用
           ctx.body = {
-            isOk: false,
+            isOK: false,
             message: '该用户已存在，请更换新用户名'
           };
         } else {
@@ -135,8 +137,9 @@ module.exports = function(app, shareData) {
               university: ctx.request.body.university,
               school: ctx.request.body.school
             };
+          // 提交了数据库中不存在的用户
           } else {
-            ctx.body = { isOK: false, message: '401' };
+            ctx.status = 403;
           }
         }
       }

@@ -19,14 +19,14 @@ export class UserService {
 
   updateUser(user, oldName) {
     return this.http.post('/user/update-user',
-                          {username: user.username, avatar: user.avatar,
-                           university: user.university, school: user.school, oldName: oldName},
-                          {headers: this.headers})
+                          { username: user.username, avatar: user.avatar,
+                            university: user.university, school: user.school,
+                            oldName: oldName
+                          }, { headers: this.headers })
                     .map((res) => {
                       let temp = res.json();
-                      if (temp.username == undefined) {
-                        return temp;
-                      }
+                      // 出现异常
+                      if (!temp.isOK) return temp;
                       // 创建新的用户
                       return new User(temp.username, temp.avatar, temp.university, temp.school);
                     });

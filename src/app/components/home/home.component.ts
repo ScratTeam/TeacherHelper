@@ -24,11 +24,9 @@ export class HomeComponent implements OnInit {
     userService.getUser().subscribe((data) => {
       if (data.isOK) {
         this.user = new User(data.username, data.avatar, data.university, data.school);
-        // TODO 从后端获取课程信息
-        // this.courseService.getCourses().subscribe((result) => {
-        //   this.courses = result;
-        // });
-        this.courses = this.courseService.getCourses();
+        this.courseService.getCourses().subscribe((data_) => {
+          if (data_.isOK) this.courses = data_.courses;
+        });
       } else {
         router.navigate(['/login', 'sign-in']);
       }
@@ -63,9 +61,12 @@ export class HomeComponent implements OnInit {
     }
     // 从后端更新用户数据
     this.userService.updateUser(tempUser, oldName).subscribe((data) => {
-      if (data.isOK) {
+      // 无报错信息
+      if (!data.message) {
         this.user = data;
+        this.errorMessage = '';
         this.snackBar.open('修改成功', '知道了', { duration: 2000 });
+      // 有报错信息
       } else {
         if (data.message == '401') {
           this.snackBar.open('凭证已过期，请重新登录', '知道了', { duration: 2000 });

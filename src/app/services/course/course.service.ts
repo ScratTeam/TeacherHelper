@@ -47,7 +47,8 @@ export class CourseService {
   }
 
   getCourses() {
-    return this.courses;
+    return this.http.post('/course/get-courses', {}, { headers: this.headers })
+                    .map((res) => res.json());
   }
 
   deleteCourse(course) {
@@ -55,9 +56,16 @@ export class CourseService {
   }
 
   updateCourse(course, oldName) {
-    // TODO 在数据库中更新课程信息，从 cookie 中读取用户信息
-    return this.http.post('/course/update-course', {course: course, oldName: oldName}, { headers: this.headers })
-                    .map((res) => res.json());
+    return this.http.post('/course/update-course',
+                          { course: course, oldName: oldName },
+                          { headers: this.headers })
+                    .map((res) => {
+                      let temp = res.json();
+                      // 出现异常
+                      if (!temp.isOK) return temp;
+                      // 创建新的课程
+                      return new Course(temp.name, temp.classroom, temp.time);
+                    });
   }
 
   addCourse(course) {
