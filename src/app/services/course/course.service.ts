@@ -43,8 +43,9 @@ export class CourseService {
   }
 
   // 为老师添加一门课程
-  addCourse(course) {
-    return this.http.post('/course/add-course', { course: course },
+  addCourse(course, students) {
+    return this.http.post('/course/add-course',
+                          { course: course, students: students },
                           { headers: this.headers })
                     .map((res) => res.json());
   }

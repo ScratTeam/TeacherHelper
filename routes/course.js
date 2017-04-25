@@ -97,7 +97,8 @@ module.exports = function(app, shareData) {
   router.post('/add-course', async function(ctx, next) {
     try {
       // 若未通过后端校验
-      if (!courseValidator(ctx)) {
+      if (!courseValidator(ctx) ||
+          ctx.request.body.students == null || ctx.request.body.students == undefined) {
         ctx.status = 403;
       // 若请求不包含用户名，则未授权
       } else if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -116,7 +117,7 @@ module.exports = function(app, shareData) {
             classroom: ctx.request.body.course.classroom,
             time: ctx.request.body.course.time,
             testIDs: [],
-            students: []
+            students: ctx.request.body.students
           });
           await course.save();
           ctx.body = { isOK: true };

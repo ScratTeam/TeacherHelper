@@ -18,7 +18,8 @@ export class AddCourseComponent implements OnInit {
   validator: Validator = new Validator();  // 课程的校验器
   user: User;  // 当前登录用户，用于身份校验和页面跳转
   errorMessage: string = '';  // 课程校验的报错
-  fileName: string = '';  // 学生名单
+  fileName: string = '';  // 学生文件
+  students: { id: string, name: string }[] = [];  // 学生名单
 
   constructor(private courseService: CourseService, private snackBar: MdSnackBar,
               private router: Router, private userService: UserService) {
@@ -35,17 +36,19 @@ export class AddCourseComponent implements OnInit {
   ngOnInit() {}
 
   addCourse(courseInfoData) {
-    console.log(courseInfoData.name, courseInfoData.classroom, courseInfoData.time);
     let tempCourse = new Course(courseInfoData.name, courseInfoData.classroom, courseInfoData.time);
 
     // 前端校验
     this.errorMessage = this.validator.checkCourseInfo(courseInfoData.name,
                                                        courseInfoData.classroom,
                                                        courseInfoData.time);
+    // 未添加学生名单
+    if (this.students.length == 0) this.errorMessage = '未添加学生名单';
+    // 如果存在错误，则不提交
     if (this.errorMessage != '') return;
 
     // 向后端发送请求，创建新的课程
-    this.courseService.addCourse(tempCourse).subscribe((data) => {
+    this.courseService.addCourse(tempCourse, this.students).subscribe((data) => {
       // 出现异常
       if (!data.isOK) {
         // 如果凭证过期，则回到注册登录页
@@ -62,17 +65,27 @@ export class AddCourseComponent implements OnInit {
 
   // 提交 Excel 表格
   uploadFile(event) {
+    // 重置学生名单
+    this.students = [];
+
+    // 定义文件
     var reader = new FileReader();
     var that = this;
 
-    // TODO 读取学生名单的信息
+    // 读取学生名单的信息
     reader.onload = function(e: any) {
-      var workbook = XLSX.read(e.target.result, { type: 'binary' });
-      var first_sheet_name = workbook.SheetNames[0];
-      var address_of_cell = 'A1';
-      var worksheet = workbook.Sheets[first_sheet_name];
-      var desired_cell = worksheet[address_of_cell];
-      if (desired_cell != null) console.log(desired_cell.v);
+      let workbook = XLSX.read(e.target.result, { type: 'binary' });
+      let worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      let row = 1;  // 定义行号
+      while (true) {
+        // 取出第一张表
+        if (worksheet['A' + row] == undefined || worksheet['A' + row] == undefined ||
+            worksheet['B' + row] == null || worksheet['B' + row] == null) break;
+        let id = worksheet['A' + row].v;  // 取出学号
+        let name = worksheet['B' + row].v;  // 取出姓名
+        that.students.push({ id: id, name: name });
+        row++;
+      }
     };
 
     if (event.target.files[0] != undefined) {
