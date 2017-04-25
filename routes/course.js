@@ -28,7 +28,7 @@ module.exports = function(app, shareData) {
       return false;
     } else {
       let name = ctx.req.body.course.name;
-      let oldName = ctx.req.body.course.oldName;
+      let oldName = ctx.req.body.oldName;
       let classroom = ctx.req.body.course.classroom;
       let time = ctx.req.body.course.time;
       // 非法请求
@@ -66,7 +66,39 @@ module.exports = function(app, shareData) {
 
   // 增加课程
   router.post('/add-course', async function(ctx, next) {
-
+    try {
+      // 若未通过后端校验
+      if (!courseValidator(ctx)) {
+        ctx.status = 403;
+      // 若请求不包含用户名，则未授权
+      } else if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else {
+        var courses = await Course.find({
+          username: ctx.session.username,
+          name: ctx.req.body.course.name
+        });
+        // 如果数据库中不包含此课程，则可以创建
+        if (courses.length == 0) {
+          // 创建新的课程
+          let course = new Course({
+            username: ctx.session.username,
+            name: ctx.req.body.course.name,
+            classroom: ctx.req.body.course.classroom,
+            time: ctx.req.body.course.time,
+            testIDs: [],
+            students: []
+          });
+          await course.save();
+          ctx.body = { isOK: true };
+        // 数据库中已经包含此课程
+        } else {
+          ctx.body = { isOK: false, message: '课程名已存在，请更换新课程名' };
+        }
+      }
+    } catch(error) {
+      console.error(error);
+    }
   });
 
   // 更新课程

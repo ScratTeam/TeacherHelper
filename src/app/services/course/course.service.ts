@@ -69,8 +69,8 @@ export class CourseService {
   }
 
   addCourse(course) {
-    // TODO 在数据库中增加课程，从 cookie 中读取用户信息
-    return this.http.post('/course/add-course', {course: course}, { headers: this.headers })
+    return this.http.post('/course/add-course', { course: course },
+                          { headers: this.headers })
                     .map((res) => res.json());
   }
 
