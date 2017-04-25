@@ -33,7 +33,10 @@ export class CourseComponent implements OnInit {
     // 从 URL 中读取参数
     this.activatedRoute.params.subscribe((params: Params) => {
       // 取回课程信息
-      this.course = this.courseService.getCourse(params['course']);
+      this.courseService.getCourse(params['course']).subscribe((data) => {
+        if (!data.isOK) this.router.navigate(['/login', 'sign-in']);
+        else this.course = data;
+      });
       this.tests = this.testService.getTests();
     });
   }

@@ -55,6 +55,7 @@ export class AddCourseComponent implements OnInit {
       // 正常创建课程
       } else {
         this.snackBar.open('创建成功', '知道了', { duration: 2000 });
+        this.router.navigate(['/home', this.user.username]);
       }
     });
   }
@@ -64,14 +65,14 @@ export class AddCourseComponent implements OnInit {
     var reader = new FileReader();
     var that = this;
 
+    // TODO 读取学生名单的信息
     reader.onload = function(e: any) {
       var workbook = XLSX.read(e.target.result, { type: 'binary' });
       var first_sheet_name = workbook.SheetNames[0];
       var address_of_cell = 'A1';
       var worksheet = workbook.Sheets[first_sheet_name];
       var desired_cell = worksheet[address_of_cell];
-      if (desired_cell != null)
-        console.log(desired_cell.v);
+      if (desired_cell != null) console.log(desired_cell.v);
     };
 
     if (event.target.files[0] != undefined) {

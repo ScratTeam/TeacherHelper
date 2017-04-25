@@ -65,6 +65,34 @@ module.exports = function(app, shareData) {
     }
   });
 
+  // 获取某一门课程
+  router.post('/get-course', async function(ctx, next) {
+    try {
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.name == null ||
+                 ctx.request.body.name == undefined) {
+        ctx.status = 403;
+      } else {
+        let courses = await Course.find({
+          username: ctx.session.username,
+          name: ctx.request.body.name
+        });
+        let course = courses[0];
+        ctx.body = {
+          isOK: true,
+          name: course.name,
+          classroom: course.classroom,
+          time: course.time
+        }
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
   // 增加课程
   router.post('/add-course', async function(ctx, next) {
     try {
