@@ -107,7 +107,7 @@ module.exports = function(app, shareData) {
             message: '该用户已存在，请更换新用户名'
           };
         } else {
-          let users = await User.find({ username : ctx.request.body.oldName });
+          let users = await User.find({ username: ctx.request.body.oldName });
           let passports = await shareData.Passport.find({
             username: ctx.request.body.oldName
           });

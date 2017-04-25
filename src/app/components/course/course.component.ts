@@ -42,7 +42,7 @@ export class CourseComponent implements OnInit {
   }
 
   updateCourse(courseInfo) {
-    const oldName = this.course.name;
+    let oldName = this.course.name;
     let tempCourse = new Course(courseInfo.name, courseInfo.classroom, courseInfo.time);
     // 提交修改
     let errorMessage = this.validator.checkCourseInfo(courseInfo.name,courseInfo.classroom,
@@ -52,16 +52,17 @@ export class CourseComponent implements OnInit {
       return;
     }
 
-    // TODO 从后端更新课程信息
-    // this.courseService.updateCourse(tempCourse).subscribe((data)=> {
-    //   if (!data.isOK) {
-    //     TODO 承接报错信息
-    //     this.errorMessage = data;
-    //   } else {
-    //     this.course = data;
-    //     this.snackBar.open('修改成功', '知道了', { duration: 2000 });
-    //   }
-    // });
+    // 从后端更新课程信息
+    this.courseService.updateCourse(tempCourse, oldName).subscribe((data) => {
+      if (data.message) {
+        if (data.message == '401') this.router.navigate(['/login', 'sign-in']);
+        this.errorMessage = data.message;
+      } else {
+        this.course = data;
+        this.errorMessage = '';
+        this.snackBar.open('修改成功', '知道了', { duration: 2000 });
+      }
+    });
   }
 
   gotoTest(test) {

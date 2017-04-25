@@ -142,8 +142,10 @@ module.exports = function(app, shareData) {
       // 一切正常则更新课程
       } else {
         courses = await Course.find({ name: ctx.request.body.oldName });
-        // 找到该课程
-        if (courses.length == 1) {
+        courses_ = await Course.find({ name: ctx.request.body.course.name });
+        // 课程名未被用过
+        if (courses_.length == 0 ||
+            ctx.request.body.oldName == ctx.request.body.course.name) {
           // 更新该课程
           let course = courses[0];
           course.name = ctx.request.body.course.name;
@@ -157,9 +159,12 @@ module.exports = function(app, shareData) {
             classroom: ctx.request.body.course.classroom,
             time: ctx.request.body.course.time
           };
-        // 该课程不存在
+        // 该课程存在
         } else {
-          ctx.status = 403;
+          ctx.body = {
+            isOK: false,
+            message: '课程名已被您用过，请换为其他名称'
+          }
         }
       }
     } catch(error) {
