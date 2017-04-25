@@ -8,21 +8,21 @@
           <div fxFlex="15"><md-icon>class</md-icon></div>
           <div fxFlex="5"></div>
           <md-input-container fxFlex>
-            <input mdInput placeholder="名称" name="name">
+            <input mdInput placeholder="名称" name="name" [ngModel]>
           </md-input-container>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex="15"><md-icon>access_time</md-icon></div>
           <div fxFlex="5"></div>
           <md-input-container>
-            <input mdInput placeholder="时间" name="time">
+            <input mdInput placeholder="时间" name="time" [ngModel]>
           </md-input-container>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex="15"><md-icon>room</md-icon></div>
           <div fxFlex="5"></div>
           <md-input-container>
-            <input mdInput placeholder="教室" name="classroom">
+            <input mdInput placeholder="教室" name="classroom" [ngModel]>
           </md-input-container>
         </div>
         <input type="file" id="student" class="student-name" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="uploadFile($event)">

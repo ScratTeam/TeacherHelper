@@ -15,8 +15,7 @@ import { User } from '../../services/user/user';
   styleUrls: ['./add-course.component.sass']
 })
 export class AddCourseComponent implements OnInit {
-  course: Course;  // 当前正在创建的课程
-  validator: Validator;  // 课程的校验器
+  validator: Validator = new Validator();  // 课程的校验器
   user: User;  // 当前登录用户，用于身份校验和页面跳转
   errorMessage: string = '';  // 课程校验的报错
   fileName: string = '';  // 学生名单
@@ -36,9 +35,9 @@ export class AddCourseComponent implements OnInit {
   ngOnInit() {}
 
   addCourse(courseInfoData) {
-    this.course.name = courseInfoData.name;
-    this.course.classroom = courseInfoData.classroom;
-    this.course.time = courseInfoData.time;
+    console.log(courseInfoData.name, courseInfoData.classroom, courseInfoData.time);
+    let tempCourse = new Course(courseInfoData.name, courseInfoData.classroom, courseInfoData.time);
+
     // 前端校验
     this.errorMessage = this.validator.checkCourseInfo(courseInfoData.name,
                                                        courseInfoData.classroom,
@@ -46,7 +45,7 @@ export class AddCourseComponent implements OnInit {
     if (this.errorMessage != '') return;
 
     // 向后端发送请求，创建新的课程
-    this.courseService.addCourse(this.course).subscribe((data) => {
+    this.courseService.addCourse(tempCourse).subscribe((data) => {
       // 出现异常
       if (!data.isOK) {
         // 如果凭证过期，则回到注册登录页
@@ -71,7 +70,8 @@ export class AddCourseComponent implements OnInit {
       var address_of_cell = 'A1';
       var worksheet = workbook.Sheets[first_sheet_name];
       var desired_cell = worksheet[address_of_cell];
-      console.log(desired_cell.v);
+      if (desired_cell != null)
+        console.log(desired_cell.v);
     };
 
     if (event.target.files[0] != undefined) {

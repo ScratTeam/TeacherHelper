@@ -23,17 +23,18 @@ module.exports = function(app, shareData) {
 
   // 后端校验
   courseValidator = function(ctx) {
-    // request body 为空
-    if (ctx.request.body == null || ctx.request.body == undefined) {
+    // request body 为空或 course 为空
+    if (ctx.request.body == null || ctx.request.body == undefined ||
+        ctx.request.body.course == null || ctx.request.body.course == undefined) {
       return false;
+    // 其他校验
     } else {
-      let name = ctx.req.body.course.name;
-      let oldName = ctx.req.body.oldName;
-      let classroom = ctx.req.body.course.classroom;
-      let time = ctx.req.body.course.time;
+      let name = ctx.request.body.course.name;
+      let oldName = ctx.request.body.oldName;
+      let classroom = ctx.request.body.course.classroom;
+      let time = ctx.request.body.course.time;
       // 非法请求
       if (name == null || name == undefined ||
-          oldName == null || oldName == undefined ||
           classroom == null || classroom == undefined ||
           time == null || time == undefined)
         return false;
@@ -49,15 +50,15 @@ module.exports = function(app, shareData) {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
       } else {
-        var courses = await Course.find({ username: ctx.session.username });
-        ctx.body = { isOK: true, courses: [] }
-        await Promise.all(courses.forEach(function(course) {
+        let courses = await Course.find({ username: ctx.session.username });
+        ctx.body = { isOK: true, courses: [] };
+        courses.forEach(function(course) {
           ctx.body.courses.push({
             name: course.name,
             classroom: course.classroom,
             time: course.time
           });
-        }));
+        });
       }
     } catch(error) {
       console.error(error);
@@ -76,16 +77,16 @@ module.exports = function(app, shareData) {
       } else {
         var courses = await Course.find({
           username: ctx.session.username,
-          name: ctx.req.body.course.name
+          name: ctx.request.body.course.name
         });
         // 如果数据库中不包含此课程，则可以创建
         if (courses.length == 0) {
           // 创建新的课程
           let course = new Course({
             username: ctx.session.username,
-            name: ctx.req.body.course.name,
-            classroom: ctx.req.body.course.classroom,
-            time: ctx.req.body.course.time,
+            name: ctx.request.body.course.name,
+            classroom: ctx.request.body.course.classroom,
+            time: ctx.request.body.course.time,
             testIDs: [],
             students: []
           });
@@ -112,21 +113,21 @@ module.exports = function(app, shareData) {
         ctx.body = { isOK: false, message: '401' };
       // 一切正常则更新课程
       } else {
-        courses = await Course.find({ name: ctx.req.body.oldName });
+        courses = await Course.find({ name: ctx.request.body.oldName });
         // 找到该课程
         if (courses.length == 1) {
           // 更新该课程
           let course = courses[0];
-          course.name = ctx.req.body.course.name;
-          course.classroom = ctx.req.body.course.classroom;
-          course.time = ctx.req.body.course.time;
+          course.name = ctx.request.body.course.name;
+          course.classroom = ctx.request.body.course.classroom;
+          course.time = ctx.request.body.course.time;
           await course.save();
 
           ctx.body = {
             isOK: true,
-            name: ctx.req.body.course.name,
-            classroom: ctx.req.body.course.classroom,
-            time: ctx.req.body.course.time
+            name: ctx.request.body.course.name,
+            classroom: ctx.request.body.course.classroom,
+            time: ctx.request.body.course.time
           };
         // 该课程不存在
         } else {
