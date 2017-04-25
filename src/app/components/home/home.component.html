@@ -37,18 +37,14 @@
       <md-card-title>课程列表</md-card-title>
       <md-list>
         <md-list-item class="tableHeader">
-          <p fxFlex="35" fxFlex.xs="80">课程名称</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="35">课程时间</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="30">课程地点</p>
+          <p fxFlex="33" fxFlex.xs="80">课程名称</p>
+          <p fxFlex="33">课程时间</p>
+          <p fxFlex="33">课程地点</p>
         </md-list-item>
         <md-list-item class="courseList" *ngFor = "let course of courses" (click) = gotoCourse(course)>
-          <p fxFlex="35" fxFlex.xs="80">{{course.name}}</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="35">{{course.time}}</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="30">{{course.classroom}}</p>
+          <p fxFlex="33" fxFlex.xs="80">{{course.name}}</p>
+          <p fxFlex="33">{{course.time}}</p>
+          <p fxFlex="33">{{course.classroom}}</p>
         </md-list-item>
       </md-list>
     </md-card>

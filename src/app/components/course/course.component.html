@@ -28,18 +28,14 @@
       <md-card-title>试题列表</md-card-title>
       <md-list>
         <md-list-item class="tableHeader">
-          <p fxFlex="20" fxFlex.xs="75">试题名称</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="55">有效时间</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="25">试题状态</p>
+          <p fxFlex="33" fxFlex.xs="75">试题名称</p>
+          <p fxFlex="33">有效时间</p>
+          <p fxFlex="33">试题状态</p>
         </md-list-item>
         <md-list-item class="testList" *ngFor = "let test of tests" (click) = gotoTest(test)>
-          <p fxFlex="20" fxFlex.xs="75">{{test.name}}</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="55">{{test.time}}</p>
-          <div fxFlex="56px"></div>
-          <p fxFlex="25">{{test.state}}</p>
+          <p fxFlex="33" fxFlex.xs="75">{{test.name}}</p>
+          <p fxFlex="33">{{test.time}}</p>
+          <p fxFlex="33">{{test.state}}</p>
         </md-list-item>
       </md-list>
     </md-card>
