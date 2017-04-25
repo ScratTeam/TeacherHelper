@@ -85,7 +85,8 @@ module.exports = function(app, shareData) {
           isOK: true,
           name: course.name,
           classroom: course.classroom,
-          time: course.time
+          time: course.time,
+          students: course.students
         }
       }
     } catch(error) {

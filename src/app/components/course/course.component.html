@@ -25,19 +25,44 @@
     </md-card>
     <!-- 考题列表 -->
     <md-card fxFlex="70" class="test">
-      <md-card-title>试题列表</md-card-title>
-      <md-list>
-        <md-list-item class="tableHeader">
-          <p fxFlex="33" fxFlex.xs="75">试题名称</p>
-          <p fxFlex="33">有效时间</p>
-          <p fxFlex="33">试题状态</p>
-        </md-list-item>
-        <md-list-item class="testList" *ngFor = "let test of tests" (click) = gotoTest(test)>
-          <p fxFlex="33" fxFlex.xs="75">{{test.name}}</p>
-          <p fxFlex="33">{{test.time}}</p>
-          <p fxFlex="33">{{test.state}}</p>
-        </md-list-item>
-      </md-list>
+      <md-tab-group>
+        <md-tab label="试题列表">
+          <div class="tab-content">
+            <md-card-title>试题列表</md-card-title>
+            <md-list>
+              <md-list-item class="tableHeader">
+                <p fxFlex="33">试题名称</p>
+                <p fxFlex="33">有效时间</p>
+                <p fxFlex="33">试题状态</p>
+              </md-list-item>
+              <md-list-item class="testList" *ngFor="let test of tests" (click)=gotoTest(test)>
+                <p fxFlex="33">{{test.name}}</p>
+                <p fxFlex="33">{{test.time}}</p>
+                <p fxFlex="33">{{test.state}}</p>
+              </md-list-item>
+            </md-list>
+          </div>
+        </md-tab>
+        <md-tab label="学生名单">
+          <div class="tab-content">
+            <md-card-title>学生名单</md-card-title>
+            <md-list>
+              <md-list-item class="tableHeader">
+                <p fxFlex="25">学号</p>
+                <p fxFlex="25">姓名</p>
+                <p fxFlex="25">平均成绩</p>
+                <p fxFlex="25">历史签到率</p>
+              </md-list-item>
+              <md-list-item class="testList" *ngFor="let student of course.students">
+                <p fxFlex="25">{{student.id}}</p>
+                <p fxFlex="25">{{student.name}}</p>
+                <p fxFlex="25">0</p>
+                <p fxFlex="25">0%</p>
+              </md-list-item>
+            </md-list>
+          </div>
+        </md-tab>
+      </md-tab-group>
     </md-card>
   </div>
   <div fxFlex="10" fxHide.xs></div>
