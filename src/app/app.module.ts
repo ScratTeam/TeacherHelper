@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { CourseComponent } from './components/course/course.component';
-import { AddcourseComponent } from './components/addcourse/addcourse.component';
+import { AddCourseComponent } from './components/add-course/add-course.component';
 import { TestComponent } from './components/test/test.component';
 
 // 引入 services
@@ -30,7 +30,7 @@ import { TestService } from './services/test/test.service';
     LoginComponent,
     HomeComponent,
     CourseComponent,
-    AddcourseComponent,
+    AddCourseComponent,
     TestComponent
   ],
   imports: [

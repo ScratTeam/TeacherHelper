@@ -33,8 +33,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   avatarChange(event) {
     var reader = new FileReader();

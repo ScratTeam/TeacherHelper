@@ -7,11 +7,11 @@ import { Course } from '../../services/course/course';
 import { Validator } from '../../services/course/validator';
 
 @Component({
-  selector: 'app-addcourse',
-  templateUrl: './addcourse.component.html',
-  styleUrls: ['./addcourse.component.sass']
+  selector: 'app-add-course',
+  templateUrl: './add-course.component.html',
+  styleUrls: ['./add-course.component.sass']
 })
-export class AddcourseComponent implements OnInit {
+export class AddCourseComponent implements OnInit {
   course: Course;
   validator: Validator;
   errorMessage: string = '';
