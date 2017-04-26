@@ -53,13 +53,16 @@
                 <p fxFlex="25">平均成绩</p>
                 <p fxFlex="25">历史签到率</p>
               </md-list-item>
-              <md-list-item class="testList" *ngFor="let student of course.students">
+              <md-list-item class="testList" *ngFor="let student of displayStudents">
                 <p fxFlex="25">{{student.id}}</p>
                 <p fxFlex="25">{{student.name}}</p>
                 <p fxFlex="25">0</p>
                 <p fxFlex="25">0%</p>
               </md-list-item>
             </md-list>
+            <div class="page-number-container">
+              <button md-icon-button [class.current]="page == currentStudentsPage" *ngFor="let page of studentsPages" (click)="gotoStudentPage(page)">{{page}}</button>
+            </div>
           </div>
         </md-tab>
       </md-tab-group>

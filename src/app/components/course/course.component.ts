@@ -15,10 +15,15 @@ import { TestService } from '../../services/test/test.service';
   styleUrls: ['./course.component.sass']
 })
 export class CourseComponent implements OnInit {
-  course: Course;
+  course;
   tests: Test[];
   errorMessage: string;
   validator = new Validator();
+
+  // 表格管理
+  displayStudents = [];  // 当前显示的学生名单
+  currentStudentsPage: number = 1;
+  studentsPages = [];
 
   constructor(private authService: AuthService, private router: Router,
               private snackBar: MdSnackBar, private testService: TestService,
@@ -36,6 +41,10 @@ export class CourseComponent implements OnInit {
       this.courseService.getCourse(params['course']).subscribe((data) => {
         if (!data.isOK) this.router.navigate(['/login', 'sign-in']);
         else this.course = data;
+        // 设置当前显示的学生名单
+        this.displayStudents = data.students.slice(0, 8);
+        let totalPages = Math.ceil(data.students.length / 8);
+        for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
       this.tests = this.testService.getTests();
     });
@@ -73,6 +82,16 @@ export class CourseComponent implements OnInit {
         this.router.navigate(['/test', data.username, this.course.name, test.name]);
       }
     });
+  }
+
+  // 为学生列表翻页
+  gotoStudentPage(pageNumber: number) {
+    this.currentStudentsPage = pageNumber;
+    let min;
+    if (pageNumber != this.studentsPages.length) min = 8;
+    else min = this.course.students.length - 8 * (this.studentsPages.length - 1);
+    this.displayStudents = this.course.students.slice(8 * (pageNumber - 1),
+                                                      8 * pageNumber);
   }
 
 }
