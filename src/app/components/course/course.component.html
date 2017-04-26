@@ -35,12 +35,15 @@
                 <p fxFlex="33">有效时间</p>
                 <p fxFlex="33">试题状态</p>
               </md-list-item>
-              <md-list-item class="testList" *ngFor="let test of tests" (click)=gotoTest(test)>
+              <md-list-item class="testList" *ngFor="let test of displayTests" (click)=gotoTest(test)>
                 <p fxFlex="33">{{test.name}}</p>
                 <p fxFlex="33">{{test.time}}</p>
                 <p fxFlex="33">{{test.state}}</p>
               </md-list-item>
             </md-list>
+            <div class="page-number-container">
+              <button md-icon-button [class.current]="page == currentTestsPage" *ngFor="let page of testsPages" (click)="gotoTestPage(page)">{{page}}</button>
+            </div>
           </div>
         </md-tab>
         <md-tab label="学生名单">

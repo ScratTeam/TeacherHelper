@@ -24,6 +24,9 @@ export class CourseComponent implements OnInit {
   displayStudents = [];  // 当前显示的学生名单
   currentStudentsPage: number = 1;
   studentsPages = [];
+  displayTests = [];  // 当前显示的测试
+  currentTestsPage: number = 1;
+  testsPages = [];
 
   constructor(private authService: AuthService, private router: Router,
               private snackBar: MdSnackBar, private testService: TestService,
@@ -46,7 +49,12 @@ export class CourseComponent implements OnInit {
         let totalPages = Math.ceil(data.students.length / 8);
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
+      // 取回测试信息
       this.tests = this.testService.getTests();
+      // 设置当前显示的测试列表
+      this.displayTests = this.tests.slice(0, 8);
+      let totalPages = Math.ceil(this.tests.length / 8);
+      for (let i = 1; i <= totalPages; i++) this.testsPages.push(i);
     });
   }
 
@@ -92,6 +100,15 @@ export class CourseComponent implements OnInit {
     else min = this.course.students.length - 8 * (this.studentsPages.length - 1);
     this.displayStudents = this.course.students.slice(8 * (pageNumber - 1),
                                                       8 * pageNumber);
+  }
+
+  // 为试题列表翻页
+  gotoTestPage(pageNumber: number) {
+    this.currentTestsPage = pageNumber;
+    let min;
+    if (pageNumber != this.testsPages.length) min = 8;
+    else min = this.tests.length - 8 * (this.testsPages.length - 1);
+    this.displayTests = this.tests.slice(8 * (pageNumber - 1), 8 * pageNumber);
   }
 
 }
