@@ -15,6 +15,9 @@ module.exports = function(app, shareData) {
   // 创建 router
   var router = new Router({ prefix: '/user' });
 
+  // 存入shareData
+  shareData.User = User;
+
   userValidator = function(ctx) {
     // 后端校验规则
     let usernameRegex = /^[a-zA-Z0-9]+$/;  // 只能由字母和数字组成
@@ -55,32 +58,13 @@ module.exports = function(app, shareData) {
         ctx.body = { isOK: false, message: '401' };
       } else {
         var users = await User.find({ username: ctx.session.username });
-        // 如果数据库中不包含此用户名，则它为新注册用户
-        if (users.length == 0) {
-          // 创建新的用户
-          let user = new User({
-            username: ctx.session.username,
-            avatar: '/assets/images/default-avatar.jpg',
-            university: '',
-            school: ''
-          });
-          await user.save();
-          ctx.body = {
-            isOK: true,
-            username: user.username,
-            avatar: user.avatar,
-            university: user.university,
-            school: user.school
-          };
-        } else {
-          ctx.body = {
-            isOK: true,
-            username: users[0].username,
-            avatar: users[0].avatar,
-            university: users[0].university,
-            school: users[0].school
-          };
-        }
+        ctx.body = {
+          isOK: true,
+          username: users[0].username,
+          avatar: users[0].avatar,
+          university: users[0].university,
+          school: users[0].school
+        };
       }
     } catch(error) {
       console.error(error);

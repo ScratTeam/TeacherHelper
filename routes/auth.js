@@ -55,6 +55,14 @@ module.exports = function(app, shareData) {
         var passports = await Passport.find({ username: passport.username });
         if (passports.length == 0) {
           await passport.save();
+          // 创建新的用户
+          let user = new shareData.User({
+            username: passport.username,
+            avatar: '/assets/images/default-avatar.jpg',
+            university: '',
+            school: ''
+          });
+          await user.save();
           ctx.body = { isOK: true };
         } else {
           ctx.body = { isOK: false, message: '该用户已存在，请更换用户名或直接登录' };
