@@ -4,7 +4,7 @@
     <!-- 非窄屏个人信息 -->
     <md-card fxFlex="30" class="profile" fxHide.xs>
       <div class="user-avartar-container">
-        <input type="file" accept="image/x-png, image/jpeg" (change)="avatarChange($event)" id="user-avartar">
+        <input type="file" accept="image/*" (change)="avatarChange($event)" id="user-avartar">
         <div class="user-avartar" [style.background-image]="'url(' + user.avatar + ')'">
           <label for="user-avartar" class="user-avartar-cover">更换头像</label>
         </div>
