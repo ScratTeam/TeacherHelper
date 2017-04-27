@@ -1,10 +1,10 @@
 <div class="course-layout" fxLayout="row" *ngIf="course">
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
-    <!-- 非窄屏课程信息 -->
-    <md-card fxFlex="30" class="course-info" fxHide.xs>
+    <md-card fxFlex.gt-xs="30" class="course-info">
       <md-card-title>{{course.name}}</md-card-title>
-      <form #info="ngForm" class="info-form" *ngIf="course">
+      <md-card-subtitle fxHide.gt-xs>{{course.time}} {{course.classroom}}</md-card-subtitle>
+      <form #info="ngForm" class="info-form" *ngIf="course" fxHide.xs>
         <md-input-container>
           <input mdInput placeholder="名称" name="name" [ngModel]="course.name">
         </md-input-container>
@@ -18,13 +18,9 @@
         <button md-raised-button class="submit-button" (click)="updateCourse(info.value)">提交修改</button>
       </form>
     </md-card>
-    <!-- 窄屏课程信息 -->
-    <md-card fxHide.gt-xs class="xs-course-info">
-      <md-card-title>{{course.name}}</md-card-title>
-      <md-card-subtitle>{{course.time}} {{course.classroom}}</md-card-subtitle>
-    </md-card>
+    <div fxFlex.gt-xs="16px"></div>
     <!-- 考题列表 -->
-    <md-card fxFlex="70" class="test">
+    <md-card fxFlex.gt-xs="70" class="test">
       <md-tab-group>
         <md-tab label="试题列表">
           <div class="tab-content">
