@@ -24,7 +24,12 @@
       <md-tab-group>
         <md-tab label="试题列表">
           <div class="tab-content">
-            <md-card-title>试题列表</md-card-title>
+            <md-card-title class="title-container">
+              <span class="title">试题列表</span>
+              <button md-icon-button class="add-button" mdTooltip="添加试题" (click)="creatTest()">
+                <md-icon>add</md-icon>
+              </button>
+            </md-card-title>
             <md-list>
               <md-list-item class="tableHeader">
                 <p fxFlex="33">试题名称</p>

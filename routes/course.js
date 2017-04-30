@@ -8,8 +8,6 @@ const courseSchema = new mongoose.Schema({
   name: String,
   classroom: String,
   time: String,
-  // TODO 课堂测验的 MongoDB ID
-  // testIDs: [ObjectId],
   students: [{
     id: String,
     name: String

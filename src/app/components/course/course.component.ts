@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
-import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../services/user/user';
 import { CourseService } from '../../services/course/course.service';
 import { Course } from '../../services/course/course';
 import { Validator } from '../../services/course/validator';
@@ -19,6 +20,7 @@ export class CourseComponent implements OnInit {
   tests: Test[];
   errorMessage: string;
   validator = new Validator();
+  user: User;
 
   // 表格管理
   displayStudents = [];  // 当前显示的学生名单
@@ -28,12 +30,16 @@ export class CourseComponent implements OnInit {
   currentTestsPage: number = 1;
   testsPages = [];
 
-  constructor(private authService: AuthService, private router: Router,
+  constructor(private userService: UserService, private router: Router,
               private snackBar: MdSnackBar, private testService: TestService,
               private courseService: CourseService, private activatedRoute: ActivatedRoute) {
-    // 判断是否登录
-    authService.verify().subscribe((data) => {
-      if (!data.isOK) router.navigate(['/login', 'sign-in']);
+    // 如果用户未登录，则跳转到注册登录页面
+    userService.getUser().subscribe((data) => {
+      if (data.isOK)
+        this.user = new User(data.username, data.avatar,
+                             data.university, data.school);
+      else
+        router.navigate(['/login', 'sign-in']);
     });
   }
 
@@ -58,6 +64,7 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  // 更新课程
   updateCourse(courseInfo) {
     let oldName = this.course.name;
     let tempCourse = new Course(courseInfo.name, courseInfo.classroom, courseInfo.time);
@@ -82,14 +89,9 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  // 前往试题页面
   gotoTest(test) {
-    this.authService.verify().subscribe((data) => {
-      if (!data.isOK) {
-        this.router.navigate(['/login', 'sign-in']);
-      } else {
-        this.router.navigate(['/test', data.username, this.course.name, test.name]);
-      }
-    });
+    this.router.navigate(['/test', this.user.username, this.course.name, test.name]);
   }
 
   // 为学生列表翻页
@@ -109,6 +111,11 @@ export class CourseComponent implements OnInit {
     if (pageNumber != this.testsPages.length) min = 8;
     else min = this.tests.length - 8 * (this.testsPages.length - 1);
     this.displayTests = this.tests.slice(8 * (pageNumber - 1), 8 * pageNumber);
+  }
+
+  // 创建新的试题
+  creatTest() {
+    this.router.navigate(['/add-test', this.user.username, this.course.name]);
   }
 
 }
