@@ -1,7 +1,29 @@
 <div class="addtest-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100">
-    <md-card>这里是课程基本信息</md-card>
+    <md-card>
+      <input placeholder="试题标题" class="title">
+      <div class="time-select-container">
+        <span class="time-select-title">考试开始时间：</span>
+        <material-datepicker [(date)]="startDate"></material-datepicker>
+        <md-select placeholder=" " [(ngModel)]="startHour" class="time-select">
+          <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+        </md-select>
+        <md-select placeholder=" " [(ngModel)]="startMin" class="time-select">
+          <md-option *ngFor="let minute of minutes" [value]="minute">{{minute}}</md-option>
+        </md-select>
+      </div>
+      <div class="time-select-container">
+        <span class="time-select-title">考试结束时间：</span>
+        <material-datepicker [(date)]="endDate"></material-datepicker>
+        <md-select placeholder=" " [(ngModel)]="endHour" class="time-select">
+          <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
+        </md-select>
+        <md-select placeholder=" " [(ngModel)]="endMin" class="time-select">
+          <md-option *ngFor="let minute of minutes" [value]="minute">{{minute}}</md-option>
+        </md-select>
+      </div>
+    </md-card>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
       <md-card fxFlex.gt-xs="30" class="question-list">这里是题目列表</md-card>
       <div fxFlex.gt-xs="70">

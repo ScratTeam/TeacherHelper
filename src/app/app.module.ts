@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DatepickerModule } from 'angular2-material-datepicker'
 import 'hammerjs';
 
 // 引入前端路由文件
@@ -44,6 +45,7 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     FlexLayoutModule,
     // Material Design 模块
     MaterialModule,
+    DatepickerModule,
     // 路由模块
     RoutingModule
   ],
