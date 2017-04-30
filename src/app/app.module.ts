@@ -23,6 +23,7 @@ import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
 import { TestService } from './services/test/test.service';
+import { AddTestComponent } from './components/add-test/add-test.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { TestService } from './services/test/test.service';
     HomeComponent,
     CourseComponent,
     AddCourseComponent,
-    TestComponent
+    TestComponent,
+    AddTestComponent
   ],
   imports: [
     BrowserModule,
