@@ -1,3 +1,14 @@
-<div class="addtest-layout">
-  
+<div class="addtest-layout" fxLayout="row">
+  <div fxFlex="10" fxHide.xs></div>
+  <div fxFlex="80" fxFlex.xs="100">
+    <md-card>这里是课程基本信息</md-card>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
+      <md-card fxFlex.gt-xs="30" class="question-list">这里是题目列表</md-card>
+      <div fxFlex.gt-xs="70">
+        <md-card class="question">这里是一个题目</md-card>
+        <md-card class="question">这里是另一个题目</md-card>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="10" fxHide.xs></div>
 </div>
