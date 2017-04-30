@@ -1,5 +1,17 @@
-<div class="test-layout">
-  <div class="answers" *ngFor="let question of questions">
-  </div>
-  <div id="container" style="width:100%; height:400px;"></div>
+<div class="test-layout" fxLayout="row" *ngIf="test">
+  <div fxFlex="10" fxHide.xs></div>
+  <md-card fxFlex="80">
+    <md-card-title>{{test.name}}</md-card-title>
+    <md-card-subtitle>{{toDateString(test.startTime)}}-
+      {{toDateString(test.endTime)}}</md-card-subtitle>
+    <md-card-content>
+      <div class="questions" *ngFor="let question of questions">
+        <h3>{{questions.indexOf(question) + 1}} {{question.stem}}</h3>
+        <div *ngFor="let choice of question.choices">
+          <p>{{choice}}</p>
+      </div>
+      </div>
+    </md-card-content>
+  </md-card>
+  <div fxFlex="10" fxHide.xs></div>
 </div>

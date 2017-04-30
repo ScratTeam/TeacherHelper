@@ -1,13 +1,21 @@
-export class Test {
-  name: string;
-  time: string;
-  state: string;
-  detail: string;
+import { Question } from './question';
 
-  constructor(name: string, time: string, state: string, detail: string) {
+export class Test {
+  courseName: string;
+  name: string;
+  startTime: Date;
+  endTime: Date;
+  detail: string;
+  questions: Question[] = [];
+
+  constructor(courseName: string, name: string, startTime: Date, endTime: Date, detail: string, questions: Question[]) {
+    this.courseName = courseName;
     this.name = name;
-    this.time = time;
-    this.state = state;
+    this.startTime = startTime;
+    this.endTime = endTime;
     this.detail = detail;
+    for (var element in questions) {
+      this.questions.push(new Question(questions[element].type,questions[element].stem, questions[element].choices, questions[element].answers));
+    }
   }
 };

@@ -6,75 +6,29 @@ import { Test } from './test';
 @Injectable()
 export class TestService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  tests: Test[];
+  tests: Test[] = [];
 
   constructor(private http: Http) {
     this.tests = [{
-      name: '考勤一',
-      time: '2017/01/02 - 2017/01/03',
-      state: '已过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤二',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤三',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤四',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤五',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤六',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤七',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤八',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤九',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤十',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    },
-    {
-      name: '考勤十一',
-      time: '2017/08/02 - 2017/08/03',
-      state: '未过期',
-      detail: 'none'
-    }];
+      courseName: "嵌入式",
+      name: "考勤一",
+      startTime: new Date("October 11, 2017 11:13:00"),
+      endTime: new Date("October 13, 2017 11:13:00"),
+      detail: "",
+      questions: [
+        {type: 1,
+         stem: "今天星期几",
+         choices:["周一", "周二", "周三", "周四"],
+         answers: [{id: "14331237", answer: "周一"},
+                   {id: "14331182", answer: "周二"}]
+        }, {
+          type: 1,
+          stem: "今天星期几",
+          choices:["周一", "周二", "周三", "周四"],
+          answers: [{id: "14331237", answer: "周一"},
+                    {id: "14331182", answer: "周二"}]
+        }]
+      }];
   }
 
   getTests() {
@@ -85,5 +39,9 @@ export class TestService {
   getTest(test) {
     // TODO 从后端获取测试的信息
     return this.tests[0];
+  }
+
+  getQuestion(test) {
+    return this.tests[0].questions;
   }
 }
