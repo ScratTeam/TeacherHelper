@@ -46,5 +46,9 @@ body {
 }
 
 .highcharts-credits {
-  display: none ! important
+  display: none ! important;
+}
+
+.mat-radio-container {
+  top: 5px ! important;
 }

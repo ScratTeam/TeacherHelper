@@ -6,10 +6,19 @@
       {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
       <div class="questions" *ngFor="let question of questions">
-        <h3>{{questions.indexOf(question) + 1}} {{question.stem}}</h3>
-        <div *ngFor="let choice of question.choices">
-          <p>{{choice}}</p>
-      </div>
+        <div class="stem">
+          <button md-icon-button class="detail-button" fxHide="{{!choiceHide}}" (click)=expandMore()><md-icon>chevron_right</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{choiceHide}}" (click)=expandLess()><md-icon>expand_more</md-icon></button>
+          {{questions.indexOf(question) + 1}}、  {{question.stem}}
+        </div>
+        <div class="choices-container">
+          <md-radio-group class="choices" fxLayout="column" fxHide="{{choiceHide}}">
+            <md-radio-button class="mychoice" *ngFor="let choice of question.choices"
+            [value]="choice" disabled="true">
+              {{choice}}
+            </md-radio-button>
+          </md-radio-group>
+        </div>
       </div>
     </md-card-content>
   </md-card>
