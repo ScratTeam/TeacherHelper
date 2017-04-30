@@ -50,6 +50,6 @@ export class AppComponent {
   }
 
   addCourse() {
-    this.router.navigate(['/addcourse', this.user.username]);
+    this.router.navigate(['/add-course', this.user.username]);
   }
 }

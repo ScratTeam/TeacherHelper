@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CourseComponent } from './components/course/course.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { TestComponent } from './components/test/test.component';
+import { AddTestComponent } from './components/add-test/add-test.component';
 
 const appRouters: Routes = [
   {
@@ -27,12 +28,16 @@ const appRouters: Routes = [
     component: CourseComponent
   },
   {
-    path: 'addcourse/:username',
+    path: 'add-course/:username',
     component: AddCourseComponent
   },
   {
     path: 'test/:username/:course/:test',
     component: TestComponent
+  },
+  {
+    path: 'add-test/:username/:course',
+    component: AddTestComponent
   }
 ];
 
