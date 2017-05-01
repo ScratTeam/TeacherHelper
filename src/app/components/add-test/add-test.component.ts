@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
+import { Question } from '../../services/test/question';
 
 @Component({
   selector: 'app-add-test',
@@ -21,6 +22,8 @@ export class AddTestComponent implements OnInit {
   startMin: string;
   endMin: string;
   minutes = [];
+  // 试题
+  questions: Question[] = [];
 
   constructor(private userService: UserService, private router: Router) {
     // 如果用户未登录，则跳转到注册登录页面

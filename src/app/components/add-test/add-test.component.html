@@ -4,7 +4,7 @@
     <md-card>
       <input placeholder="试题标题" class="title">
       <div class="time-select-container">
-        <span class="time-select-title">考试开始时间：</span>
+        <span class="time-select-title">测验开始时间：</span>
         <material-datepicker [(date)]="startDate"></material-datepicker>
         <md-select placeholder=" " [(ngModel)]="startHour" class="time-select">
           <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
@@ -14,7 +14,7 @@
         </md-select>
       </div>
       <div class="time-select-container">
-        <span class="time-select-title">考试结束时间：</span>
+        <span class="time-select-title">测验结束时间：</span>
         <material-datepicker [(date)]="endDate"></material-datepicker>
         <md-select placeholder=" " [(ngModel)]="endHour" class="time-select">
           <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
@@ -25,10 +25,25 @@
       </div>
     </md-card>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
-      <md-card fxFlex.gt-xs="30" class="question-list">这里是题目列表</md-card>
+      <md-card fxFlex.gt-xs="30" class="question-list">
+        <md-card-title>试题列表</md-card-title>
+        <md-list>
+          <md-list-item *ngFor="let question of questions"></md-list-item>
+        </md-list>
+      </md-card>
       <div fxFlex.gt-xs="70">
-        <md-card class="question">这里是一个题目</md-card>
-        <md-card class="question">这里是另一个题目</md-card>
+        <md-card class="question" *ngFor="let question of questions; let i = index">
+          <md-card-title>第 {{i}} 题</md-card-title>
+        </md-card>
+        <md-card class="question">
+          <md-card-title>添加题目</md-card-title>
+          <md-radio-group>
+            <md-radio-button value="0">单选题</md-radio-button>
+            <md-radio-button value="1">多选题</md-radio-button>
+            <md-radio-button value="2">填空题</md-radio-button>
+            <md-radio-button value="3">简答题</md-radio-button>
+          </md-radio-group>
+        </md-card>
       </div>
     </div>
   </div>

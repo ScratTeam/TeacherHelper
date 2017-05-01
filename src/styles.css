@@ -41,14 +41,26 @@ body {
   background-repeat: no-repeat;
 }
 
+/* 矫正 list item */
 .mat-list-item-content {
   padding: 0px !important;
 }
 
+/* 矫正 highcharts */
 .highcharts-credits {
   display: none ! important;
 }
 
+/* 矫正 radio button */
 .mat-radio-container {
   top: 5px ! important;
+}
+.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #673ab7 !important;
+}
+.mat-radio-checked .mat-radio-inner-circle {
+  background-color: #673ab7 !important;
+}
+.mat-radio-ripple {
+  display: none;
 }
