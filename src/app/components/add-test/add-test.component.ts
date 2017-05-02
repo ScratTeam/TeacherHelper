@@ -24,6 +24,7 @@ export class AddTestComponent implements OnInit {
   minutes = [];
   // 试题
   questions: Question[] = [];
+  newQuestion: Question = new Question(0, '', [], []);
 
   constructor(private userService: UserService, private router: Router) {
     // 如果用户未登录，则跳转到注册登录页面
