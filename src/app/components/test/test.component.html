@@ -26,7 +26,7 @@
           </md-input-container>
           <!-- 如果是简答题，则显示 textarea 的小三角框 -->
           <md-input-container *ngIf="question.type == 4">
-            <textarea mdInput placeholder="由此作答"></textarea>
+            <textarea mdInput placeholder="由此作答" disabled></textarea>
           </md-input-container>
         </div>
         <div class="analyse-container" fxHide="{{analyseHide[questions.indexOf(question)]}}">

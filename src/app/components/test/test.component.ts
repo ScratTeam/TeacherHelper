@@ -50,60 +50,67 @@ export class TestComponent implements OnInit {
 
   expandMore(index) {
     this.analyseHide[index] = false;
+    var myQuestion = this.questions[index];
     // 如果是选择题，则用饼状图显示每个选项的答题人数
-    if (this.questions[index].type == 1 || this.questions[index].type == 2) {
+    if (myQuestion.type == 1 || myQuestion.type == 2) {
+      // 预处理
+      var myChoicesLength = myQuestion.choices.length;
+      var data = [];
+      var myChoices = [];
+      var i, j;
+      // 初始化计数器
+      for (i = 0; i < myChoicesLength; i++) {
+        myChoices.push(0);
+      }
+      // 计算每个选项选择的人数
+      for (i = 0; i < this.answersNumber[index]; i++) {
+        var muitiAnswer = (myQuestion.answers[i].answer).split(' ');
+        for (j = 0; j < muitiAnswer.length; j++)
+          myChoices[parseInt(muitiAnswer[j])]++;
+      }
+      for (i = 0; i < myChoicesLength; i++) {
+        data.push({name: String.fromCharCode(65 + i), y: myChoices[i]/(this.answersNumber[index])});
+      }
       var myChart = Highcharts.chart(String(index), {
-      chart: {
-         type: 'column'
-      },
-      title: {
-         text: '第'+String(index+1)+'题答题情况'
-      },
-      legend: {
-        enabled: false
-      },
-      xAxis: {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: '第' + String(index + 1) + '题答题情况'
+        },
+        legend: {
+          enabled: false
+        },
+        xAxis: {
           type: 'category'
-      },
-      yAxis: {
+        },
+        yAxis: {
           title: {
-              text: '该选项选择人数占总人数的百分比'
+            text: '该选项选择人数占总人数的百分比'
           }
-      },
-      tooltip: {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
-      },
-      plotOptions: {
-        series: {
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
+        },
+        plotOptions: {
+          series: {
             borderWidth: 0,
             dataLabels: {
-                enabled: true,
-                format: '{point.y:.1f}%'
+              enabled: true,
+              format: '{point.y:.1f}%'
             }
-        }
-     },
-      series: [{
-         name: 'Brands',
-         colorByPoint: true,
-         data: [{
-             name: 'A',
-             y: 56.33
-         }, {
-             name: 'B',
-             y: 24.03
-         }, {
-             name: 'C',
-             y: 10.38
-         }, {
-             name: 'D',
-             y: 5.88
-         }]
-       }]
+          }
+        },
+        series: [{
+          name: 'Brands',
+          colorByPoint: true,
+          data: data
+        }]
       });
     }
     // TODO 如果是填空题或者简答题，显示答题的情况
-    // else if (this.questions[index].type == 3 || this.questions[index].type == 4) {
+    // else if (myQuestion.type == 3 || myQuestion.type == 4) {
     //
     // }
   }

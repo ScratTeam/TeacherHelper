@@ -18,15 +18,15 @@ export class TestService {
       questions: [
         {type: 1,
          stem: "今天星期几",
-         choices:["周一", "周二", "周三", "周四"],
-         answers: [{id: "14331237", answer: "周一"},
-                   {id: "14331182", answer: "周二"}]
+         choices:["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+         answers: [{id: "14331237", answer: "0"},
+                   {id: "14331182", answer: "1"}]
         }, {
           type: 2,
           stem: "你喜欢的季节",
           choices:["春季", "夏季", "秋季", "冬季"],
-          answers: [{id: "14331237", answer: "春季 夏季"},
-                    {id: "14331182", answer: "夏季"}]
+          answers: [{id: "14331237", answer: "0 1"},
+                    {id: "14331182", answer: "1"}]
         }, {
           type: 3,
           stem: "请写出四大名著及其作者",
