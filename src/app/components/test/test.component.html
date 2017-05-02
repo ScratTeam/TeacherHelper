@@ -7,17 +7,19 @@
     <md-card-content>
       <div class="questions" *ngFor="let question of questions">
         <div class="stem">
-          <button md-icon-button class="detail-button" fxHide="{{!choiceHide}}" (click)=expandMore()><md-icon>chevron_right</md-icon></button>
-          <button md-icon-button class="detail-button" fxHide="{{choiceHide}}" (click)=expandLess()><md-icon>expand_more</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{!choiceHide[questions.indexOf(question)]}}" (click)=expandMore(questions.indexOf(question))><md-icon>chevron_right</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{choiceHide[questions.indexOf(question)]}}" (click)=expandLess(questions.indexOf(question))><md-icon>expand_more</md-icon></button>
           {{questions.indexOf(question) + 1}}、  {{question.stem}}
         </div>
         <div class="choices-container">
-          <md-radio-group class="choices" fxLayout="column" fxHide="{{choiceHide}}">
+          <md-radio-group class="choices" fxLayout="column">
             <md-radio-button class="mychoice" *ngFor="let choice of question.choices"
             [value]="choice" disabled="true">
               {{choice}}
             </md-radio-button>
           </md-radio-group>
+        </div>
+        <div class="highcharts-container" id="{{questions.indexOf(question)}}" fxHide="{{choiceHide[questions.indexOf(question)]}}">
         </div>
       </div>
     </md-card-content>
