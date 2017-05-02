@@ -25,8 +25,14 @@
   .question-list
     margin: 16px 0px 0px 0px
 
+    .item
+      height: 36px
+      white-space: nowrap
+      text-overflow: ellipsis
+      overflow: hidden
+
   .question
-    margin: 16px 0px 0px 16px
+    margin: 16px 0px 0px 0px
 
     .question-format
       margin-top: 8px
@@ -46,9 +52,19 @@
           outline: none
           display: inline-block
           vertical-align: top
-          height: 18px
+          height: 21px
+          margin-left: 8px
           border: none
           border-bottom: 1px solid #dfdfdf
+          font-size: 16px
+
+      .button-container
+        text-align: center
+        padding-top: 16px
+
+        .submit-button
+          background-color: #2196f3
+          color: #ffffff
 
     md-radio-button
       padding-right: 16px

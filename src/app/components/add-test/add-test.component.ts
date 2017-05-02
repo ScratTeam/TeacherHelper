@@ -25,6 +25,9 @@ export class AddTestComponent implements OnInit {
   // 试题
   questions: Question[] = [];
   newQuestion: Question = new Question(0, '', [], []);
+  // 选择题选项字母
+  indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];
+  showNum: number = 2;
 
   constructor(private userService: UserService, private router: Router) {
     // 如果用户未登录，则跳转到注册登录页面
@@ -43,5 +46,16 @@ export class AddTestComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  // 改变显示的选项的个数
+  changeShowNum(i: number) {
+    if (this.showNum < i + 2) this.showNum = i + 2;
+  }
+
+  // 提交新的问题
+  submitQuestion() {
+    this.questions.push(this.newQuestion);
+    this.newQuestion = new Question(0, '', [], []);
+  }
 
 }
