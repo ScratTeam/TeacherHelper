@@ -48,12 +48,15 @@ body {
 
 /* 矫正 highcharts */
 .highcharts-credits {
-  display: none ! important;
+  display: none !important;
+}
+.highcharts-container {
+  margin: 0 auto !important;
 }
 
 /* 矫正 radio button */
 .mat-radio-container {
-  top: 5px ! important;
+  top: 5px !important;
 }
 .mat-radio-checked .mat-radio-outer-circle {
   border-color: #673ab7 !important;

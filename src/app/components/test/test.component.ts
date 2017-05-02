@@ -51,33 +51,38 @@ export class TestComponent implements OnInit {
   expandMore(index) {
     this.analyseHide[index] = false;
     // 如果是选择题，则用饼状图显示每个选项的答题人数
-    if (this.questions[index].type == 1) {
+    if (this.questions[index].type == 1 || this.questions[index].type == 2) {
       var myChart = Highcharts.chart(String(index), {
       chart: {
-         plotBackgroundColor: null,
-         plotBorderWidth: null,
-         plotShadow: false,
-         type: 'pie'
+         type: 'column'
       },
       title: {
          text: '第'+String(index+1)+'题答题情况'
       },
+      legend: {
+        enabled: false
+      },
+      xAxis: {
+          type: 'category'
+      },
+      yAxis: {
+          title: {
+              text: '该选项选择人数占总人数的百分比'
+          }
+      },
       tooltip: {
-         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
       },
       plotOptions: {
-         pie: {
-             allowPointSelect: true,
-             cursor: 'pointer',
-             dataLabels: {
-                 enabled: true,
-                 format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                 style: {
-                     color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                 }
-             }
-         }
-      },
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+     },
       series: [{
          name: 'Brands',
          colorByPoint: true,
@@ -86,9 +91,7 @@ export class TestComponent implements OnInit {
              y: 56.33
          }, {
              name: 'B',
-             y: 24.03,
-             sliced: true,
-             selected: true
+             y: 24.03
          }, {
              name: 'C',
              y: 10.38
@@ -99,6 +102,10 @@ export class TestComponent implements OnInit {
        }]
       });
     }
+    // TODO 如果是填空题或者简答题，显示答题的情况
+    // else if (this.questions[index].type == 3 || this.questions[index].type == 4) {
+    //
+    // }
   }
 
   expandLess(index) {

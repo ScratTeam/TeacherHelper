@@ -22,12 +22,24 @@ export class TestService {
          answers: [{id: "14331237", answer: "周一"},
                    {id: "14331182", answer: "周二"}]
         }, {
-          type: 1,
-          stem: "今天星期几",
-          choices:["周一", "周二", "周三", "周四"],
-          answers: [{id: "14331237", answer: "周一"},
-                    {id: "14331182", answer: "周二"}]
-        }]
+          type: 2,
+          stem: "你喜欢的季节",
+          choices:["春季", "夏季", "秋季", "冬季"],
+          answers: [{id: "14331237", answer: "春季 夏季"},
+                    {id: "14331182", answer: "夏季"}]
+        }, {
+          type: 3,
+          stem: "请写出四大名著及其作者",
+          choices:[],
+          answers: [{id: "14331237", answer: "不知道"},
+                    {id: "14331182", answer: "我也不知道"}]
+        }, {
+          type: 4,
+          stem: "请简述一下你最喜欢的书的情节",
+          choices:[],
+          answers: [{id: "14331237", answer: "最喜欢看杂志"},
+                    {id: "14331182", answer: "最喜欢看电影"}]
+        }, ]
       }];
   }
 

@@ -14,15 +14,23 @@
         </div>
         <div class="choices-container">
           <!-- 如果是选择题，则显示选项 -->
-          <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1">
+          <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1 || question.type == 2">
             <md-radio-button class="mychoice" *ngFor="let choice of question.choices"
             [value]="choice" disabled="true">
               {{choice}}
             </md-radio-button>
           </md-radio-group>
+          <!-- 如果是填空题，则显示输入的横线 -->
+          <md-input-container class="inputLine" *ngIf="question.type == 3">
+            <input mdInput placeholder="由此作答" disabled>
+          </md-input-container>
+          <!-- 如果是简答题，则显示 textarea 的小三角框 -->
+          <md-input-container *ngIf="question.type == 4">
+            <textarea mdInput placeholder="由此作答"></textarea>
+          </md-input-container>
         </div>
         <div class="analyse-container" fxHide="{{analyseHide[questions.indexOf(question)]}}">
-          <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答，答题情况如下：</div>
+          <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答。</div>
           <div class="highchart-container" id="{{questions.indexOf(question)}}">
           </div>
         </div>
