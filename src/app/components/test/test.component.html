@@ -1,28 +1,39 @@
 <div class="test-layout" fxLayout="row" *ngIf="test">
   <div fxFlex="10" fxHide.xs></div>
-  <md-card fxFlex="80">
+  <!--如果测试已经结束，显示题目及答题结果-->
+  <md-card fxFlex="80" *ngIf="!valid">
     <md-card-title>{{test.name}}</md-card-title>
     <md-card-subtitle>{{toDateString(test.startTime)}}-
       {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
       <div class="questions" *ngFor="let question of questions">
         <div class="stem">
-          <button md-icon-button class="detail-button" fxHide="{{!choiceHide[questions.indexOf(question)]}}" (click)=expandMore(questions.indexOf(question))><md-icon>chevron_right</md-icon></button>
-          <button md-icon-button class="detail-button" fxHide="{{choiceHide[questions.indexOf(question)]}}" (click)=expandLess(questions.indexOf(question))><md-icon>expand_more</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{!analyseHide[questions.indexOf(question)]}}" (click)=expandMore(questions.indexOf(question))><md-icon>chevron_right</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{analyseHide[questions.indexOf(question)]}}" (click)=expandLess(questions.indexOf(question))><md-icon>expand_more</md-icon></button>
           {{questions.indexOf(question) + 1}}、  {{question.stem}}
         </div>
         <div class="choices-container">
-          <md-radio-group class="choices" fxLayout="column">
+          <!-- 如果是选择题，则显示选项 -->
+          <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1">
             <md-radio-button class="mychoice" *ngFor="let choice of question.choices"
             [value]="choice" disabled="true">
               {{choice}}
             </md-radio-button>
           </md-radio-group>
         </div>
-        <div class="highcharts-container" id="{{questions.indexOf(question)}}" fxHide="{{choiceHide[questions.indexOf(question)]}}">
+        <div class="analyse-container" fxHide="{{analyseHide[questions.indexOf(question)]}}">
+          <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答，答题情况如下：</div>
+          <div class="highchart-container" id="{{questions.indexOf(question)}}">
+          </div>
         </div>
       </div>
     </md-card-content>
+  </md-card>
+  <!--如果测试未结束，显示题目-->
+  <md-card fxFlex="80" *ngIf="valid">
+    <div class="stem">
+      {{questions.indexOf(question) + 1}}、  {{question.stem}}
+    </div>
   </md-card>
   <div fxFlex="10" fxHide.xs></div>
 </div>
