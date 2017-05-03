@@ -77,6 +77,7 @@ export class AddTestComponent implements OnInit {
         error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
     });
     // 校验题干是否为空
+    console.log(this.newQuestion);
     if (this.newQuestion.stem == '')
       this.questionErr = '选择题题干不能为空';
     else if (error != '')
@@ -91,7 +92,7 @@ export class AddTestComponent implements OnInit {
     });
     console.log(this.newQuestion);
     this.questions.push(this.newQuestion);
-    this.newQuestion = new Question(0, '', [], []);
+    this.newQuestion = new Question(1, '', [], []);
   }
 
 }

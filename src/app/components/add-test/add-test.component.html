@@ -61,8 +61,20 @@
       </div>
       <div *ngIf="newQuestion.type == 2" class="question-format">
         <md-input-container class="stem">
-          <input mdInput placeholder="多选题题干">
+          <input mdInput placeholder="多选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
+        <div class="choice-container" *ngFor="let choice of choices; let i = index">
+          <span class="index">{{indices[i]}}</span>
+          <input class="choice" [(ngModel)]="choice.value">
+          <button md-icon-button (click)="deleteChoice(i)">
+            <md-icon>delete</md-icon>
+          </button>
+        </div>
+        <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+        <div class="error-message">{{questionErr}}</div>
+        <div class="button-container">
+          <button md-raised-button class="submit-button" (click)="submitQuestion()">添 加</button>
+        </div>
       </div>
       <div *ngIf="newQuestion.type == 3" class="question-format">
         <md-input-container class="stem">
