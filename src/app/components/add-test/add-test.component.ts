@@ -68,22 +68,42 @@ export class AddTestComponent implements OnInit {
     this.choices.splice(index, 1);
   }
 
+  // 清空报错信息
+  clear() {
+    this.newQuestion = new Question(1, '', [], []);
+    this.questionErr = '';
+  }
+
   // 提交新的问题
   submitQuestion() {
-    let error = '';
-    // 校验选项是否为空
-    this.choices.forEach((choice, index) => {
-      if (choice.value == '')
-        error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
-    });
-    // 校验题干是否为空
-    console.log(this.newQuestion);
-    if (this.newQuestion.stem == '')
-      this.questionErr = '选择题题干不能为空';
-    else if (error != '')
-      this.questionErr = error;
-    else
-      this.questionErr = '';
+    // 如果为选择题
+    if (this.newQuestion.type == 1 || this.newQuestion.type == 2) {
+      let error = '';
+      // 校验选项是否为空
+      this.choices.forEach((choice, index) => {
+        if (choice.value == '')
+          error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
+      });
+      // 校验题干是否为空
+      if (this.newQuestion.stem == '')
+        this.questionErr = '选择题题干不能为空';
+      else if (error != '')
+        this.questionErr = error;
+      else
+        this.questionErr = '';
+    // 如果为填空题
+    } else if (this.newQuestion.type == 3) {
+      if (this.newQuestion.stem == '')
+        this.questionErr = '填空题题干不能为空';
+      else if (this.newQuestion.stem.indexOf('[空]') < 0)
+        this.questionErr = '填空题题干中至少需要包含一个空';
+      else
+        this.questionErr = '';
+    // 如果为简答题
+    } else if (this.newQuestion.type == 4) {
+      if (this.newQuestion.stem == '')
+        this.questionErr = '简答题题干不能为空';
+    }
 
     if (this.questionErr != '') return;
     // 为题目添加选项

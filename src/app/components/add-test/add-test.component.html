@@ -37,10 +37,10 @@
     <md-card class="question">
       <md-card-title>添加题目</md-card-title>
       <md-radio-group [(ngModel)]="newQuestion.type">
-        <md-radio-button [value]="1">单选题</md-radio-button>
-        <md-radio-button [value]="2">多选题</md-radio-button>
-        <md-radio-button [value]="3">填空题</md-radio-button>
-        <md-radio-button [value]="4">简答题</md-radio-button>
+        <md-radio-button [value]="1" (click)="clear()">单选题</md-radio-button>
+        <md-radio-button [value]="2" (click)="clear()">多选题</md-radio-button>
+        <md-radio-button [value]="3" (click)="clear()">填空题</md-radio-button>
+        <md-radio-button [value]="4" (click)="clear()">简答题</md-radio-button>
       </md-radio-group>
       <div *ngIf="newQuestion.type == 1" class="question-format">
         <md-input-container class="stem">
@@ -78,13 +78,22 @@
       </div>
       <div *ngIf="newQuestion.type == 3" class="question-format">
         <md-input-container class="stem">
-          <input mdInput placeholder="填空题题干，用“<空>”表示需要填的空">
+          <input mdInput placeholder="填空题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
+        <div class="hint">*在题干中使用“[空]”来挖空，如“一年有[空]天”表示“一年有 _____ 天”</div>
+        <div class="error-message">{{questionErr}}</div>
+        <div class="button-container">
+          <button md-raised-button class="submit-button" (click)="submitQuestion()">添 加</button>
+        </div>
       </div>
       <div *ngIf="newQuestion.type == 4" class="question-format">
         <md-input-container class="stem">
           <input mdInput placeholder="简答题题干">
         </md-input-container>
+        <div class="error-message">{{questionErr}}</div>
+        <div class="button-container">
+          <button md-raised-button class="submit-button" (click)="submitQuestion()">添 加</button>
+        </div>
       </div>
     </md-card>
   </div>

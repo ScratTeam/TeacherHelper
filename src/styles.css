@@ -67,3 +67,14 @@ body {
 .mat-radio-ripple {
   display: none;
 }
+
+/* 矫正 input */
+.mat-input-element {
+  height: 24px !important;
+}
+.mat-input-underline {
+  margin: 0px !important;
+}
+.mat-input-placeholder-wrapper {
+  height: 24px !important;
+}
