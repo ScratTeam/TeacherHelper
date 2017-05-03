@@ -32,7 +32,8 @@ export class TestService {
           stem: "请写出四大名著及其作者",
           choices:[],
           answers: [{id: "14331237", answer: "不知道"},
-                    {id: "14331182", answer: "我也不知道"}]
+                    {id: "14331182", answer: "我不知道"},
+                    {id: "1433123", answer: "不知道"}]
         }, {
           type: 4,
           stem: "请简述一下你最喜欢的书的情节",

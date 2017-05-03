@@ -109,10 +109,61 @@ export class TestComponent implements OnInit {
         }]
       });
     }
-    // TODO 如果是填空题或者简答题，显示答题的情况
-    // else if (myQuestion.type == 3 || myQuestion.type == 4) {
-    //
-    // }
+    // 如果是填空题，显示答题的情况
+    else if (myQuestion.type == 3) {
+      // 预处理，对答案计数，显示出最高频的几个答案及其百分比
+      var myAnswers = myQuestion.answers;
+      var myAnswerCount = {};
+      var i;
+      for (i = 0; i < myAnswers.length; i++) {
+        var tempAnswer = myAnswers[i].answer;
+        if (tempAnswer in myAnswerCount) {
+          myAnswerCount[tempAnswer]++;
+        } else {
+          myAnswerCount[tempAnswer] = 1;
+        }
+      }
+      var resultCount = [];
+      for (var element in myAnswerCount) {
+        resultCount.push({name: element, y: (myAnswerCount[element])*100/this.answersNumber[index]});
+      }
+      resultCount.sort(function(x, y) {
+        return (x.count > y.count) ? 1: -1;
+      });
+      // 使用饼状图显示数据
+      var myChart = Highcharts.chart(String(index), {
+        chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false,
+          type: 'pie'
+        },
+        title: {
+          text: '第'+String(index+1)+'题答题情况'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+              style: {
+                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+              }
+            }
+          }
+        },
+        series: [{
+          name: 'Brands',
+          colorByPoint: true,
+          data: resultCount
+        }]
+      });
+    }
   }
 
   expandLess(index) {

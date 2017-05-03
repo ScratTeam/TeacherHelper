@@ -27,22 +27,22 @@
     <md-card class="question" *ngFor="let question of questions; let i = index">
       <md-card-title>第 {{i + 1}} 题</md-card-title>
       <div>
-        <span *ngIf="question.type == 0">[单选题]</span>
-        <span *ngIf="question.type == 1">[多选题]</span>
-        <span *ngIf="question.type == 2">[填空题]</span>
-        <span *ngIf="question.type == 3">[简答题]</span>
+        <span *ngIf="question.type == 1">[单选题]</span>
+        <span *ngIf="question.type == 2">[多选题]</span>
+        <span *ngIf="question.type == 3">[填空题]</span>
+        <span *ngIf="question.type == 4">[简答题]</span>
         <span>{{question.stem}}</span>
       </div>
     </md-card>
     <md-card class="question">
       <md-card-title>添加题目</md-card-title>
       <md-radio-group [(ngModel)]="newQuestion.type">
-        <md-radio-button [value]="0">单选题</md-radio-button>
-        <md-radio-button [value]="1">多选题</md-radio-button>
-        <md-radio-button [value]="2">填空题</md-radio-button>
-        <md-radio-button [value]="3">简答题</md-radio-button>
+        <md-radio-button [value]="1">单选题</md-radio-button>
+        <md-radio-button [value]="2">多选题</md-radio-button>
+        <md-radio-button [value]="3">填空题</md-radio-button>
+        <md-radio-button [value]="4">简答题</md-radio-button>
       </md-radio-group>
-      <div *ngIf="newQuestion.type == 0" class="question-format">
+      <div *ngIf="newQuestion.type == 1" class="question-format">
         <md-input-container class="stem">
           <input mdInput placeholder="单选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
@@ -56,17 +56,17 @@
           <button md-raised-button class="submit-button" (click)="submitQuestion()">提 交</button>
         </div>
       </div>
-      <div *ngIf="newQuestion.type == 1" class="question-format">
+      <div *ngIf="newQuestion.type == 2" class="question-format">
         <md-input-container class="stem">
           <input mdInput placeholder="多选题题干">
         </md-input-container>
       </div>
-      <div *ngIf="newQuestion.type == 2" class="question-format">
+      <div *ngIf="newQuestion.type == 3" class="question-format">
         <md-input-container class="stem">
           <input mdInput placeholder="填空题题干，用“<空>”表示需要填的空">
         </md-input-container>
       </div>
-      <div *ngIf="newQuestion.type == 3" class="question-format">
+      <div *ngIf="newQuestion.type == 4" class="question-format">
         <md-input-container class="stem">
           <input mdInput placeholder="简答题题干">
         </md-input-container>
