@@ -72,6 +72,7 @@ export class AddTestComponent implements OnInit {
   clear() {
     this.newQuestion = new Question(1, '', [], []);
     this.questionErr = '';
+    this.choices = [{ value: '' }, { value: '' }];
   }
 
   // 提交新的问题
@@ -110,7 +111,8 @@ export class AddTestComponent implements OnInit {
     this.choices.forEach((choice) => {
       this.newQuestion.choices.push(choice.value);
     });
-    console.log(this.newQuestion);
+    // 清空
+    this.choices = [{ value: '' }, { value: '' }];
     this.questions.push(this.newQuestion);
     this.newQuestion = new Question(1, '', [], []);
   }
