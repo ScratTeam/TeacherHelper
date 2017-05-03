@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MdSnackBar } from '@angular/material';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
@@ -12,24 +13,26 @@ import { Question } from '../../services/test/question';
 })
 export class AddTestComponent implements OnInit {
   user: User;  // 当前登录用户，用于身份校验和页面跳转
+
+  // 试卷相关变量
   startDate: Date = new Date();  // 考试开始时间
   endDate: Date = new Date();  // 考试结束时间
-  // 小时
-  startHour: string;
+  startHour: string;  // 小时
   endHour: string;
   hours = [];
-  // 分钟
-  startMin: string;
+  startMin: string;  // 分钟
   endMin: string;
   minutes = [];
-  // 试题
-  questions: Question[] = [];
-  newQuestion: Question = new Question(0, '', [], []);
-  // 选择题选项字母
-  indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];
-  showNum: number = 2;
+  questions: Question[] = [];  // 试题
+  newQuestion: Question = new Question(1, '', [], []);  // 正在创建的新试题
 
-  constructor(private userService: UserService, private router: Router) {
+  // 试题相关变量
+  indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];  // 选择题选项字母
+  choices = [{ value: '' }, { value: '' }];  // 选项
+  questionErr: string = '';  // 添加新问题时的报错信息
+
+  constructor(private userService: UserService, private router: Router,
+              private snackBar: MdSnackBar) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)
@@ -47,13 +50,46 @@ export class AddTestComponent implements OnInit {
 
   ngOnInit() {}
 
-  // 改变显示的选项的个数
-  changeShowNum(i: number) {
-    if (this.showNum < i + 2) this.showNum = i + 2;
+  // 添加新的选项
+  addNewChoice() {
+    if (this.choices.length >= 6) {
+      this.snackBar.open('选择题选项不能超过 6 个', '知道了', { duration: 2000 });
+      return;
+    }
+    this.choices.push({ value: '' });
+  }
+
+  // 删除某个选项
+  deleteChoice(index: number) {
+    if (this.choices.length <= 2) {
+      this.snackBar.open('选择题选项不能少于两个', '知道了', { duration: 2000 });
+      return;
+    }
+    this.choices.splice(index, 1);
   }
 
   // 提交新的问题
   submitQuestion() {
+    let error = '';
+    // 校验选项是否为空
+    this.choices.forEach((choice, index) => {
+      if (choice.value == '')
+        error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
+    });
+    // 校验题干是否为空
+    if (this.newQuestion.stem == '')
+      this.questionErr = '选择题题干不能为空';
+    else if (error != '')
+      this.questionErr = error;
+    else
+      this.questionErr = '';
+
+    if (this.questionErr != '') return;
+    // 为题目添加选项
+    this.choices.forEach((choice) => {
+      this.newQuestion.choices.push(choice.value);
+    });
+    console.log(this.newQuestion);
     this.questions.push(this.newQuestion);
     this.newQuestion = new Question(0, '', [], []);
   }

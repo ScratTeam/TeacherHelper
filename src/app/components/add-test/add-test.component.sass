@@ -34,6 +34,10 @@
   .question
     margin: 16px 0px 0px 0px
 
+    .type
+      padding-right: 8px
+      color: #757575
+
     .question-format
       margin-top: 8px
 
@@ -41,22 +45,32 @@
         width: 100%
 
       .choice-container
-        margin-bottom: 8px
 
         .index
-          height: 24px
           display: inline-block
-          line-height: 24px
+          vertical-align: middle
+          width: 20px
 
         .choice
           outline: none
           display: inline-block
-          vertical-align: top
-          height: 21px
+          vertical-align: middle
+          height: 24px
           margin-left: 8px
           border: none
           border-bottom: 1px solid #dfdfdf
           font-size: 16px
+
+      .add-new-choice
+        color: #2196f3
+        padding-top: 16px
+        display: inline-block
+
+      .error-message
+        padding-top: 16px
+        font-size: 0.9em
+        color: #f44336
+        text-align: center
 
       .button-container
         text-align: center

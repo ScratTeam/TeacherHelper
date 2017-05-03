@@ -27,10 +27,10 @@
     <md-card class="question" *ngFor="let question of questions; let i = index">
       <md-card-title>第 {{i + 1}} 题</md-card-title>
       <div>
-        <span *ngIf="question.type == 1">[单选题]</span>
-        <span *ngIf="question.type == 2">[多选题]</span>
-        <span *ngIf="question.type == 3">[填空题]</span>
-        <span *ngIf="question.type == 4">[简答题]</span>
+        <span class="type" *ngIf="question.type == 1">单选题</span>
+        <span class="type" *ngIf="question.type == 2">多选题</span>
+        <span class="type" *ngIf="question.type == 3">填空题</span>
+        <span class="type" *ngIf="question.type == 4">简答题</span>
         <span>{{question.stem}}</span>
       </div>
     </md-card>
@@ -46,14 +46,17 @@
         <md-input-container class="stem">
           <input mdInput placeholder="单选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
-        <div class="choice-container" *ngFor="let letter of indices; let i = index">
-          <div *ngIf="i < showNum">
-            <span class="index">{{letter}}</span>
-            <input class="choice" (focus)="changeShowNum(i)">
-          </div>
+        <div class="choice-container" *ngFor="let choice of choices; let i = index">
+          <span class="index">{{indices[i]}}</span>
+          <input class="choice" [(ngModel)]="choice.value">
+          <button md-icon-button (click)="deleteChoice(i)">
+            <md-icon>delete</md-icon>
+          </button>
         </div>
+        <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+        <div class="error-message">{{questionErr}}</div>
         <div class="button-container">
-          <button md-raised-button class="submit-button" (click)="submitQuestion()">提 交</button>
+          <button md-raised-button class="submit-button" (click)="submitQuestion()">添 加</button>
         </div>
       </div>
       <div *ngIf="newQuestion.type == 2" class="question-format">
