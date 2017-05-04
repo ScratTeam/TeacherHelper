@@ -28,11 +28,20 @@
       <div *ngFor="let question of questions; let i = index">
         <div>
           <!-- 显示题干和类型 -->
-          <div class="stemDisplay">{{i + 1}}. {{compileStem(question.type, question.stem)}}
+          <div class="stem-display">{{i + 1}}. {{compileStem(question.type, question.stem)}}
             <span class="type" *ngIf="question.type == 1">[单选题]</span>
             <span class="type" *ngIf="question.type == 2">[多选题]</span>
             <span class="type" *ngIf="question.type == 3">[填空题]</span>
             <span class="type" *ngIf="question.type == 4">[简答题]</span>
+            <button md-icon-button (click)="deleteQuestion(i)">
+              <md-icon>delete</md-icon>
+            </button>
+            <button md-icon-button *ngIf="i != 0" (click)="moveUp(i)">
+              <md-icon>arrow_upward</md-icon>
+            </button>
+            <button md-icon-button *ngIf="i != questions.length - 1" (click)="moveDown(i)">
+              <md-icon>arrow_downward</md-icon>
+            </button>
           </div>
           <!-- 显示选项等信息 -->
           <!-- 显示单项选择题的选项 -->
@@ -47,11 +56,11 @@
           </div>
           <!-- 显示填空题的答题线 -->
           <md-input-container *ngIf="question.type == 3">
-            <input mdInput placeholder="由此作答" disabled>
+            <input mdInput placeholder="在此作答" disabled>
           </md-input-container>
           <!-- 显示简答题的答题框 -->
           <md-input-container *ngIf="question.type == 4">
-            <textarea mdInput placeholder="由此作答" disabled></textarea>
+            <textarea mdInput placeholder="在此作答" disabled></textarea>
           </md-input-container>
         </div>
       </div>

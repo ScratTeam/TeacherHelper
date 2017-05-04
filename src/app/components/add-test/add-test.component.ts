@@ -120,10 +120,29 @@ export class AddTestComponent implements OnInit {
   // 重新编译题干
   compileStem(type, stem) {
     if (type == 3) {
-      return stem.replace("[空]", "____");
+      return stem.replace("[空]", " _____ ");
     } else {
       return stem;
     }
+  }
+
+  // 删除某个问题
+  deleteQuestion(index: number) {
+    this.questions.splice(index, 1);
+  }
+
+  // 上移某题
+  moveUp(index: number) {
+    let temp = this.questions[index - 1];
+    this.questions[index - 1] = this.questions[index];
+    this.questions[index] = temp;
+  }
+
+  // 下移某题
+  moveDown(index: number) {
+    let temp = this.questions[index + 1];
+    this.questions[index + 1] = this.questions[index];
+    this.questions[index] = temp;
   }
 
 }
