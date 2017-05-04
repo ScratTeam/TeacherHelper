@@ -34,9 +34,25 @@
   .question
     margin: 16px 0px 0px 0px
 
-    .type
-      padding-right: 8px
-      color: #757575
+    .stemDisplay
+      font-weight: 600
+      font-size: 18px
+
+      .type
+        font-weight: 400
+        font-size: 14px
+        padding-right: 8px
+        color: #2196f3
+
+    // 选项之间的间隔
+    .mychoice
+      margin: 5px 0px
+
+    .mychoice:nth-child(1)
+      margin: 10px 0px 5px 0px
+
+    .mychoice:nth-last-child(1)
+      margin: 5px 0px 15px 0px
 
     .question-format
       margin-top: 8px
@@ -89,3 +105,6 @@
 
     @media(max-width: 599px)
       margin-left: 0px
+
+  md-icon
+    color: #727272

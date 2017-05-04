@@ -117,4 +117,13 @@ export class AddTestComponent implements OnInit {
     this.newQuestion = new Question(1, '', [], []);
   }
 
+  // 重新编译题干
+  compileStem(type, stem) {
+    if (type == 3) {
+      return stem.replace("[空]", "____");
+    } else {
+      return stem;
+    }
+  }
+
 }

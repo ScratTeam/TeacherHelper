@@ -10,7 +10,7 @@
         <div class="stem">
           <button md-icon-button class="detail-button" fxHide="{{!analyseHide[questions.indexOf(question)]}}" (click)=expandMore(questions.indexOf(question))><md-icon>chevron_right</md-icon></button>
           <button md-icon-button class="detail-button" fxHide="{{analyseHide[questions.indexOf(question)]}}" (click)=expandLess(questions.indexOf(question))><md-icon>expand_more</md-icon></button>
-          {{questions.indexOf(question) + 1}}、  {{question.stem}}
+          {{questions.indexOf(question) + 1}}. {{question.stem}}
         </div>
         <div class="choices-container">
           <!-- 如果是单项选择题，则显示选项 -->
@@ -24,7 +24,7 @@
             <md-checkbox *ngFor="let choice of question.choices" class="mychoice" disabled>{{choice}}</md-checkbox>
           </div>
           <!-- 如果是填空题，则显示输入的横线 -->
-          <md-input-container class="inputLine" *ngIf="question.type == 3">
+          <md-input-container *ngIf="question.type == 3">
             <input mdInput placeholder="由此作答" disabled>
           </md-input-container>
           <!-- 如果是简答题，则显示 textarea 的小三角框 -->
@@ -43,7 +43,7 @@
   <!--如果测试未结束，显示题目-->
   <md-card fxFlex.gt-xs="80" *ngIf="valid">
     <div class="stem">
-      {{questions.indexOf(question) + 1}}、  {{question.stem}}
+      {{questions.indexOf(question) + 1}}. {{question.stem}}
     </div>
   </md-card>
   <div fxFlex="10" fxHide.xs></div>

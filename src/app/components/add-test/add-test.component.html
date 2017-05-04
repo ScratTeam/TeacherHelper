@@ -24,14 +24,36 @@
         </md-select>
       </div>
     </md-card>
-    <md-card class="question" *ngFor="let question of questions; let i = index">
-      <md-card-title>第 {{i + 1}} 题</md-card-title>
-      <div>
-        <span class="type" *ngIf="question.type == 1">单选题</span>
-        <span class="type" *ngIf="question.type == 2">多选题</span>
-        <span class="type" *ngIf="question.type == 3">填空题</span>
-        <span class="type" *ngIf="question.type == 4">简答题</span>
-        <span>{{question.stem}}</span>
+    <md-card class="question" *ngIf="questions.length != 0">
+      <div *ngFor="let question of questions; let i = index">
+        <div>
+          <!-- 显示题干和类型 -->
+          <div class="stemDisplay">{{i + 1}}. {{compileStem(question.type, question.stem)}}
+            <span class="type" *ngIf="question.type == 1">[单选题]</span>
+            <span class="type" *ngIf="question.type == 2">[多选题]</span>
+            <span class="type" *ngIf="question.type == 3">[填空题]</span>
+            <span class="type" *ngIf="question.type == 4">[简答题]</span>
+          </div>
+          <!-- 显示选项等信息 -->
+          <!-- 显示单项选择题的选项 -->
+          <md-radio-group fxLayout="column" *ngIf="question.type == 1">
+            <md-radio-button class="mychoice" *ngFor="let choice of question.choices" value disabled>
+              {{choice}}
+            </md-radio-button>
+          </md-radio-group>
+          <!-- 显示多项选择题的选项 -->
+          <div fxLayout="column" *ngIf="question.type == 2">
+            <md-checkbox class="mychoice" *ngFor="let choice of question.choices" disabled>{{choice}}</md-checkbox>
+          </div>
+          <!-- 显示填空题的答题线 -->
+          <md-input-container *ngIf="question.type == 3">
+            <input mdInput placeholder="由此作答" disabled>
+          </md-input-container>
+          <!-- 显示简答题的答题框 -->
+          <md-input-container *ngIf="question.type == 4">
+            <textarea mdInput placeholder="由此作答" disabled></textarea>
+          </md-input-container>
+        </div>
       </div>
     </md-card>
     <md-card class="question">
@@ -88,7 +110,7 @@
       </div>
       <div *ngIf="newQuestion.type == 4" class="question-format">
         <md-input-container class="stem">
-          <input mdInput placeholder="简答题题干">
+          <input mdInput placeholder="简答题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
         <div class="error-message">{{questionErr}}</div>
         <div class="button-container">
