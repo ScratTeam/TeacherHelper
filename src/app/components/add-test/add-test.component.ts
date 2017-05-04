@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
 import { Question } from '../../services/test/question';
+import { Test } from '../../services/test/test';
 
 @Component({
   selector: 'app-add-test',
@@ -13,9 +14,11 @@ import { Question } from '../../services/test/question';
 })
 export class AddTestComponent implements OnInit {
   user: User;  // 当前登录用户，用于身份校验和页面跳转
+  courseName: string;  // 课程名
 
   // 试卷相关变量
   testTitle: string = '';  // 考试的标题
+  testDetail: string = '';  // 考试的详情
   startDate: Date = new Date();  // 考试开始时间
   endDate: Date = new Date();  // 考试结束时间
   startHour: string;  // 小时
@@ -34,7 +37,7 @@ export class AddTestComponent implements OnInit {
   questionErr: string = '';  // 添加新问题时的报错信息
 
   constructor(private userService: UserService, private router: Router,
-              private snackBar: MdSnackBar) {
+              private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)
@@ -50,7 +53,13 @@ export class AddTestComponent implements OnInit {
     this.startMin = '30 分'; this.endMin = '15 分';
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // 从 URL 中读取参数
+    this.activatedRoute.params.subscribe((params: Params) => {
+      // 取回课程信息
+      this.courseName = params['course'];
+    });
+  }
 
   // 添加新的选项
   addNewChoice() {
@@ -168,6 +177,11 @@ export class AddTestComponent implements OnInit {
       this.testErr = '试题标题不能为空';
     else
       this.testErr = '';
+    if (this.testErr != '') return;
+
+    // 创建试题对象
+    let newTest: Test = new Test(this.courseName, this.testTitle, this.startDate,
+                                 this.endDate, this.testDetail, this.questions);
   }
 
 }

@@ -44,17 +44,16 @@ export class TestService {
       }];
   }
 
+  // 获取所有测试概要
   getTests() {
     // TODO 从后端获取测试信息
     return this.tests;
   }
 
+  // 获取某次测试
   getTest(test) {
     // TODO 从后端获取测试的信息
     return this.tests[0];
   }
 
-  getQuestion(test) {
-    return this.tests[0].questions;
-  }
 }

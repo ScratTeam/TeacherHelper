@@ -3,6 +3,9 @@
   <div fxFlex="80" fxFlex.xs="100">
     <md-card>
       <input placeholder="试题标题" class="title" [(ngModel)]="testTitle">
+      <md-input-container class="detail">
+        <input mdInput placeholder="试题详情" [(ngModel)]="testDetail">
+      </md-input-container>
       <div class="time-select-container">
         <span class="time-select-title">测验开始时间：</span>
         <material-datepicker [(date)]="startDate"></material-datepicker>
