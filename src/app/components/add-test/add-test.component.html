@@ -2,7 +2,7 @@
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100">
     <md-card>
-      <input placeholder="试题标题" class="title">
+      <input placeholder="试题标题" class="title" [(ngModel)]="testTitle">
       <div class="time-select-container">
         <span class="time-select-title">测验开始时间：</span>
         <material-datepicker [(date)]="startDate"></material-datepicker>
@@ -22,6 +22,10 @@
         <md-select placeholder=" " [(ngModel)]="endMin" class="time-select">
           <md-option *ngFor="let minute of minutes" [value]="minute">{{minute}}</md-option>
         </md-select>
+      </div>
+      <div class="error-message">{{testErr}}</div>
+      <div class="upload-button-container">
+        <button md-raised-button class="upload-button" (click)="createTest()">提 交</button>
       </div>
     </md-card>
     <md-card class="question" *ngIf="questions.length != 0">

@@ -15,6 +15,7 @@ export class AddTestComponent implements OnInit {
   user: User;  // 当前登录用户，用于身份校验和页面跳转
 
   // 试卷相关变量
+  testTitle: string = '';  // 考试的标题
   startDate: Date = new Date();  // 考试开始时间
   endDate: Date = new Date();  // 考试结束时间
   startHour: string;  // 小时
@@ -25,6 +26,7 @@ export class AddTestComponent implements OnInit {
   minutes = [];
   questions: Question[] = [];  // 试题
   newQuestion: Question = new Question(1, '', [], []);  // 正在创建的新试题
+  testErr: string = '';  // 创建试卷时的报错信息
 
   // 试题相关变量
   indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];  // 选择题选项字母
@@ -143,6 +145,29 @@ export class AddTestComponent implements OnInit {
     let temp = this.questions[index + 1];
     this.questions[index + 1] = this.questions[index];
     this.questions[index] = temp;
+  }
+
+  // 创建新的试题
+  createTest() {
+    // 截取出数字
+    let startHour: number = parseInt(this.startHour.split(' ')[0]);
+    let endHour: number = parseInt(this.endHour.split(' ')[0]);
+    let startMin: number = parseInt(this.startMin.split(' ')[0]);
+    let endMin: number = parseInt(this.endMin.split(' ')[0]);
+    // 设置时间
+    this.startDate.setHours(startHour, startMin, 0, 0);
+    this.endDate.setHours(endHour, endMin, 0, 0);
+
+    // 校验
+    let present = new Date();
+    if (this.startDate < present)
+      this.testErr = '考试时间需要在当前之后';
+    else if (this.endDate < this.startDate)
+      this.testErr = '考试开始时间需在结束时间之前';
+    else if (this.testTitle == '')
+      this.testErr = '试题标题不能为空';
+    else
+      this.testErr = '';
   }
 
 }
