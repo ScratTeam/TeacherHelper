@@ -68,6 +68,17 @@ body {
   display: none;
 }
 
+/* 矫正 checkbox */
+.mat-checkbox-checked .mat-checkbox-checkmark {
+  background-color: #673ab7 !important;
+}
+
+.mat-checkbox-ripple {
+  background-color: #673ab7 !important;
+  display: none;
+}
+
+
 /* 矫正 input */
 .mat-input-element {
   height: 24px !important;
