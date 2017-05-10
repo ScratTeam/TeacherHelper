@@ -36,6 +36,7 @@ db.once('open', function() {
   require('./routes/auth')(app, shareData);
   require('./routes/user')(app, shareData);
   require('./routes/course')(app, shareData);
+  require('./routes/test')(app, shareData);
 
   // 将对 SPA 的直接访问重新导回 Angular 的路由
   app.use(async (ctx) => {
