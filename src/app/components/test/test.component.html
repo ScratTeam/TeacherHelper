@@ -42,6 +42,19 @@
   </md-card>
   <!--如果测试未结束，显示题目-->
   <md-card fxFlex.gt-xs="80" *ngIf="valid" class="valid">
+    <md-card-title>{{test.name}}</md-card-title>
+    <div class="studentInfo">
+      <md-icon>person</md-icon>
+      <md-input-container>
+        <input mdInput placeholder="姓名">
+      </md-input-container>
+    </div>
+    <div class="studentInfo">
+      <md-icon>school</md-icon>
+      <md-input-container>
+        <input mdInput placeholder="学号">
+      </md-input-container>
+    </div>
     <div class="questions" *ngFor="let question of questions">
       <div class="stem">
         {{questions.indexOf(question) + 1}}. {{question.stem}}

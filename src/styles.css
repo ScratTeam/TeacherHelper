@@ -78,6 +78,10 @@ body {
   display: none;
 }
 
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #673ab7 !important;
+}
+
 
 /* 矫正 input */
 .mat-input-element {
@@ -88,4 +92,8 @@ body {
 }
 .mat-input-placeholder-wrapper {
   height: 24px !important;
+}
+
+.studentInfo .mat-input-wrapper {
+  padding-bottom: 0px !important;
 }
