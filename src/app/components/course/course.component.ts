@@ -118,4 +118,26 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/add-test', this.user.username, this.course.name]);
   }
 
+  // 转换日期格式
+  toDateString(date: Date) {
+    return date.getFullYear() + '/' + date.getMonth() + '/' +
+           date.getDate();
+  }
+
+  // 判断当前的测试的状态
+  checkState(myindex) {
+    if (this.tests[myindex].startTime > new Date()) {
+      return "未开始";
+    } else if (this.tests[myindex].endTime > new Date()) {
+      return "正在进行中";
+    } else {
+      return "已结束";
+    }
+  }
+
+  // 生成二维码
+  shareTest(testName) {
+
+  }
+
 }

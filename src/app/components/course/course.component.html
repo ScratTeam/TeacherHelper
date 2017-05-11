@@ -35,11 +35,16 @@
                 <p fxFlex="33">试题名称</p>
                 <p fxFlex="33">有效时间</p>
                 <p fxFlex="33">试题状态</p>
+                <p fxFlex="40px" class="icon-header">分享</p>
               </md-list-item>
-              <md-list-item class="testList" *ngFor="let test of displayTests" (click)=gotoTest(test)>
-                <p fxFlex="33">{{test.name}}</p>
-                <p fxFlex="33">{{test.time}}</p>
-                <p fxFlex="33">{{test.state}}</p>
+              <md-list-item class="testList" *ngFor="let test of displayTests; let myindex = index">
+                <p fxFlex="33" (click)=gotoTest(test)>{{test.name}}</p>
+                <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}}-
+                  {{toDateString(test.endTime)}}</p>
+                <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myindex)}}</p>
+                <button fxFlex="40px" md-icon-button class="share-button" (click)="sharest(test.name)">
+                  <md-icon>share</md-icon>
+                </button>
               </md-list-item>
             </md-list>
             <div class="page-number-container">

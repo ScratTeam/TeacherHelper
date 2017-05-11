@@ -6,10 +6,10 @@
     <md-card-subtitle>{{toDateString(test.startTime)}}-
       {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
-      <div class="questions" *ngFor="let question of questions">
+      <div class="questions" *ngFor="let question of questions; let myindex = index">
         <div class="stem">
-          <button md-icon-button class="detail-button" fxHide="{{!analyseHide[questions.indexOf(question)]}}" (click)=expandMore(questions.indexOf(question))><md-icon>chevron_right</md-icon></button>
-          <button md-icon-button class="detail-button" fxHide="{{analyseHide[questions.indexOf(question)]}}" (click)=expandLess(questions.indexOf(question))><md-icon>expand_more</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{!analyseHide[myindex]}}" (click)=expandMore(myindex)><md-icon>chevron_right</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{analyseHide[myindex]}}" (click)=expandLess(myindex)><md-icon>expand_more</md-icon></button>
           {{questions.indexOf(question) + 1}}. {{question.stem}}
         </div>
         <div class="choices-container">
@@ -32,9 +32,9 @@
             <textarea mdInput placeholder="在此作答" disabled></textarea>
           </md-input-container>
         </div>
-        <div class="analyse-container" fxHide="{{analyseHide[questions.indexOf(question)]}}">
+        <div class="analyse-container" fxHide="{{analyseHide[myindex]}}">
           <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答。</div>
-          <div class="highchart-container" id="{{questions.indexOf(question)}}">
+          <div class="highchart-container" id="{{myindex}}">
           </div>
         </div>
       </div>
@@ -55,9 +55,9 @@
         <input mdInput placeholder="学号">
       </md-input-container>
     </div>
-    <div class="questions" *ngFor="let question of questions">
+    <div class="questions" *ngFor="let question of questions; let myindex = index">
       <div class="stem">
-        {{questions.indexOf(question) + 1}}. {{question.stem}}
+        {{myindex + 1}}. {{question.stem}}
       </div>
       <div>
         <!-- 如果是单项选择题，则显示选项 -->

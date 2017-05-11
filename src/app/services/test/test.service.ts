@@ -12,7 +12,7 @@ export class TestService {
     this.tests = [{
       courseName: "嵌入式",
       name: "考勤一",
-      startTime: new Date("October 11, 2017 11:13:00"),
+      startTime: new Date("October 11, 2016 11:13:00"),
       endTime: new Date("October 13, 2017 11:13:00"),
       detail: "",
       questions: [
