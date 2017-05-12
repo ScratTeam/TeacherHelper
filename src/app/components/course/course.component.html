@@ -42,7 +42,7 @@
                 <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}}-
                   {{toDateString(test.endTime)}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myindex)}}</p>
-                <button fxFlex="40px" md-icon-button class="share-button" (click)="sharest(test.name)">
+                <button fxFlex="40px" md-icon-button class="share-button" (click)="shareTest(test.name)">
                   <md-icon>share</md-icon>
                 </button>
               </md-list-item>

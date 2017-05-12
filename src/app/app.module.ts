@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CourseComponent } from './components/course/course.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { TestComponent } from './components/test/test.component';
+import { ShareTestComponent } from './components/course/course.component';
 
 // 引入 services
 import { AuthService } from './services/auth/auth.service';
@@ -34,7 +35,8 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     CourseComponent,
     AddCourseComponent,
     TestComponent,
-    AddTestComponent
+    AddTestComponent,
+    ShareTestComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,9 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     DatepickerModule,
     // 路由模块
     RoutingModule
+  ],
+  entryComponents: [
+    ShareTestComponent
   ],
   providers: [
     AuthService,

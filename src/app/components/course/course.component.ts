@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
+import { MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
@@ -32,7 +33,8 @@ export class CourseComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router,
               private snackBar: MdSnackBar, private testService: TestService,
-              private courseService: CourseService, private activatedRoute: ActivatedRoute) {
+              private courseService: CourseService, private activatedRoute: ActivatedRoute,
+              public dialog: MdDialog) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)
@@ -137,7 +139,26 @@ export class CourseComponent implements OnInit {
 
   // 生成二维码
   shareTest(testName) {
-
+    let config = new MdDialogConfig();
+    let dialogRef: MdDialogRef<ShareTestComponent> = this.dialog.open(ShareTestComponent, config);
+    dialogRef.componentInstance.testUrl = this.router.url + testName;
   }
+
+}
+
+@Component({
+  selector: 'shareTest',
+  templateUrl: './share-test.component.html',
+  styleUrls: ['./share-test.component.sass']
+})
+export class ShareTestComponent implements OnInit {
+  testUrl: string;
+  shareUrl: string;
+  constructor(public dialogRef: MdDialogRef<ShareTestComponent>) {}
+
+  ngOnInit() {
+    this.shareUrl = "http://qr.liantu.com/api.php?text=" + this.testUrl;
+  }
+
 
 }
