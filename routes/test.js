@@ -60,16 +60,17 @@ module.exports = function(app, shareData) {
         ctx.request.body.testIDs == null || ctx.request.body.testIDs == undefined) {
         ctx.status = 403;
       } else {
-        query_tests = [];
+        var query_tests = [];
+        let testIDs = ctx.request.body.testIDs;
         // 通过 testID 查找测试
-        testIDs.forEach(function(testID) {
-          await tests = Test.find({ _id: testID });
+        for(var i = 0; i < testIDs.length; i++) {
+          let tests = await Test.find({ _id: testIDs[i] });
           if (tests.length == 1) {
             query_tests.push(tests[0]);
           }else {
             ctx.body = { isOk: false, message: '该测试不存在' };
           }
-        });
+        }
         if (query_tests.length > 0) {
           ctx.body = { isOk: true, query_tests:[] };
           query_tests.forEach(function(test) {
@@ -103,17 +104,18 @@ module.exports = function(app, shareData) {
         ctx.request.body.name == null || ctx.request.body.name == undefined) {
         ctx.status = 403;
       } else {
-        query_tests = [];
+        var query_tests = [];
+        let testIDs = ctx.request.body.testIDs;
         // 通过 testIDs 和测试的名字查询测试
-        testIDs.forEach(function(testID) {
+        for (var i = 0; i < testIDs.length; i++) {
           let tests = await Test.find({ 
-            _id: testID,
+            _id: testIDs[i],
             name: ctx.request.body.name
           });
           if (tests.length == 1) {
             query_tests.push(tests[0]);
           }
-        });
+        }
         if (query_tests.length == 1) {
           let test = query_tests[0];
           ctx.body = {
@@ -134,7 +136,5 @@ module.exports = function(app, shareData) {
       console.log(error);
     }
   });
-
-
 
 }
