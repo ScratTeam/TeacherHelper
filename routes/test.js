@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 // 定义凭证
 testSchema = {
+	username: String,
+  courseName: String,
 	name: String,
 	startTime: Date,
   endTime: Date,
@@ -57,35 +59,25 @@ module.exports = function(app, shareData) {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOk: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
-        ctx.request.body.testIDs == null || ctx.request.body.testIDs == undefined) {
+                 ctx.request.body.course == null || ctx.request.body.course == undefined) {
         ctx.status = 403;
       } else {
-        var query_tests = [];
-        let testIDs = ctx.request.body.testIDs;
-        // 通过 testID 查找测试
-        for(var i = 0; i < testIDs.length; i++) {
-          let tests = await Test.find({ _id: testIDs[i] });
-          if (tests.length == 1) {
-            query_tests.push(tests[0]);
-          }else {
-            ctx.body = { isOk: false, message: '该测试不存在' };
-          }
-        }
-        if (query_tests.length > 0) {
-          ctx.body = { isOk: true, query_tests:[] };
-          query_tests.forEach(function(test) {
-            ctx.body.tests.push({
-              name: test.name,
-              detail: test.detail,
-              startTime: test.startTime,
-              endTime: test.endTime,
-              questions: test.questions
-            });
+				// 从请求中取出课程名
+        let course = ctx.request.body.course;
+        // 通过 course 查找测试
+        let tests = await Test.find({ username: ctx.session.username,
+					                            courseName: course });
+				let queryTests = [];
+        tests.forEach(function(test) {
+          queryTests.push({
+            name: test.name,
+            startTime: test.startTime,
+            endTime: test.endTime,
+						detail: test.detail,
+            questions: test.questions
           });
-          // 课程还没有测试
-        } else {
-          ctx.body = { isOk: true, tests:[] };
-        }
+        });
+				ctx.body = { isOk: true, tests: queryTests };
       }
     } catch(error) {
       console.log(error);
@@ -99,42 +91,27 @@ module.exports = function(app, shareData) {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOk: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
-        ctx.request.body.testIDs == null || ctx.request.body.testIDs == undefined ||
-        ctx.request.body.testIDs.length == 0 ||
-        ctx.request.body.name == null || ctx.request.body.name == undefined) {
+                 ctx.request.body.course == null || ctx.request.body.course == undefined ||
+                 ctx.request.body.test == null || ctx.request.body.test == undefined) {
         ctx.status = 403;
       } else {
-        var query_tests = [];
-        let testIDs = ctx.request.body.testIDs;
-        // 通过 testIDs 和测试的名字查询测试
-        for (var i = 0; i < testIDs.length; i++) {
-          let tests = await Test.find({
-            _id: testIDs[i],
-            name: ctx.request.body.name
-          });
-          if (tests.length == 1) {
-            query_tests.push(tests[0]);
-          }
-        }
-        if (query_tests.length == 1) {
-          let test = query_tests[0];
-          ctx.body = {
-            isOk: true,
-            name: test.name,
-            startTime: test.startTime,
-            endTime: test.endTime,
-            detail: test.detail,
-            questions: test.questions
-          }
-        } else if (query_tests.length == 0) {
-          ctx.body = { isOk: false, message: '该测试不存在' };
-        } else {
-          ctx.body = { isOk: false, message: '同一课程下存在相同名字的测试' };
+				// 从请求中取出课程名和测试名
+        let course = ctx.request.body.course;
+				let test = ctx.request.body.test;
+        // 通过 course 查找测试
+        let tests = await Test.find({ username: ctx.session.username,
+					                            courseName: course, name: test });
+        ctx.body = {
+          isOk: true,
+          name: tests[0].name,
+          startTime: tests[0].startTime,
+          endTime: tests[0].endTime,
+          detail: tests[0].detail,
+          questions: tests[0].questions
         }
       }
     } catch(error) {
       console.log(error);
     }
   });
-
 }

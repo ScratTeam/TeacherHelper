@@ -10,7 +10,7 @@ export class TestService {
 
   constructor(private http: Http) {
     this.tests = [{
-      courseName: "嵌入式",
+      courseName: "计算机网络 I",
       name: "考勤一",
       startTime: new Date("May 11, 2017 11:13:00"),
       endTime: new Date("October 13, 2017 11:13:00"),
@@ -43,7 +43,7 @@ export class TestService {
         }
       ]
     }, {
-      courseName: "嵌入式",
+      courseName: "计算机网络 I",
       name: "考勤二",
       startTime: new Date("October 11, 2017 11:13:00"),
       endTime: new Date("October 13, 2017 11:13:00"),
@@ -76,7 +76,7 @@ export class TestService {
         }
       ]
     }, {
-      courseName: "嵌入式",
+      courseName: "计算机网络 I",
       name: "考勤三",
       startTime: new Date("May 11, 2017 11:13:00"),
       endTime: new Date("May 13, 2017 11:13:00"),
@@ -134,6 +134,7 @@ export class TestService {
       if (this.tests[i].courseName == courseName && this.tests[i].name == testName)
         return this.tests[i];
     }
+    return this.tests[0];
   }
 
 }
