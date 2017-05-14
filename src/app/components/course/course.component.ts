@@ -122,7 +122,7 @@ export class CourseComponent implements OnInit {
 
   // 转换日期格式
   toDateString(date: Date) {
-    return date.getFullYear() + '/' + date.getMonth() + '/' +
+    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
            date.getDate();
   }
 

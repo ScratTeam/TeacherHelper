@@ -12,7 +12,7 @@ export class TestService {
     this.tests = [{
       courseName: "嵌入式",
       name: "考勤一",
-      startTime: new Date("October 11, 2016 11:13:00"),
+      startTime: new Date("May 11, 2017 11:13:00"),
       endTime: new Date("October 13, 2017 11:13:00"),
       detail: "",
       questions: [
@@ -40,9 +40,77 @@ export class TestService {
           choices:[],
           answers: [{id: "14331237", answer: "最喜欢看杂志"},
                     {id: "14331182", answer: "最喜欢看电影"}]
-        }, ]
-      }];
-  }
+        }
+      ]
+    }, {
+      courseName: "嵌入式",
+      name: "考勤二",
+      startTime: new Date("October 11, 2017 11:13:00"),
+      endTime: new Date("October 13, 2017 11:13:00"),
+      detail: "",
+      questions: [
+        {type: 1,
+         stem: "今天星期几",
+         choices:["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+         answers: [{id: "14331237", answer: "0"},
+                   {id: "14331182", answer: "1"}]
+        }, {
+          type: 2,
+          stem: "你喜欢的季节",
+          choices:["春季", "夏季", "秋季", "冬季"],
+          answers: [{id: "14331237", answer: "0 1"},
+                    {id: "14331182", answer: "1"}]
+        }, {
+          type: 3,
+          stem: "请写出四大名著及其作者",
+          choices:[],
+          answers: [{id: "14331237", answer: "不知道"},
+                    {id: "14331182", answer: "我不知道"},
+                    {id: "1433123", answer: "不知道"}]
+        }, {
+          type: 4,
+          stem: "请简述一下你最喜欢的书的情节",
+          choices:[],
+          answers: [{id: "14331237", answer: "最喜欢看杂志"},
+                    {id: "14331182", answer: "最喜欢看电影"}]
+        }
+      ]
+    }, {
+      courseName: "嵌入式",
+      name: "考勤三",
+      startTime: new Date("May 11, 2017 11:13:00"),
+      endTime: new Date("May 13, 2017 11:13:00"),
+      detail: "",
+      questions: [
+        {type: 1,
+         stem: "今天星期几",
+         choices:["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+         answers: [{id: "14331237", answer: "0"},
+                   {id: "14331182", answer: "1"}]
+        }, {
+          type: 2,
+          stem: "你喜欢的季节",
+          choices:["春季", "夏季", "秋季", "冬季"],
+          answers: [{id: "14331237", answer: "0 1"},
+                    {id: "14331182", answer: "1"}]
+        }, {
+          type: 3,
+          stem: "请写出四大名著及其作者",
+          choices:[],
+          answers: [{id: "14331237", answer: "不知道"},
+                    {id: "14331182", answer: "我不知道"},
+                    {id: "1433123", answer: "不知道"}]
+        }, {
+          type: 4,
+          stem: "请简述一下你最喜欢的书的情节",
+          choices:[],
+          answers: [{id: "14331237", answer: "最喜欢看杂志"},
+                    {id: "14331182", answer: "最喜欢看电影"}]
+        }
+      ]
+    }
+  ];
+}
 
   // 获取所有测试概要
   getTests(course: string) {
@@ -55,14 +123,17 @@ export class TestService {
   }
 
   // 获取某次测试
-  getTest(course: string, test: string) {
-    console.log(course, test);
+  getTest(courseName: string, testName: string) {
     // TODO 从后端获取测试的信息
     // return this.http.post('/test/get-tests',
-    //                       { course: course, test: test },
+    //                       { course: courseName, test: testName },
     //                       { headers: this.headers })
     //                 .map((res) => res.json());
-    return this.tests[0];
+    var i;
+    for (i = 0; i < this.tests.length; i++) {
+      if (this.tests[i].courseName == courseName && this.tests[i].name == testName)
+        return this.tests[i];
+    }
   }
 
 }
