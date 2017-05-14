@@ -6,6 +6,7 @@ import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
 import { Question } from '../../services/test/question';
 import { Test } from '../../services/test/test';
+import { TestService } from '../../services/test/test.service';
 
 @Component({
   selector: 'app-add-test',
@@ -37,7 +38,8 @@ export class AddTestComponent implements OnInit {
   questionErr: string = '';  // 添加新问题时的报错信息
 
   constructor(private userService: UserService, private router: Router,
-              private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute) {
+              private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute,
+              private testService: TestService) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)
@@ -182,6 +184,7 @@ export class AddTestComponent implements OnInit {
     // 创建试题对象
     let newTest: Test = new Test(this.courseName, this.testTitle, this.startDate,
                                  this.endDate, this.testDetail, this.questions);
+    this.testService.createTest(newTest);
   }
 
 }

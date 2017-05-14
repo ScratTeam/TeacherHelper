@@ -29,25 +29,47 @@ module.exports = function(app, shareData) {
 
   // 后端校验
   testValidator = function(ctx) {
-    // request body 为空
-    if (ctx.request.body == null || ctx.request.body == undefined) {
+    // 重要元素为空
+    if (ctx.request.body == null || ctx.request.body == undefined ||
+		    ctx.request.body.test == null || ctx.request.body.test == undefined) {
       return false;
-    }
-    // 其他校验
-    else {
-      let name = ctx.request.body.name;
-      let startTime = ctx.request.body.startTime;
-      let endTime = ctx.request.body.endTime;
-      let questions = ctx.request.body.questions;
-      // 非法请求
-      if (name == null || name == undefined ||
-        startTime == null || startTime == undefined ||
-        endTime == null || endTime == undefined ||
-        questions == null || questions == undefined ||
-        endTime < startTime) {
+	  } else {
+			let test = ctx.request.body.test;
+      let courseName = test.courseName;
+			let name = test.name;
+			let startTime = test.startTime;
+			let endTime = test.endTime;
+			let detail = test.detail;
+			let questions = test.questions;
+      // 非题目的非法请求
+      if (courseName == null || courseName == undefined || courseName == '' ||
+          name == null || name == undefined || name == '' ||
+          startTime == null || startTime == undefined || startTime < new Date() ||
+          endTime == null || endTime == undefined || endTime < startTime ||
+          detail == null || detail == undefined) {
         return false;
       } else {
-        return true;
+				// 校验题目中的非法请求
+				let isValid = true;
+				questions.forEach((question) => {
+					// 如果为选择题
+					if (question.type == 1 || question.type == 2) {
+						// 校验选项是否为空
+						question.choices.forEach((choice) => {
+							if (choice == '') isValid = false;
+						});
+						// 校验题干是否为空
+						if (question.stem == '') isValid = false;
+					// 如果为填空题
+					} else if (question.type == 3) {
+						if (question.stem == '' || question.stem.indexOf('[空]') < 0)
+						  isValid = false;
+					// 如果为简答题
+					} else if (question.type == 4) {
+						if (question.stem == '') isValid = false;
+					}
+				});
+        return isValid;
       }
     }
   }
@@ -114,4 +136,28 @@ module.exports = function(app, shareData) {
       console.log(error);
     }
   });
+
+	// 创建测验
+	router.post('/create-test', async function(ctx, next) {
+		try {
+			// 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOk: false, message: '401' };
+			// 后端校验
+      } else if (!testValidator(ctx)) {
+				ctx.status = 403;
+		  // 正常情况
+			} else {
+				console.log('success');
+			}
+		} catch(error) {
+			console.log(error);
+		}
+	});
+
+	// 在 app 中打入 routes
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+
+  return router;
 }

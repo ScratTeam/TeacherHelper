@@ -137,4 +137,12 @@ export class TestService {
     return this.tests[0];
   }
 
+  // 创建测试
+  createTest(test: Test) {
+    return this.http.post('/test/create-test',
+                          { test: test },
+                          { headers: this.headers })
+                    .subscribe();
+  }
+
 }
