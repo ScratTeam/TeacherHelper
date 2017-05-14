@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 
 // 定义凭证
 testSchema = {
-  username: String,
-  courseName: String,
 	name: String,
 	startTime: Date,
   endTime: Date,
@@ -35,14 +33,12 @@ module.exports = function(app, shareData) {
     }
     // 其他校验
     else {
-      let courseName = ctx.request.body.courseName;
       let name = ctx.request.body.name;
       let startTime = ctx.request.body.startTime;
       let endTime = ctx.request.body.endTime;
       let questions = ctx.request.body.questions;
       // 非法请求
-      if (courseName == null || courseName == undefined ||
-        name == null || name == undefined ||
+      if (name == null || name == undefined ||
         startTime == null || startTime == undefined ||
         endTime == null || endTime == undefined ||
         questions == null || questions == undefined ||
@@ -55,29 +51,40 @@ module.exports = function(app, shareData) {
   }
 
 	// 获取测试
-  router.post('get-tests', async function(ctx, next) {
+  router.post('/get-tests', async function(ctx, next) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOk: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
-        ctx.request.body.courseName == null || ctx.request.body.courseName == undefined) {
+        ctx.request.body.testIDs == null || ctx.request.body.testIDs == undefined) {
         ctx.status = 403;
       } else {
-        let tests = await Test.find({
-          username: ctx.session.username,
-          courseName: ctx.request.courseName 
+        query_tests = [];
+        // 通过 testID 查找测试
+        testIDs.forEach(function(testID) {
+          await tests = Test.find({ _id: testID });
+          if (tests.length == 1) {
+            query_tests.push(tests[0]);
+          }else {
+            ctx.body = { isOk: false, message: '该测试不存在' };
+          }
         });
-        ctx.body = { isOk: true, tests:[] };
-        tests.foreach(function(test) {
-          ctx.body.tests.push({
-            name: test.name,
-            detail: test.detail,
-            startTime: test.startTime,
-            endTime: test.endTime,
-            questions: test.questions
+        if (query_tests.length > 0) {
+          ctx.body = { isOk: true, query_tests:[] };
+          query_tests.forEach(function(test) {
+            ctx.body.tests.push({
+              name: test.name,
+              detail: test.detail,
+              startTime: test.startTime,
+              endTime: test.endTime,
+              questions: test.questions
+            });
           });
-        });
+          // 课程还没有测试
+        } else {
+          ctx.body = { isOk: true, tests:[] };
+        }
       }
     } catch(error) {
       console.log(error);
@@ -85,34 +92,49 @@ module.exports = function(app, shareData) {
   });
 
   // 获取单个测试
-  router.post('get-test', async function(ctx, next) {
+  router.post('/get-test', async function(ctx, next) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOk: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
-        ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+        ctx.request.body.testIDs == null || ctx.request.body.testIDs == undefined ||
+        ctx.request.body.testIDs.length == 0 ||
         ctx.request.body.name == null || ctx.request.body.name == undefined) {
         ctx.status = 403;
       } else {
-        let tests = await Test.find({ 
-          username: ctx.session.username,
-          courseName: ctx.request.body.courseName,
-          name: ctx.request.body.name });
-        let test = tests[0];
-        ctx.body = {
-          isOk: true,
-          name: test.name,
-          startTime: test.startTime,
-          endTime: test.endTime,
-          detail: test.detail,
-          questions: test.questions
+        query_tests = [];
+        // 通过 testIDs 和测试的名字查询测试
+        testIDs.forEach(function(testID) {
+          let tests = await Test.find({ 
+            _id: testID,
+            name: ctx.request.body.name
+          });
+          if (tests.length == 1) {
+            query_tests.push(tests[0]);
+          }
+        });
+        if (query_tests.length == 1) {
+          let test = query_tests[0];
+          ctx.body = {
+            isOk: true,
+            name: test.name,
+            startTime: test.startTime,
+            endTime: test.endTime,
+            detail: test.detail,
+            questions: test.questions
+          }
+        } else if (query_tests.length == 0) {
+          ctx.body = { isOk: false, message: '该测试不存在' };
+        } else {
+          ctx.body = { isOk: false, message: '同一课程下存在相同名字的测试' };
         }
       }
     } catch(error) {
       console.log(error);
     }
   });
+
 
 
 }
