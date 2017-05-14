@@ -28,9 +28,9 @@ export class TestComponent implements OnInit {
               private snackBar: MdSnackBar, private testService: TestService) {
     activatedRoute.params.subscribe((params: Params) => {
       // 取回测试信息
-      this.test = this.testService.getTest(params['test']);
+      this.test = this.testService.getTest(params['course'], params['test']);
       // 判断是否过期
-      this.valid = new Date() > this.test.endTime;
+      this.valid = new Date() < this.test.endTime;
       this.questions = this.test.questions;
       // 将分析结果初始化为隐藏
       var i;
@@ -44,7 +44,7 @@ export class TestComponent implements OnInit {
   ngOnInit() {}
 
   toDateString(date: Date) {
-    return date.getFullYear() + '/' + date.getMonth() + '/' +
+    return date.getFullYear() + '/' + (date.getMonth()+1) + '/' +
            date.getDate();
   }
 
