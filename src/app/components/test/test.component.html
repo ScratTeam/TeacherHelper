@@ -3,8 +3,7 @@
   <!--如果测试已经结束，显示题目及答题结果-->
   <md-card fxFlex.gt-xs="80" *ngIf="!valid" class="invalid">
     <md-card-title>{{test.name}}</md-card-title>
-    <md-card-subtitle>{{toDateString(test.startTime)}}-
-      {{toDateString(test.endTime)}}</md-card-subtitle>
+    <md-card-subtitle>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
       <div class="questions" *ngFor="let question of questions; let myindex = index">
         <div class="stem">

@@ -3,24 +3,26 @@ const Router = require('koa-router');
 const mongoose = require('mongoose');
 
 // 定义凭证
-testSchema = {
+answerSchema = new mongoose.Schema({
+	id: String,
+	answer: String
+});
+questionSchema = new mongoose.Schema({
+	type: Number,
+	stem: String,
+	choices: [String],
+	answers: [answerSchema],
+	correctStudents: [String],
+});
+testSchema = new mongoose.Schema({
 	username: String,
   courseName: String,
 	name: String,
 	startTime: Date,
   endTime: Date,
   detail: String,
-	questions: [{
-    type: Number,
-    stem: String,
-    choices: [String],
-    answers: [{
-    	id: String,
-    	answer: String
-    }],
-    correctStudents: [String],
-	}]
-};
+	questions: [questionSchema]
+});
 const Test = mongoose.model('Test', testSchema);
 
 module.exports = function(app, shareData) {
@@ -79,7 +81,7 @@ module.exports = function(app, shareData) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOk: false, message: '401' };
+        ctx.body = { isOK: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
                  ctx.request.body.course == null || ctx.request.body.course == undefined) {
         ctx.status = 403;
@@ -99,7 +101,7 @@ module.exports = function(app, shareData) {
             questions: test.questions
           });
         });
-				ctx.body = { isOk: true, tests: queryTests };
+				ctx.body = { isOK: true, tests: queryTests };
       }
     } catch(error) {
       console.log(error);
@@ -111,7 +113,7 @@ module.exports = function(app, shareData) {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOk: false, message: '401' };
+        ctx.body = { isOK: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
                  ctx.request.body.course == null || ctx.request.body.course == undefined ||
                  ctx.request.body.test == null || ctx.request.body.test == undefined) {
@@ -124,7 +126,7 @@ module.exports = function(app, shareData) {
         let tests = await Test.find({ username: ctx.session.username,
 					                            courseName: course, name: test });
         ctx.body = {
-          isOk: true,
+          isOK: true,
           name: tests[0].name,
           startTime: tests[0].startTime,
           endTime: tests[0].endTime,
@@ -142,7 +144,7 @@ module.exports = function(app, shareData) {
 		try {
 			// 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOk: false, message: '401' };
+        ctx.body = { isOK: false, message: '401' };
 			// 后端校验
       } else if (!testValidator(ctx)) {
 				ctx.status = 403;

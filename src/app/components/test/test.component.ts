@@ -28,22 +28,29 @@ export class TestComponent implements OnInit {
               private snackBar: MdSnackBar, private testService: TestService) {
     activatedRoute.params.subscribe((params: Params) => {
       // 取回测试信息
-      this.test = this.testService.getTest(params['course'], params['test']);
-      // 判断是否过期
-      this.valid = new Date() < this.test.endTime;
-      this.questions = this.test.questions;
-      // 将分析结果初始化为隐藏
-      var i;
-      for (i = 0; i < this.questions.length; i++) {
-        this.analyseHide.push(true);
-        this.answersNumber.push(this.questions[i].answers.length);
-      }
+      let that = this;
+      this.testService.getTest(params['course'], params['test']).subscribe((data) => {
+        that.test = data;
+        // TODO 根据用户的不同而决定不同的行为
+        if (data.isOK) console.log('教师打开了这个页面');
+        else console.log('学生打开了这个页面');
+        // 判断是否过期
+        that.valid = new Date() < that.test.endTime;
+        that.questions = that.test.questions;
+        // 将分析结果初始化为隐藏
+        var i;
+        for (i = 0; i < that.questions.length; i++) {
+          that.analyseHide.push(true);
+          that.answersNumber.push(that.questions[i].answers.length);
+        }
+      });
     });
   }
 
   ngOnInit() {}
 
-  toDateString(date: Date) {
+  toDateString(date_: Date) {
+    let date = new Date(date_);
     return date.getFullYear() + '/' + (date.getMonth()+1) + '/' +
            date.getDate();
   }

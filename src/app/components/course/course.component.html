@@ -39,8 +39,7 @@
               </md-list-item>
               <md-list-item class="testList" *ngFor="let test of displayTests; let myindex = index">
                 <p fxFlex="33" (click)=gotoTest(test)>{{test.name}}</p>
-                <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}}-
-                  {{toDateString(test.endTime)}}</p>
+                <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myindex)}}</p>
                 <button fxFlex="40px" md-icon-button class="share-button" (click)="shareTest(test.name)">
                   <md-icon>share</md-icon>

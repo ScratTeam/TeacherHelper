@@ -58,11 +58,15 @@ export class CourseComponent implements OnInit {
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
 
-      this.tests = this.testService.getTests(params['course']);
-      // 设置当前显示的测试列表
-      this.displayTests = this.tests.slice(0, 8);
-      let totalPages = Math.ceil(this.tests.length / 8);
-      for (let i = 1; i <= totalPages; i++) this.testsPages.push(i);
+      // 取回测试信息
+      let that = this;
+      this.testService.getTests(params['course']).subscribe((data) => {
+        that.tests = data;
+        // 设置当前显示的测试列表
+        that.displayTests = that.tests.slice(0, 8);
+        let totalPages = Math.ceil(that.tests.length / 8);
+        for (let i = 1; i <= totalPages; i++) that.testsPages.push(i);
+      });
     });
   }
 
@@ -121,7 +125,8 @@ export class CourseComponent implements OnInit {
   }
 
   // 转换日期格式
-  toDateString(date: Date) {
+  toDateString(date_: Date) {
+    let date = new Date(date_);
     return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
            date.getDate();
   }
