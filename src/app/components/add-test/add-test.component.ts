@@ -184,7 +184,14 @@ export class AddTestComponent implements OnInit {
     // 创建试题对象
     let newTest: Test = new Test(this.courseName, this.testTitle, this.startDate,
                                  this.endDate, this.testDetail, this.questions);
-    this.testService.createTest(newTest);
+    this.testService.createTest(newTest).subscribe((data) => {
+      if (data.isOK) {
+        this.snackBar.open('测试创建成功', '知道了', { duration: 2000 });
+        this.router.navigate(['/course', this.user.username, this.courseName]);
+      } else {
+        this.testErr = data.message;
+      }
+    });
   }
 
 }

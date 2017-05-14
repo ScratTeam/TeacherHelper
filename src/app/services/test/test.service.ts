@@ -142,7 +142,7 @@ export class TestService {
     return this.http.post('/test/create-test',
                           { test: test },
                           { headers: this.headers })
-                    .subscribe();
+                    .map((res) => res.json())
   }
 
 }

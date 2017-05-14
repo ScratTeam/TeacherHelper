@@ -148,7 +148,37 @@ module.exports = function(app, shareData) {
 				ctx.status = 403;
 		  // 正常情况
 			} else {
-				console.log('success');
+				let raw = ctx.request.body.test;
+				// 检查该测试是否已存在
+				let tests = await Test.find({ username: ctx.session.username,
+					                            courseName: raw.courseName,
+																			name: raw.name });
+				if (tests.length == 0) {
+					// 创建新的 test 框架
+					let test = new Test({
+						username: ctx.session.username,
+						courseName: raw.courseName,
+						name: raw.name,
+						startTime: raw.startTime,
+						endTime: raw.endTime,
+						detail: raw.detail,
+						questions: []
+					});
+					// 将问题放入 test
+					raw.questions.forEach((question, index) => {
+						test.questions[index] = {
+							type: question.type,
+							stem: question.stem,
+							choices: question.choices,
+							answers: [],
+							correctStudents: []
+						};
+					});
+					await test.save();
+					ctx.body = { isOK: true };
+				} else {
+					ctx.body = { isOK: false, message: '该测试已存在，请使用其他的测试名' };
+				}
 			}
 		} catch(error) {
 			console.log(error);
