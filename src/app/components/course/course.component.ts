@@ -57,8 +57,8 @@ export class CourseComponent implements OnInit {
         let totalPages = Math.ceil(data.students.length / 8);
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
-      // 取回测试信息
-      this.tests = this.testService.getTests();
+
+      this.tests = this.testService.getTests(params['course']);
       // 设置当前显示的测试列表
       this.displayTests = this.tests.slice(0, 8);
       let totalPages = Math.ceil(this.tests.length / 8);

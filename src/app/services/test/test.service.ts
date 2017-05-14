@@ -45,14 +45,23 @@ export class TestService {
   }
 
   // 获取所有测试概要
-  getTests() {
+  getTests(course: string) {
     // TODO 从后端获取测试信息
+    // return this.http.post('/test/get-tests',
+    //                       { course: course },
+    //                       { headers: this.headers })
+    //                 .map((res) => res.json());
     return this.tests;
   }
 
   // 获取某次测试
-  getTest(test) {
+  getTest(course: string, test: string) {
+    console.log(course, test);
     // TODO 从后端获取测试的信息
+    // return this.http.post('/test/get-tests',
+    //                       { course: course, test: test },
+    //                       { headers: this.headers })
+    //                 .map((res) => res.json());
     return this.tests[0];
   }
 

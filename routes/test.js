@@ -108,7 +108,7 @@ module.exports = function(app, shareData) {
         let testIDs = ctx.request.body.testIDs;
         // 通过 testIDs 和测试的名字查询测试
         for (var i = 0; i < testIDs.length; i++) {
-          let tests = await Test.find({ 
+          let tests = await Test.find({
             _id: testIDs[i],
             name: ctx.request.body.name
           });
