@@ -187,6 +187,62 @@ module.exports = function(app, shareData) {
 		}
 	});
 
+  router.post('/update-test', async function(ctx, next) {
+    try {
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      // 后端校验
+      } else if (!testValidator(ctx)) {
+        ctx.status = 403;
+      // 正常情况
+      } else {
+        let raw = ctx.request.body.test;
+        let tests = Test.find({ username: ctx.session.username,
+                                courseName: raw.courseName,
+                                name: ctx.request.body.oldName});
+        let tests_ = Test.find({ username: ctx.session.username,
+                                courseName: raw.courseName,
+                                name: raw.name});
+        // 测试名未被占用
+        if (tests_.length == 0 || ctx.request.body.oldName == raw.name) {
+          // 更新该测试
+          let test = tests[0];
+          test.name = raw.name;
+          test.detail = raw.detail;
+          test.startTime = raw.startTime;
+          test.endTime = raw.endTime;
+          test.questions = [];
+          // 将问题放入 test
+          raw.questions.forEach((question, index) => {
+            test.questions[index] = {
+              type: question.type,
+              stem: question.stem,
+              choices: question.choices,
+              answers: [],
+              correctStudents: []
+            }
+          });
+          await test.save();
+
+          ctx.body = {
+            isOK: true,
+            name: test.name,
+            detail: test.detail,
+            startTime: test.startTime,
+            endTime: test.endTime,
+            questions: test.questions
+          };
+        // 该测试存在
+        } else {
+          ctx.body = { isOK: false, message:'已存在同名测试' };
+        }
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  });
+
 	// 在 app 中打入 routes
   app.use(router.routes());
   app.use(router.allowedMethods());
