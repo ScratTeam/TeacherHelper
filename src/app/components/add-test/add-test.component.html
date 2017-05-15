@@ -76,10 +76,10 @@
         <!-- 显示编辑框 -->
         <div class="edit-question" fxHide={{editHide[i]}}>
           <md-radio-group [(ngModel)]="question.type">
-            <md-radio-button [value]="1" checked="question.type == 1" (click)="editClear()">单选题</md-radio-button>
-            <md-radio-button [value]="2" checked="question.type == 2" (click)="editClear()">多选题</md-radio-button>
-            <md-radio-button [value]="3" checked="question.type == 3" (click)="editClear()">填空题</md-radio-button>
-            <md-radio-button [value]="4" checked="question.type == 4" (click)="editClear()">简答题</md-radio-button>
+            <md-radio-button [value]="1" checked="question.type == 1" (click)="editClear(i)">单选题</md-radio-button>
+            <md-radio-button [value]="2" checked="question.type == 2" (click)="editClear(i)">多选题</md-radio-button>
+            <md-radio-button [value]="3" checked="question.type == 3" (click)="editClear(i)">填空题</md-radio-button>
+            <md-radio-button [value]="4" checked="question.type == 4" (click)="editClear(i)">简答题</md-radio-button>
           </md-radio-group>
           <div *ngIf="question.type == 1" class="question-format">
             <md-input-container class="stem">
@@ -92,7 +92,7 @@
                 <md-icon>delete</md-icon>
               </button>
             </div>
-            <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+            <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
           </div>
           <div *ngIf="question.type == 2" class="question-format">
             <md-input-container class="stem">
@@ -105,7 +105,7 @@
                 <md-icon>delete</md-icon>
               </button>
             </div>
-            <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+            <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
           </div>
           <div *ngIf="question.type == 3" class="question-format">
             <md-input-container class="stem">

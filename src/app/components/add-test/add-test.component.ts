@@ -92,36 +92,31 @@ export class AddTestComponent implements OnInit {
     this.choices = [{ value: '' }, { value: '' }];
   }
 
-  // 提交新的问题
-  submitQuestion() {
-    // 如果为选择题
-    if (this.newQuestion.type == 1 || this.newQuestion.type == 2) {
-      let error = '';
-      // 校验选项是否为空
-      this.choices.forEach((choice, index) => {
+  // 对提交的题目信息进行校验
+  checkSubmitQuestion(type_, choices_, stem_) {
+    let error = '';
+    if (type_ == 1 || type_ == 2) {
+      if (stem_ == '')
+        error = '选择题题干不能为空';
+      choices_.forEach((choice, index) => {
         if (choice.value == '')
           error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
       });
-      // 校验题干是否为空
-      if (this.newQuestion.stem == '')
-        this.questionErr = '选择题题干不能为空';
-      else if (error != '')
-        this.questionErr = error;
-      else
-        this.questionErr = '';
-    // 如果为填空题
-    } else if (this.newQuestion.type == 3) {
-      if (this.newQuestion.stem == '')
-        this.questionErr = '填空题题干不能为空';
-      else if (this.newQuestion.stem.indexOf('[空]') < 0)
-        this.questionErr = '填空题题干中至少需要包含一个空';
-      else
-        this.questionErr = '';
-    // 如果为简答题
-    } else if (this.newQuestion.type == 4) {
-      if (this.newQuestion.stem == '')
-        this.questionErr = '简答题题干不能为空';
+    } else if (type_ == 3) {
+      if (stem_ == '')
+        error = '填空题题干不能为空';
+      else if (stem_.indexOf('[空]') < 0)
+        error = '填空题题干中至少需要包含一个空';
+    } else if (type_ == 4) {
+      if (stem_ == '')
+        error = '简答题题干不能为空';
     }
+    return error;
+  }
+
+  // 提交新的问题
+  submitQuestion() {
+    this.questionErr = this.checkSubmitQuestion(this.newQuestion.type, this.choices, this.newQuestion.stem);
 
     if (this.questionErr != '') return;
     // 为题目添加选项
@@ -149,30 +144,20 @@ export class AddTestComponent implements OnInit {
     }
   }
 
-  // 提交某个编译好了的问题
-  submitEditedQuestion(index) {
-    // TODO 对修改的信息进行校验
-    if (this.questions[index].type == 1 || this.questions[index].type == 2) {
-      for (var i = 0; i < this.tempChoices.length; i++) {
-        this.questions[index].choices[i] = this.tempChoices[i].value;
-      }
-    } else {
-      this.questions[index].choices = [];
-    }
-  }
-
   // 修改某个问题
   editQuestion(index: number) {
     this.editHide[index] = false;
+    this.tempChoices = [];
     for (var i = 0; i < this.questions[index].choices.length; i++) {
       this.tempChoices.push({value: this.questions[index].choices[i]});
     }
   }
 
   // 清空编辑时的报错信息
-  editClear() {
+  editClear(index: number) {
     this.editedQuestionErr = '';
     this.tempChoices = [{ value: '' }, { value: '' }];
+    this.questions[index].stem = "";
   }
 
   // 删除编辑时的报错信息
@@ -182,6 +167,15 @@ export class AddTestComponent implements OnInit {
       return;
     }
     this.tempChoices.splice(index, 1);
+  }
+
+  // 添加新的选项
+  addNewEditChoice() {
+    if (this.tempChoices.length >= 6) {
+      this.snackBar.open('选择题选项不能超过 6 个', '知道了', { duration: 2000 });
+      return;
+    }
+    this.tempChoices.push({ value: '' });
   }
 
   // 上移某题
@@ -196,6 +190,21 @@ export class AddTestComponent implements OnInit {
     let temp = this.questions[index + 1];
     this.questions[index + 1] = this.questions[index];
     this.questions[index] = temp;
+  }
+
+  // 提交某个编译好了的问题
+  submitEditedQuestion(index) {
+    this.editedQuestionErr = this.checkSubmitQuestion(this.questions[index].type, this.tempChoices, this.questions[index].stem);
+    if (this.editedQuestionErr != '') return;
+
+    this.questions[index].choices = [];
+    // 为题目添加选项
+    this.tempChoices.forEach((choice) => {
+      this.questions[index].choices.push(choice.value);
+    });
+    // 清空
+    this.tempChoices = [{ value: '' }, { value: '' }];
+    this.editHide[index] = true;
   }
 
   // 创建新的试题
