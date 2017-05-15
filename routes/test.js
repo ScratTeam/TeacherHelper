@@ -187,6 +187,7 @@ module.exports = function(app, shareData) {
 		}
 	});
 
+  // 更新测试
   router.post('/update-test', async function(ctx, next) {
     try {
       // 若请求不包含用户名，则未授权
@@ -198,10 +199,10 @@ module.exports = function(app, shareData) {
       // 正常情况
       } else {
         let raw = ctx.request.body.test;
-        let tests = Test.find({ username: ctx.session.username,
+        let tests = await Test.find({ username: ctx.session.username,
                                 courseName: raw.courseName,
                                 name: ctx.request.body.oldName});
-        let tests_ = Test.find({ username: ctx.session.username,
+        let tests_ = await Test.find({ username: ctx.session.username,
                                 courseName: raw.courseName,
                                 name: raw.name});
         // 测试名未被占用
@@ -237,6 +238,30 @@ module.exports = function(app, shareData) {
         } else {
           ctx.body = { isOK: false, message:'已存在同名测试' };
         }
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  });
+
+  // 删除测试
+  router.post('/delete-test', async function(ctx, next) {
+    try {
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+        ctx.request.body.course == null || ctx.request.body.course == undefined ||
+        ctx.request.body.test == null || ctx.request.body.test == undefined) {
+        ctx.status = 403;
+      } else {
+        // 通过 course 和 testName 查找需要删除的测试
+        let tests = await Test.find({ username: ctx.session.username,
+                                      courseName: ctx.request.body.course,
+                                      name: ctx.request.body.test});
+        let test = tests[0];
+        await test.remove();
+        ctx.body = { isOK: true };
       }
     } catch(error) {
       console.log(error);
