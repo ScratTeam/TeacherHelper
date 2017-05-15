@@ -36,6 +36,8 @@ export class AddTestComponent implements OnInit {
   indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];  // 选择题选项字母
   choices = [{ value: '' }, { value: '' }];  // 选项
   questionErr: string = '';  // 添加新问题时的报错信息
+  // 是否显示编辑界面
+  editHide : Boolean[] = [];
 
   constructor(private userService: UserService, private router: Router,
               private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute,
@@ -128,6 +130,11 @@ export class AddTestComponent implements OnInit {
     this.choices = [{ value: '' }, { value: '' }];
     this.questions.push(this.newQuestion);
     this.newQuestion = new Question(1, '', [], []);
+    this.editHide.push(true);
+  }
+
+  submitEditedQuestion(i) {
+    console.log(this.questions[i]);
   }
 
   // 重新编译题干
@@ -142,6 +149,11 @@ export class AddTestComponent implements OnInit {
   // 删除某个问题
   deleteQuestion(index: number) {
     this.questions.splice(index, 1);
+  }
+
+  // 修改某个问题
+  editQuestion(index: number) {
+    this.editHide[index] = false;
   }
 
   // 上移某题
