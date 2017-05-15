@@ -35,7 +35,9 @@ export class AddTestComponent implements OnInit {
   // 试题相关变量
   indices = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.'];  // 选择题选项字母
   choices = [{ value: '' }, { value: '' }];  // 选项
+  tempChoices = [];
   questionErr: string = '';  // 添加新问题时的报错信息
+  editedQuestionErr: string = ''; // 编辑问题提交时的报错信息
   // 是否显示编辑界面
   editHide : Boolean[] = [];
 
@@ -133,8 +135,9 @@ export class AddTestComponent implements OnInit {
     this.editHide.push(true);
   }
 
-  submitEditedQuestion(i) {
-    console.log(this.questions[i]);
+  // 删除某个问题
+  deleteQuestion(index: number) {
+    this.questions.splice(index, 1);
   }
 
   // 重新编译题干
@@ -146,14 +149,39 @@ export class AddTestComponent implements OnInit {
     }
   }
 
-  // 删除某个问题
-  deleteQuestion(index: number) {
-    this.questions.splice(index, 1);
+  // 提交某个编译好了的问题
+  submitEditedQuestion(index) {
+    // TODO 对修改的信息进行校验
+    if (this.questions[index].type == 1 || this.questions[index].type == 2) {
+      for (var i = 0; i < this.tempChoices.length; i++) {
+        this.questions[index].choices[i] = this.tempChoices[i].value;
+      }
+    } else {
+      this.questions[index].choices = [];
+    }
   }
 
   // 修改某个问题
   editQuestion(index: number) {
     this.editHide[index] = false;
+    for (var i = 0; i < this.questions[index].choices.length; i++) {
+      this.tempChoices.push({value: this.questions[index].choices[i]});
+    }
+  }
+
+  // 清空编辑时的报错信息
+  editClear() {
+    this.editedQuestionErr = '';
+    this.tempChoices = [{ value: '' }, { value: '' }];
+  }
+
+  // 删除编辑时的报错信息
+  deleteEditchoice(index: number) {
+    if (this.tempChoices.length <= 2) {
+      this.snackBar.open('选择题选项不能少于两个', '知道了', { duration: 2000 });
+      return;
+    }
+    this.tempChoices.splice(index, 1);
   }
 
   // 上移某题

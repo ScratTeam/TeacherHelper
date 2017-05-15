@@ -76,19 +76,19 @@
         <!-- 显示编辑框 -->
         <div class="edit-question" fxHide={{editHide[i]}}>
           <md-radio-group [(ngModel)]="question.type">
-            <md-radio-button [value]="1" checked="question.type == 1" (click)="clear()">单选题</md-radio-button>
-            <md-radio-button [value]="2" checked="question.type == 2" (click)="clear()">多选题</md-radio-button>
-            <md-radio-button [value]="3" checked="question.type == 3" (click)="clear()">填空题</md-radio-button>
-            <md-radio-button [value]="4" checked="question.type == 4" (click)="clear()">简答题</md-radio-button>
+            <md-radio-button [value]="1" checked="question.type == 1" (click)="editClear()">单选题</md-radio-button>
+            <md-radio-button [value]="2" checked="question.type == 2" (click)="editClear()">多选题</md-radio-button>
+            <md-radio-button [value]="3" checked="question.type == 3" (click)="editClear()">填空题</md-radio-button>
+            <md-radio-button [value]="4" checked="question.type == 4" (click)="editClear()">简答题</md-radio-button>
           </md-radio-group>
           <div *ngIf="question.type == 1" class="question-format">
             <md-input-container class="stem">
               <input mdInput placeholder="单选题题干" [(ngModel)]="question.stem">
             </md-input-container>
-            <div class="choice-container" *ngFor="let choice of question.choices; let i_ = index">
+            <div class="choice-container" *ngFor="let choice of tempChoices; let i_ = index">
               <span class="index">{{indices[i_]}}</span>
-              <input class="choice" value={{choice}}>
-              <button md-icon-button (click)="deleteChoice(i_)">
+              <input class="choice" [(ngModel)]="choice.value">
+              <button md-icon-button (click)="deleteEditchoice(i_)">
                 <md-icon>delete</md-icon>
               </button>
             </div>
@@ -98,10 +98,10 @@
             <md-input-container class="stem">
               <input mdInput placeholder="多选题题干" [(ngModel)]="question.stem">
             </md-input-container>
-            <div class="choice-container" *ngFor="let choice of question.choices; let i_ = index">
+            <div class="choice-container" *ngFor="let choice of tempChoices; let i_ = index">
               <span class="index">{{indices[i_]}}</span>
-              <input class="choice">
-              <button md-icon-button (click)="deleteChoice(i_)">
+              <input class="choice" [(ngModel)]="choice.value">
+              <button md-icon-button (click)="deleteEditchoice(i_)">
                 <md-icon>delete</md-icon>
               </button>
             </div>
