@@ -133,11 +133,11 @@ export class CourseComponent implements OnInit {
 
   // 判断当前的测试的状态
   checkState(myindex) {
-    if (this.tests[myindex].startTime > new Date()) {
+    if (new Date(this.tests[myindex].startTime) > new Date()) {
       return "未开始";
-    } else if (this.tests[myindex].endTime > new Date()) {
+    } else if (new Date(this.tests[myindex].endTime) > new Date()) {
       return "正在进行中";
-    } else {
+    } else if (new Date(this.tests[myindex].endTime) < new Date()) {
       return "已结束";
     }
   }

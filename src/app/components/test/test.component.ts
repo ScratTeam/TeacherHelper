@@ -35,7 +35,7 @@ export class TestComponent implements OnInit {
         if (data.isOK) console.log('教师打开了这个页面');
         else console.log('学生打开了这个页面');
         // 判断是否过期
-        that.valid = new Date() < that.test.endTime;
+        that.valid = new Date() < new Date(that.test.endTime);
         that.questions = that.test.questions;
         // 将分析结果初始化为隐藏
         var i;
