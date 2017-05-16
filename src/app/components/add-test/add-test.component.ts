@@ -66,9 +66,8 @@ export class AddTestComponent implements OnInit {
       this.courseName = params['course'];
       // 如果是编辑页面，加载试题信息
       if (params['test'] != undefined && params['test'] != null) {
-        // TODO 将原试题的题目增加到编辑界面
         this.testService.getTest(params['course'], params['test']).subscribe((data) => {
-          if (data.isOK == true) {
+          if (data.isOK) {
             this.testTitle = data.name;
             this.testDetail = data.detail;
             this.startDate = new Date(data.startTime);
@@ -81,7 +80,8 @@ export class AddTestComponent implements OnInit {
               this.questions.push(new Question(data.questions[i].type, data.questions[i].stem, data.questions[i].choices, data.questions[i].answers));
               this.editHide.push(true);
             }
-            console.log(this.questions);
+          } else {
+            this.router.navigate(['/login', 'sign-in']);
           }
         });
       }
