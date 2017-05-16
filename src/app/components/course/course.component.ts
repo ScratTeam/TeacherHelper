@@ -142,11 +142,21 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  // 生成二维码
+  // 生成二维码，分享课程
   shareTest(testName) {
     let config = new MdDialogConfig();
     let dialogRef: MdDialogRef<ShareTestComponent> = this.dialog.open(ShareTestComponent, config);
     dialogRef.componentInstance.testUrl = this.router.url + testName;
+  }
+
+  // 跳转到编辑试题页面
+  editTest(testName) {
+    this.router.navigate(['/edit-test', this.user.username, this.course.name, testName]);
+  }
+
+  // 删除试题
+  deleteTest(testName) {
+    // TODO 删除试题
   }
 
 }

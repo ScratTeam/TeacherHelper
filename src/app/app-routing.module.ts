@@ -38,6 +38,10 @@ const appRouters: Routes = [
   {
     path: 'add-test/:username/:course',
     component: AddTestComponent
+  },
+  {
+    path: 'edit-test/:username/:course/:test',
+    component: AddTestComponent
   }
 ];
 

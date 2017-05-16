@@ -49,11 +49,11 @@
                     <md-icon>share</md-icon>
                     <span>分享</span>
                   </button>
-                  <button md-menu-item>
+                  <button md-menu-item (click)="editTest(test.name)">
                     <md-icon>edit</md-icon>
                     <span>编辑</span>
                   </button>
-                  <button md-menu-item>
+                  <button md-menu-item (click)="deleteTest(test.name)">
                     <md-icon>delete</md-icon>
                     <span>删除</span>
                   </button>

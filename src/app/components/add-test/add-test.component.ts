@@ -64,6 +64,27 @@ export class AddTestComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       // 取回课程信息
       this.courseName = params['course'];
+      // 如果是编辑页面，加载试题信息
+      if (params['test'] != undefined && params['test'] != null) {
+        // TODO 将原试题的题目增加到编辑界面
+        this.testService.getTest(params['course'], params['test']).subscribe((data) => {
+          if (data.isOK == true) {
+            this.testTitle = data.name;
+            this.testDetail = data.detail;
+            this.startDate = new Date(data.startTime);
+            this.endDate = new Date(data.endTime);
+            this.startHour = (this.startDate.getHours()).toString() + ' 点';
+            this.endHour = (this.endDate.getHours()).toString() + ' 点';
+            this.startMin = (this.startDate.getMinutes()).toString() + ' 分';
+            this.endMin = (this.endDate.getMinutes()).toString() + ' 分';
+            for (var i = 0; i < data.questions.length; i++) {
+              this.questions.push(new Question(data.questions[i].type, data.questions[i].stem, data.questions[i].choices, data.questions[i].answers));
+              this.editHide.push(true);
+            }
+            console.log(this.questions);
+          }
+        });
+      }
     });
   }
 
