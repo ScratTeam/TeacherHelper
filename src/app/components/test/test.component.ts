@@ -173,8 +173,14 @@ export class TestComponent implements OnInit {
     }
   }
 
+  // 隐藏题目显示
   expandLess(index) {
     this.analyseHide[index] = true;
+  }
+
+  // 有效时可以提交题目按钮
+  submitTest() {
+    // TODO 校验学生的学号和姓名是否在该课程的数据库中
   }
 
 }
