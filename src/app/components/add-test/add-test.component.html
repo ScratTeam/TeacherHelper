@@ -26,7 +26,7 @@
           <md-option *ngFor="let minute of minutes" [value]="minute">{{minute}}</md-option>
         </md-select>
       </div>
-      <div class="error-message">{{testErr}}</div>
+      <div class="error-message" *ngIf="testErr != ''">{{testErr}}</div>
       <div class="upload-button-container">
         <button md-raised-button class="upload-button" (click)="createTest()">提 交</button>
       </div>
@@ -118,7 +118,7 @@
               <input mdInput placeholder="简答题题干" [(ngModel)]="question.stem">
             </md-input-container>
           </div>
-          <div class="error-message">{{editedQuestionErr}}</div>
+          <div class="error-message" *ngIf="editedQuestionErr != ''">{{editedQuestionErr}}</div>
           <div class="button-container">
             <button md-raised-button class="submit-button" (click)="submitEditedQuestion(i)">修 改</button>
           </div>
@@ -171,7 +171,7 @@
           <input mdInput placeholder="简答题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
       </div>
-      <div class="error-message">{{questionErr}}</div>
+      <div class="error-message" *ngIf="questionErr != ''">{{questionErr}}</div>
       <div class="button-container">
         <button md-raised-button class="submit-button" (click)="submitQuestion()">添 加</button>
       </div>
