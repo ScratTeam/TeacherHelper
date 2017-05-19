@@ -194,17 +194,18 @@ module.exports = function(app, shareData) {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
       // 后端校验
-      } else if (!testValidator(ctx)) {
+		  } else if (!testValidator(ctx) ||
+		             ctx.request.body.oldName == null || ctx.request.body.oldName == undefined) {
         ctx.status = 403;
       // 正常情况
       } else {
         let raw = ctx.request.body.test;
         let tests = await Test.find({ username: ctx.session.username,
-                                courseName: raw.courseName,
-                                name: ctx.request.body.oldName});
+                                      courseName: raw.courseName,
+                                      name: ctx.request.body.oldName });
         let tests_ = await Test.find({ username: ctx.session.username,
-                                courseName: raw.courseName,
-                                name: raw.name});
+                                       courseName: raw.courseName,
+                                       name: raw.name });
         // 测试名未被占用
         if (tests_.length == 0 || ctx.request.body.oldName == raw.name) {
           // 更新该测试

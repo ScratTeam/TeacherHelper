@@ -40,9 +40,9 @@ export class TestService {
   }
 
   // 更新测试
-  updateTest(test: Test) {
+  updateTest(test: Test, oldName: string) {
     return this.http.post('/test/update-test',
-                          { test: test },
+                          { test: test, oldName: oldName },
                           { headers: this.headers })
                     .map((res) => res.json())
   }

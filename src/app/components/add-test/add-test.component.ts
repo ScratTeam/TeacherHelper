@@ -41,7 +41,8 @@ export class AddTestComponent implements OnInit {
 
   // 编辑页面
   editHide: boolean[] = [];  // 是否显示编辑界面
-  isEdit: boolean = false;
+  isEdit: boolean = false;  // 是否被编辑
+  oldName: string;  // 旧测试名
 
   constructor(private userService: UserService, private router: Router,
               private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute,
@@ -72,6 +73,7 @@ export class AddTestComponent implements OnInit {
       if (this.isEdit) {
         this.testService.getTest(params['course'], params['test']).subscribe((data) => {
           if (data.isOK) {
+            this.oldName = data.name;
             this.testTitle = data.name;
             this.testDetail = data.detail;
             this.startDate = new Date(data.startTime);
@@ -270,7 +272,7 @@ export class AddTestComponent implements OnInit {
         }
       });
     } else {
-      this.testService.updateTest(newTest).subscribe((data) => {
+      this.testService.updateTest(newTest, this.oldName).subscribe((data) => {
         if (data.isOK) {
           this.snackBar.open('测试更新成功', '知道了', { duration: 2000 });
           this.router.navigate(['/course', this.user.username, this.courseName]);
