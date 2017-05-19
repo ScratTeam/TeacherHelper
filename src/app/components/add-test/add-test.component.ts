@@ -38,8 +38,10 @@ export class AddTestComponent implements OnInit {
   tempChoices = [];
   questionErr: string = '';  // 添加新问题时的报错信息
   editedQuestionErr: string = ''; // 编辑问题提交时的报错信息
-  // 是否显示编辑界面
-  editHide : Boolean[] = [];
+
+  // 编辑页面
+  editHide: boolean[] = [];  // 是否显示编辑界面
+  isEdit: boolean = false;
 
   constructor(private userService: UserService, private router: Router,
               private snackBar: MdSnackBar, private activatedRoute: ActivatedRoute,
@@ -65,7 +67,9 @@ export class AddTestComponent implements OnInit {
       // 取回课程信息
       this.courseName = params['course'];
       // 如果是编辑页面，加载试题信息
-      if (params['test'] != undefined && params['test'] != null) {
+      if (params['test'] != undefined && params['test'] != null)
+        this.isEdit = true;
+      if (this.isEdit) {
         this.testService.getTest(params['course'], params['test']).subscribe((data) => {
           if (data.isOK) {
             this.testTitle = data.name;
@@ -176,6 +180,7 @@ export class AddTestComponent implements OnInit {
 
   // 清空编辑时的报错信息
   editClear(index: number) {
+    console.log(this.questions[index].type);
     this.editedQuestionErr = '';
     this.tempChoices = [{ value: '' }, { value: '' }];
     this.questions[index].stem = "";
@@ -229,7 +234,7 @@ export class AddTestComponent implements OnInit {
   }
 
   // 创建新的试题
-  createTest() {
+  createTest(isNew: boolean) {
     // 截取出数字
     let startHour: number = parseInt(this.startHour.split(' ')[0]);
     let endHour: number = parseInt(this.endHour.split(' ')[0]);
@@ -254,14 +259,26 @@ export class AddTestComponent implements OnInit {
     // 创建试题对象
     let newTest: Test = new Test(this.courseName, this.testTitle, this.startDate,
                                  this.endDate, this.testDetail, this.questions);
-    this.testService.createTest(newTest).subscribe((data) => {
-      if (data.isOK) {
-        this.snackBar.open('测试创建成功', '知道了', { duration: 2000 });
-        this.router.navigate(['/course', this.user.username, this.courseName]);
-      } else {
-        this.testErr = data.message;
-      }
-    });
+    // 判断是创建新的试题还是更新试题
+    if (isNew) {
+      this.testService.createTest(newTest).subscribe((data) => {
+        if (data.isOK) {
+          this.snackBar.open('测试创建成功', '知道了', { duration: 2000 });
+          this.router.navigate(['/course', this.user.username, this.courseName]);
+        } else {
+          this.testErr = data.message;
+        }
+      });
+    } else {
+      this.testService.updateTest(newTest).subscribe((data) => {
+        if (data.isOK) {
+          this.snackBar.open('测试更新成功', '知道了', { duration: 2000 });
+          this.router.navigate(['/course', this.user.username, this.courseName]);
+        } else {
+          this.testErr = data.message;
+        }
+      });
+    }
   }
 
 }

@@ -28,7 +28,8 @@
       </div>
       <div class="error-message" *ngIf="testErr != ''">{{testErr}}</div>
       <div class="upload-button-container">
-        <button md-raised-button class="upload-button" (click)="createTest()">提 交</button>
+        <button *ngIf="isEdit == false" md-raised-button class="upload-button" (click)="createTest(true)">提 交</button>
+        <button *ngIf="isEdit" md-raised-button class="upload-button" (click)="createTest(false)">更 新</button>
       </div>
     </md-card>
     <md-card class="question" *ngIf="questions.length != 0">
@@ -76,10 +77,10 @@
         <!-- 显示编辑框 -->
         <div class="edit-question" fxHide={{editHide[i]}}>
           <md-radio-group [(ngModel)]="question.type">
-            <md-radio-button [value]="1" checked="question.type == 1" (click)="editClear(i)">单选题</md-radio-button>
-            <md-radio-button [value]="2" checked="question.type == 2" (click)="editClear(i)">多选题</md-radio-button>
-            <md-radio-button [value]="3" checked="question.type == 3" (click)="editClear(i)">填空题</md-radio-button>
-            <md-radio-button [value]="4" checked="question.type == 4" (click)="editClear(i)">简答题</md-radio-button>
+            <md-radio-button [value]="1" (click)="editClear(i)">单选题</md-radio-button>
+            <md-radio-button [value]="2" (click)="editClear(i)">多选题</md-radio-button>
+            <md-radio-button [value]="3" (click)="editClear(i)">填空题</md-radio-button>
+            <md-radio-button [value]="4" (click)="editClear(i)">简答题</md-radio-button>
           </md-radio-group>
           <div *ngIf="question.type == 1" class="question-format">
             <md-input-container class="stem">
@@ -121,6 +122,7 @@
           <div class="error-message" *ngIf="editedQuestionErr != ''">{{editedQuestionErr}}</div>
           <div class="button-container">
             <button md-raised-button class="submit-button" (click)="submitEditedQuestion(i)">修 改</button>
+            <div class="place-holder"></div>
           </div>
         </div>
       </div>

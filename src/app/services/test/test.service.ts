@@ -39,4 +39,12 @@ export class TestService {
                     .map((res) => res.json())
   }
 
+  // 更新测试
+  updateTest(test: Test) {
+    return this.http.post('/test/update-test',
+                          { test: test },
+                          { headers: this.headers })
+                    .map((res) => res.json())
+  }
+
 }
