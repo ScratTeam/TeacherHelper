@@ -156,7 +156,24 @@ export class CourseComponent implements OnInit {
 
   // 删除试题
   deleteTest(testName) {
-    // TODO 删除试题
+    this.testService.deleteTest(this.course.name, testName).subscribe((data) => {
+      if (data.isOK) {
+        // 删除前端数据
+        for (let i = 0; i < this.tests.length; i++) {
+          if (this.tests[i].name == testName)
+            this.tests.splice(i, 1);
+        }
+        // 重新设置当前显示的测试列表
+        this.displayTests = this.tests.slice(0, 8);
+        let totalPages = Math.ceil(this.tests.length / 8);
+        this.testsPages = [];
+        for (let i = 1; i <= totalPages; i++) this.testsPages.push(i);
+        // 显示提示信息
+        this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+      } else {
+        this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
   }
 
 }

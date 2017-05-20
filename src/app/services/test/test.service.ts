@@ -7,7 +7,6 @@ import { Question } from './question';
 @Injectable()
 export class TestService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  tests: Test[] = [];
 
   constructor(private http: Http) {}
 
@@ -36,7 +35,7 @@ export class TestService {
     return this.http.post('/test/create-test',
                           { test: test },
                           { headers: this.headers })
-                    .map((res) => res.json())
+                    .map((res) => res.json());
   }
 
   // 更新测试
@@ -44,7 +43,15 @@ export class TestService {
     return this.http.post('/test/update-test',
                           { test: test, oldName: oldName },
                           { headers: this.headers })
-                    .map((res) => res.json())
+                    .map((res) => res.json());
+  }
+
+  // 删除测试
+  deleteTest(course: string, testName: string) {
+    return this.http.post('/test/delete-test',
+                          { course: course, test: testName },
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
 }
