@@ -21,8 +21,10 @@ export class TestComponent implements OnInit {
   analyseHide : Boolean[] = [];
   // 答题人数
   answersNumber: number[] = [];
-  // 该测试是否已经过期
-  valid: Boolean;
+
+  // 页面状态
+  valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
+  isAuth: boolean;  // true 为老师，false 为学生
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private snackBar: MdSnackBar, private testService: TestService) {
@@ -30,16 +32,21 @@ export class TestComponent implements OnInit {
       // 取回测试信息
       let that = this;
       this.testService.getTest(params['course'], params['test']).subscribe((data) => {
+        // 装载数据
         that.test = data;
-        // TODO 根据用户的不同而决定不同的行为
-        if (data.isOK) console.log('教师打开了这个页面');
-        else console.log('学生打开了这个页面');
-        // 判断是否过期
-        that.valid = new Date() < new Date(that.test.endTime);
         that.questions = that.test.questions;
+        // 判断用户
+        isAuth = data.isOK;
+        // 判断考试的时间
+        let current = new Date();
+        if (current < new Date(that.test.startTime))
+          that.valid = -1;
+        else if (current <= new Date(that.test.endTime))
+          that.valid = 0;
+        else
+          that.valid = 1;
         // 将分析结果初始化为隐藏
-        var i;
-        for (i = 0; i < that.questions.length; i++) {
+        for (let i = 0; i < that.questions.length; i++) {
           that.analyseHide.push(true);
           that.answersNumber.push(that.questions[i].answers.length);
         }
