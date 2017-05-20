@@ -36,7 +36,7 @@ export class TestComponent implements OnInit {
         that.test = data;
         that.questions = that.test.questions;
         // 判断用户
-        isAuth = data.isOK;
+        this.isAuth = data.isOK;
         // 判断考试的时间
         let current = new Date();
         if (current < new Date(that.test.startTime))
