@@ -189,7 +189,7 @@ export class ShareTestComponent implements OnInit {
   constructor(public dialogRef: MdDialogRef<ShareTestComponent>) {}
 
   ngOnInit() {
-    this.shareUrl = "http://qr.liantu.com/api.php?text=" + this.testUrl;
+    this.shareUrl = "http://qr.liantu.com/api.php?text=https://scrat.pw" + this.testUrl;
   }
 
 
