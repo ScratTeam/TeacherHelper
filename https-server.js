@@ -8,6 +8,7 @@ const send = require('koa-send');
 const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
 const json = require('koa-json');
+const compress = require('koa-compress');
 const mongoose = require('mongoose');
 
 // 设置数据库
@@ -22,6 +23,9 @@ db.once('open', function() {
 
   // 强制所有页面使用 SSL
   app.use(forceSSL());
+
+  // 压缩文件
+  app.use(compress());
 
   // 静态文件
   app.use(require('koa-static')(`${__dirname}/dist`));
