@@ -71,7 +71,7 @@ export class AddTestComponent implements OnInit {
       if (params['test'] != undefined && params['test'] != null)
         this.isEdit = true;
       if (this.isEdit) {
-        this.testService.getTest(params['course'], params['test']).subscribe((data) => {
+        this.testService.getTest(params['course'], params['test'], params['username']).subscribe((data) => {
           if (data.isOK) {
             this.oldName = data.name;
             this.testTitle = data.name;

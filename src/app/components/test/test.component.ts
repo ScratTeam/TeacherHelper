@@ -28,10 +28,10 @@ export class TestComponent implements OnInit {
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private snackBar: MdSnackBar, private testService: TestService) {
+    let that = this;
     activatedRoute.params.subscribe((params: Params) => {
       // 取回测试信息
-      let that = this;
-      this.testService.getTest(params['course'], params['test']).subscribe((data) => {
+      that.testService.getTest(params['course'], params['test'], params['username']).subscribe((data) => {
         // 装载数据
         that.test = data;
         that.questions = that.test.questions;
@@ -45,6 +45,7 @@ export class TestComponent implements OnInit {
           that.valid = 0;
         else
           that.valid = 1;
+        console.log(that.valid);
         // 将分析结果初始化为隐藏
         for (let i = 0; i < that.questions.length; i++) {
           that.analyseHide.push(true);

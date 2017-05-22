@@ -1,7 +1,7 @@
 <div class="test-layout" fxLayout="row" *ngIf="test">
   <div fxFlex="10" fxHide.xs></div>
-  <!--如果测试已经结束，显示题目及答题结果-->
-  <md-card fxFlex.gt-xs="80" *ngIf="!valid" class="invalid">
+  <!-- 如果已登录教师账号且考试开始或结束 -->
+  <md-card fxFlex.gt-xs="80" *ngIf="isAuth && valid != -1" class="invalid">
     <md-card-title>{{test.name}}</md-card-title>
     <md-card-subtitle>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
@@ -39,8 +39,13 @@
       </div>
     </md-card-content>
   </md-card>
-  <!--如果测试未结束，显示题目-->
-  <md-card fxFlex.gt-xs="80" *ngIf="valid" class="valid">
+  <!-- 如果未登录教师账号且考试未开始 -->
+  <md-card fxFlex.gt-xs="80" *ngIf="isAuth == false && valid == -1" class="valid">
+    <div class="logo"></div>
+    <div class="info">考试未开始...</div>
+  </md-card>
+  <!-- 如果未登录教师账号且考试正在进行或登录老师账号且考试未进行 -->
+  <md-card fxFlex.gt-xs="80" *ngIf="(isAuth == false && valid == 0) || (isAuth && valid == -1)" class="valid">
     <md-card-title>{{test.name}}</md-card-title>
     <div class="studentInfo">
       <md-icon>person</md-icon>
@@ -82,6 +87,11 @@
     <div class="button-container">
       <button md-raised-button class="submit-button" (click)="submitTest()">提 交</button>
     </div>
+  </md-card>
+  <!-- 如果未登录教师账号且考试已结束 -->
+  <md-card fxFlex.gt-xs="80" *ngIf="isAuth == false && valid == 1" class="valid">
+    <div class="logo"></div>
+    <div class="info">考试已结束~</div>
   </md-card>
   <div fxFlex="10" fxHide.xs></div>
 </div>

@@ -23,9 +23,10 @@ export class TestService {
   }
 
   // 获取某次测试
-  getTest(courseName: string, testName: string) {
+  getTest(courseName: string, testName: string, username: string) {
     return this.http.post('/test/get-test',
-                          { course: courseName, test: testName },
+                          { course: courseName, test: testName,
+                            username: username },
                           { headers: this.headers })
                     .map((res) => res.json());
   }
