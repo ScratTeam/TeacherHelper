@@ -67,19 +67,28 @@
         </md-tab>
         <md-tab label="学生名单">
           <div class="tab-content">
-            <md-card-title>学生名单</md-card-title>
+            <md-card-title class="title-container">
+              <span class="title">学生名单</span>
+              <button md-icon-button class="add-button" mdTooltip="添加学生" (click)="addStudent()">
+                <md-icon>add</md-icon>
+              </button>
+            </md-card-title>
             <md-list>
               <md-list-item class="tableHeader">
-                <p fxFlex="25">学号</p>
-                <p fxFlex="25">姓名</p>
-                <p fxFlex="25">平均成绩</p>
-                <p fxFlex="25">历史签到率</p>
+                <p fxFlex="24">学号</p>
+                <p fxFlex="24">姓名</p>
+                <p fxFlex="24">平均成绩</p>
+                <p fxFlex="24">历史签到率</p>
+                <p fxFlex="8"></p>
               </md-list-item>
               <md-list-item class="testList" *ngFor="let student of displayStudents">
-                <p fxFlex="25">{{student.id}}</p>
-                <p fxFlex="25">{{student.name}}</p>
-                <p fxFlex="25">0</p>
-                <p fxFlex="25">0%</p>
+                <p fxFlex="24">{{student.id}}</p>
+                <p fxFlex="24">{{student.name}}</p>
+                <p fxFlex="24">0</p>
+                <p fxFlex="24">0%</p>
+                <button md-icon-button (click)="deleteStudent(student.id)">
+                  <md-icon>delete</md-icon>
+                </button>
               </md-list-item>
             </md-list>
             <div class="page-number-container">

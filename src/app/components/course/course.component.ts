@@ -176,6 +176,16 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  // 删除学生
+  deleteStudent(studentId) {
+    // TODO 向后端发出请求，删除学生
+  }
+
+  // 添加学生
+  addStudent() {
+    // TODO 向后端发出请求，添加学生
+  }
+
 }
 
 @Component({
