@@ -173,13 +173,24 @@ module.exports = function(app, shareData) {
   });
 
   // 删除课程
-  // router.post('/delete-course', async function(ctx, next) {
-  //   try {
-  //
-  //   } catch(error) {
-  //     console.log(error);
-  //   }
-  // });
+  router.post('/delete-course', async function(ctx, next) {
+    try {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined) {
+        ctx.status = 403;
+      } else {
+        let courses = await Course.find({ username: ctx.session.username,
+                                         name: ctx.request.body.courseName});
+        let course = courses[0];
+        await course.remove();
+        ctx.body = { isOK: true };
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  });
 
   // 增加该课程中的一名学生
   router.post('/add-student', async function(ctx, next) {

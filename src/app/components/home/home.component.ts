@@ -77,6 +77,24 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // 删除课程
+  deleteCourse(courseName) {
+    this.courseService.deleteCourse(courseName).subscribe((data) => {
+      if (data.isOK) {
+        // 删除前端数据
+        for (let i = 0; i < this.courses.length; i++) {
+          if (this.courses[i].name == courseName)
+            this.courses.splice(i, 1);
+        }
+        // 显示提示信息
+        this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+      } else {
+        this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
+  }
+
+  // 跳转到课程页面
   gotoCourse(course) {
     if (this.user != null)
       this.router.navigate(['/course', this.user.username, course.name]);

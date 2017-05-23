@@ -24,8 +24,11 @@ export class CourseService {
   }
 
   // 删除某个课程
-  deleteCourse(course) {
-    // TODO 在数据库中删除课程信息
+  deleteCourse(courseName) {
+    return this.http.post('/course/delete-course',
+                          { courseName: courseName},
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
   // 更新某个课程的信息
