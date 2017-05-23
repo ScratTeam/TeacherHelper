@@ -50,4 +50,17 @@ export class CourseService {
                     .map((res) => res.json());
   }
 
+  // 为该课程添加学生
+  addStudent(course) {
+    // TODO add student
+  }
+
+  // 删除该课程的一名学生
+  deleteStudent(course, studentId) {
+    return this.http.post('/course/delete-student',
+                          { course: course, studentId: studentId},
+                          { headers: this.headers})
+                    .map((res) => res.json());
+  }
+
 }

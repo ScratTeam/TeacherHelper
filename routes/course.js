@@ -172,6 +172,38 @@ module.exports = function(app, shareData) {
     }
   });
 
+  // 增加该课程中的一名学生
+
+  // 删除该课程的某一名学生
+  router.post('/delete-student', async function(ctx, next) {
+    try {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.course == null || ctx.request.body.course == undefined ||
+                 ctx.request.body.studentId == null || ctx.request.body.studentId == undefined) {
+        ctx.status = 403;
+      } else {
+        let courses = await Course.find({ username: ctx.session.username,
+                                         name: ctx.request.body.course});
+        let course = courses[0];
+        for (var i = course.students.length-1; i >= 0; i--) {
+          console.log(course.students[i].id, ctx.request.body.studentId);
+          if (course.students[i].id == ctx.request.body.studentId) {
+            course.students.splice(i, 1);
+            break;
+          }
+        }
+        await course.save();
+        ctx.body = { isOK: true,
+                     students: course.students
+                   };
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
   // 在 app 中打入 routes
   app.use(router.routes());
   app.use(router.allowedMethods());

@@ -178,7 +178,23 @@ export class CourseComponent implements OnInit {
 
   // 删除学生
   deleteStudent(studentId) {
-    // TODO 向后端发出请求，删除学生
+    this.courseService.deleteStudent(this.course.name, studentId).subscribe((data) => {
+      if (data.isOK) {
+        for (let i = 0; i < this.displayStudents.length; i++) {
+          if (this.displayStudents[i].id == studentId)
+            this.displayStudents.splice(i, 1);
+        }
+        // 重新设置当前显示的测试列表
+        this.displayStudents = data.students.slice(0, 8);
+        let totalPages = Math.ceil(data.students.length / 8);
+        this.studentsPages = [];
+        for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+        // 显示提示信息
+        this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+      } else {
+        this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
   }
 
   // 添加学生
