@@ -91,6 +91,7 @@
                 </button>
               </md-list-item>
             </md-list>
+            <div class="addStudentError">{{addStudentError}}</div>
             <div class="page-number-container">
               <button md-icon-button [class.current]="page == currentStudentsPage" *ngFor="let page of studentsPages" (click)="gotoStudentPage(page)">{{page}}</button>
             </div>

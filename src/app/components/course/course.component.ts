@@ -22,6 +22,7 @@ export class CourseComponent implements OnInit {
   errorMessage: string;
   validator = new Validator();
   user: User;
+  addStudentError: string;
 
   // 表格管理
   displayStudents = [];  // 当前显示的学生名单
@@ -199,7 +200,32 @@ export class CourseComponent implements OnInit {
 
   // 添加学生
   addStudent() {
-    // TODO 向后端发出请求，添加学生
+    let dialogRef = this.dialog.open(AddStudentComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      var studentId = result.id;
+      var studentName = result.name;
+      if (studentId == null || studentId == undefined || studentId == '' ||
+          studentName == null || studentName == undefined || studentName == '') {
+        this.snackBar.open('学生信息不能为空', '知道了', { duration: 2000 });
+      } else {
+        this.courseService.addStudent(this.course.name, studentId, studentName).subscribe((data) => {
+          if (data.isOK) {
+            // 重新设置当前显示的测试列表
+            this.displayStudents = data.students.slice(0, 8);
+            let totalPages = Math.ceil(data.students.length / 8);
+            this.studentsPages = [];
+            for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+            // 显示提示信息
+            this.snackBar.open('添加成功', '知道了', { duration: 2000 });
+          } else {
+            if (data.message == '401')
+              this.snackBar.open('添加失败，请刷新重试', '知道了', { duration: 2000 });
+            else
+              this.addStudentError = data.message;
+          }
+        });
+      }
+    });
   }
 
 }
@@ -219,4 +245,20 @@ export class ShareTestComponent implements OnInit {
   }
 
 
+}
+
+@Component({
+  selector: 'addStudent',
+  templateUrl: './add-student.component.html',
+  styleUrls: ['./add-student.component.sass']
+})
+export class AddStudentComponent implements OnInit {
+  constructor(public dialogRef: MdDialogRef<ShareTestComponent>) {}
+
+  ngOnInit() {}
+
+  submit(formData) {
+    var student = {id: formData.studentId, name: formData.studentName}
+    this.dialogRef.close(student);
+  }
 }

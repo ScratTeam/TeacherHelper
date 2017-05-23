@@ -1,0 +1,19 @@
+<div>
+  <form #addStudent="ngForm">
+    <div class="studentInfo">
+      <md-icon>person</md-icon>
+      <md-input-container>
+        <input mdInput placeholder="姓名" name="studentName" [ngModel]>
+      </md-input-container>
+    </div>
+    <div class="studentInfo">
+      <md-icon>school</md-icon>
+      <md-input-container>
+        <input mdInput placeholder="学号" name="studentId" [ngModel]>
+      </md-input-container>
+    </div>
+    <div class="button-container">
+      <button md-raised-button class="submit-button" (click)="submit(addStudent.value)">提 交</button>
+    </div>
+  </form>
+</div>

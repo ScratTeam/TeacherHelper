@@ -51,8 +51,11 @@ export class CourseService {
   }
 
   // 为该课程添加学生
-  addStudent(course) {
-    // TODO add student
+  addStudent(course, studentId, studentName) {
+    return this.http.post('/course/add-student',
+                          { course: course, studentId: studentId, studentName: studentName},
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
   // 删除该课程的一名学生

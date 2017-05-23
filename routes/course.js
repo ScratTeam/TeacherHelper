@@ -172,7 +172,46 @@ module.exports = function(app, shareData) {
     }
   });
 
+  // 删除课程
+  // router.post('/delete-course', async function(ctx, next) {
+  //   try {
+  //
+  //   } catch(error) {
+  //     console.log(error);
+  //   }
+  // });
+
   // 增加该课程中的一名学生
+  router.post('/add-student', async function(ctx, next) {
+    try {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.course == null || ctx.request.body.course == undefined ||
+                 ctx.request.body.studentId == null || ctx.request.body.studentId == undefined ||
+                 ctx.request.body.studentName == null || ctx.request.body.studentName == undefined) {
+        ctx.status = 403;
+      } else {
+        let courses = await Course.find({ username: ctx.session.username,
+                                         name: ctx.request.body.course});
+        let course = courses[0];
+        let student = {id: ctx.request.body.studentId, name: ctx.request.body.studentName};
+        for (var i = course.students.length-1; i>= 0; i--) {
+          if (course.students[i].id == ctx.request.body.studentId) {
+            ctx.body = { isOK: false, message: '该学生信息已存在' };
+            return;
+          }
+        }
+        course.students.push(student);
+        await course.save();
+        ctx.body = { isOK: true,
+                     students: course.students
+                   };
+      }
+    } catch(error) {
+      console.log(error);
+    }
+  });
 
   // 删除该课程的某一名学生
   router.post('/delete-student', async function(ctx, next) {

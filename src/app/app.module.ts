@@ -19,6 +19,7 @@ import { CourseComponent } from './components/course/course.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { TestComponent } from './components/test/test.component';
 import { ShareTestComponent } from './components/course/course.component';
+import { AddStudentComponent } from './components/course/course.component';
 
 // 引入 services
 import { AuthService } from './services/auth/auth.service';
@@ -36,7 +37,8 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     AddCourseComponent,
     TestComponent,
     AddTestComponent,
-    ShareTestComponent
+    ShareTestComponent,
+    AddStudentComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { AddTestComponent } from './components/add-test/add-test.component';
     RoutingModule
   ],
   entryComponents: [
-    ShareTestComponent
+    ShareTestComponent,
+    AddStudentComponent
   ],
   providers: [
     AuthService,
