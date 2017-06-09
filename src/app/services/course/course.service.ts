@@ -69,4 +69,12 @@ export class CourseService {
                     .map((res) => res.json());
   }
 
+  // 检验学生是否在该课程的数据库中
+  checkStudent(course, studentId, studentName) {
+    return this.http.post('/course/check-student',
+                          { course: course, studentId: studentId, studentName: studentName},
+                          { headers: this.headers})
+                    .map((res) => res.json());
+  }
+
 }

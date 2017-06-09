@@ -5,6 +5,7 @@ import { MdSnackBar } from '@angular/material';
 import { Test } from '../../services/test/test';
 import { Question } from '../../services/test/question';
 import { TestService } from '../../services/test/test.service';
+import { CourseService } from '../../services/course/course.service';
 
 declare var Highcharts: any;
 
@@ -22,14 +23,21 @@ export class TestComponent implements OnInit {
   // 答题人数
   answersNumber: number[] = [];
 
+  // 学生答题信息
+  courseName: string = "";
+  studentName: string = "";
+  studentId: string = "";
+
   // 页面状态
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
   isAuth: boolean;  // true 为老师，false 为学生
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
-              private snackBar: MdSnackBar, private testService: TestService) {
+              private snackBar: MdSnackBar, private testService: TestService,
+              private courseService: CourseService) {
     let that = this;
     activatedRoute.params.subscribe((params: Params) => {
+      this.courseName = params['course'];
       // 取回测试信息
       that.testService.getTest(params['course'], params['test'], params['username']).subscribe((data) => {
         // 装载数据
@@ -45,7 +53,6 @@ export class TestComponent implements OnInit {
           that.valid = 0;
         else
           that.valid = 1;
-        console.log(that.valid);
         // 将分析结果初始化为隐藏
         for (let i = 0; i < that.questions.length; i++) {
           that.analyseHide.push(true);
@@ -188,7 +195,23 @@ export class TestComponent implements OnInit {
 
   // 有效时可以提交题目按钮
   submitTest() {
-    // TODO 校验学生的学号和姓名是否在该课程的数据库中
+    if (this.studentId != "" && this.studentName != "") {
+      this.courseService.checkStudent(this.courseName, this.studentId, this.studentName ).subscribe((data) => {
+        if (data.isOK) {
+          if (data.exit) {
+            // TODO 返回学生的答题情况
+            console.log("right");
+          } else {
+            this.snackBar.open('你尚未加入本课程', '知道了', {
+              duration: 2000
+            });
+          }
+        } else {
+          // TODO 异常处理
+          console.log("wrong");
+        }
+      });
+    }
   }
 
 }

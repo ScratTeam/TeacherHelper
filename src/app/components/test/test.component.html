@@ -50,13 +50,13 @@
     <div class="studentInfo">
       <md-icon>person</md-icon>
       <md-input-container>
-        <input mdInput placeholder="姓名">
+        <input mdInput placeholder="姓名" [(ngModel)]="studentName">
       </md-input-container>
     </div>
     <div class="studentInfo">
       <md-icon>school</md-icon>
       <md-input-container>
-        <input mdInput placeholder="学号">
+        <input mdInput placeholder="学号" [(ngModel)]="studentId">
       </md-input-container>
     </div>
     <div class="questions" *ngFor="let question of questions; let myindex = index">
