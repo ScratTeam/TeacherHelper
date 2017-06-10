@@ -256,15 +256,14 @@ module.exports = function(app, shareData) {
   // 检查某一个学生是否在该课程的数据库中
   router.post('/check-student', async function(ctx, next) {
     try {
-      if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOk: false, message: '401' };
-      } else if (ctx.request.body == null || ctx.request.body == undefined ||
-                 ctx.request.body.course == null || ctx.request.body.course == undefined ||
-                 ctx.request.body.studentId == null || ctx.request.body.studentId == undefined ||
-                 ctx.request.body.studentName == null || ctx.request.body.studentName == undefined) {
+      if (ctx.request.body == null || ctx.request.body == undefined ||
+          ctx.request.body.username == null || ctx.request.body.username == undefined ||
+          ctx.request.body.course == null || ctx.request.body.course == undefined ||
+          ctx.request.body.studentId == null || ctx.request.body.studentId == undefined ||
+          ctx.request.body.studentName == null || ctx.request.body.studentName == undefined) {
         ctx.status = 403;
       } else {
-        let courses = await Course.find({ username: ctx.session.username,
+        let courses = await Course.find({ username: ctx.request.body.username,
                                          name: ctx.request.body.course});
         let course = courses[0];
         let exit = false;

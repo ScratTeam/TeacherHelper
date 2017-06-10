@@ -55,4 +55,13 @@ export class TestService {
                     .map((res) => res.json());
   }
 
+  // 提交学生的作答情况
+  submitAnswers(username, course, testName, studentId, studentAnswers) {
+    return this.http.post('/test/submit-answers',
+                          { username: username, course: course, testName: testName, studentId: studentId, studentAnswers: studentAnswers},
+                          { headers: this.headers})
+                    .map((res) => res.json());
+
+  }
+
 }

@@ -25,8 +25,11 @@ export class TestComponent implements OnInit {
 
   // 学生答题信息
   courseName: string = "";
+  testName: string = "";
+  username: string = "";
   studentName: string = "";
   studentId: string = "";
+  studentAnswers: string[] = [];
 
   // 页面状态
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
@@ -38,11 +41,14 @@ export class TestComponent implements OnInit {
     let that = this;
     activatedRoute.params.subscribe((params: Params) => {
       this.courseName = params['course'];
+      this.testName = params['test'];
+      this.username = params['username'];
       // 取回测试信息
-      that.testService.getTest(params['course'], params['test'], params['username']).subscribe((data) => {
+      that.testService.getTest(this.courseName, this.testName, this.username).subscribe((data) => {
         // 装载数据
         that.test = data;
         that.questions = that.test.questions;
+        console.log(that.questions);
         // 判断用户
         this.isAuth = data.isOK;
         // 判断考试的时间
@@ -87,11 +93,16 @@ export class TestComponent implements OnInit {
       // 计算每个选项选择的人数
       for (i = 0; i < this.answersNumber[index]; i++) {
         var muitiAnswer = (myQuestion.answers[i].answer).split(' ');
-        for (j = 0; j < muitiAnswer.length; j++)
-          myChoices[parseInt(muitiAnswer[j])]++;
+        for (j = 0; j < muitiAnswer.length; j++) {
+          if (muitiAnswer[j] in myChoices) {
+            myChoices[muitiAnswer[j]]++;
+          } else {
+            myChoices[muitiAnswer[j]] = 1;
+          }
+        }
       }
       for (i = 0; i < myChoicesLength; i++) {
-        data.push({name: String.fromCharCode(65 + i), y: myChoices[i]/(this.answersNumber[index])});
+        data.push({name: String.fromCharCode(65 + i), y: myChoices[myQuestion.choices[i]]/(this.answersNumber[index])});
       }
       var myChart = Highcharts.chart(String(index), {
         chart: {
@@ -196,11 +207,11 @@ export class TestComponent implements OnInit {
   // 有效时可以提交题目按钮
   submitTest() {
     if (this.studentId != "" && this.studentName != "") {
-      this.courseService.checkStudent(this.courseName, this.studentId, this.studentName ).subscribe((data) => {
+      this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName ).subscribe((data) => {
         if (data.isOK) {
           if (data.exit) {
-            // TODO 返回学生的答题情况
-            console.log("right");
+            this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, this.studentAnswers).subscribe((data) => {
+            });
           } else {
             this.snackBar.open('你尚未加入本课程', '知道了', {
               duration: 2000
