@@ -165,7 +165,7 @@ export class AddTestComponent implements OnInit {
   // 重新编译题干
   compileStem(type, stem) {
     if (type == 3) {
-      return stem.replace("[空]", " _____ ");
+      return stem.replace('[空]', ' _____ ');
     } else {
       return stem;
     }

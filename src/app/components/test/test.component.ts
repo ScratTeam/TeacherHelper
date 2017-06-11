@@ -29,7 +29,7 @@ export class TestComponent implements OnInit {
   username: string = "";
   studentName: string = "";
   studentId: string = "";
-  studentAnswers: any = [[], []];
+  studentAnswers: string[] = [];
 
   // 页面状态
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
@@ -48,10 +48,10 @@ export class TestComponent implements OnInit {
         // 装载数据
         that.test = data;
         that.questions = that.test.questions;
-        // for (let i = 0; i < that.questions.length - 1; i++) {
-        //   that.studentAnswers.push([]);
-        // }
-        // console.log(that.studentAnswers);
+        // 改变填空题的空的显示
+        for (let question of that.questions)
+          if (question.type == 3)
+            question.stem = question.stem.replace('[空]', ' _____ ');
         // 判断用户
         this.isAuth = data.isOK;
         // 判断考试的时间
@@ -209,19 +209,19 @@ export class TestComponent implements OnInit {
 
   // 有效时可以提交题目按钮
   submitTest() {
-    if (this.studentId != "" && this.studentName != "") {
+    if (this.studentId != '' && this.studentName != '') {
       this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName).subscribe((data) => {
         if (data.isOK) {
           if (data.exit) {
             this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, this.studentAnswers).subscribe((data) => {
             });
           } else {
-            this.snackBar.open('你尚未加入本课程', '知道了', {
-              duration: 2000
-            });
+            this.snackBar.open('你尚未加入本课程', '知道了', { duration: 2000 });
           }
         }
       });
+    } else {
+      this.snackBar.open('学号和姓名不能为空', '知道了', { duration: 2000 });
     }
   }
 
