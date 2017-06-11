@@ -31,13 +31,14 @@
               </button>
             </md-card-title>
             <md-list>
-              <md-list-item class="tableHeader">
+              <md-list-item class="table-header">
                 <p fxFlex="33">试题名称</p>
                 <p fxFlex="33">有效时间</p>
                 <p fxFlex="33">试题状态</p>
                 <p fxFlex="40px" class="icon-header">操作</p>
               </md-list-item>
-              <md-list-item class="testList" *ngFor="let test of displayTests; let myindex = index">
+              <div class="no-test" *ngIf="displayTests.length == 0">暂时没有任何试题~</div>
+              <md-list-item class="test-list" *ngFor="let test of displayTests; let myindex = index">
                 <p fxFlex="33" (click)=gotoTest(test)>{{test.name}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myindex)}}</p>
@@ -81,7 +82,7 @@
                 <p fxFlex="24">历史签到率</p>
                 <p fxFlex="8"></p>
               </md-list-item>
-              <md-list-item class="testList" *ngFor="let student of displayStudents">
+              <md-list-item class="test-list" *ngFor="let student of displayStudents">
                 <p fxFlex="24">{{student.id}}</p>
                 <p fxFlex="24">{{student.name}}</p>
                 <p fxFlex="24">0</p>
@@ -91,7 +92,7 @@
                 </button>
               </md-list-item>
             </md-list>
-            <div class="addStudentError">{{addStudentError}}</div>
+            <div class="add-student-error">{{addStudentError}}</div>
             <div class="page-number-container">
               <button md-icon-button [class.current]="page == currentStudentsPage" *ngFor="let page of studentsPages" (click)="gotoStudentPage(page)">{{page}}</button>
             </div>

@@ -47,7 +47,7 @@
   <!-- 如果未登录教师账号且考试正在进行或登录老师账号且考试未进行 -->
   <md-card fxFlex.gt-xs="80" *ngIf="(isAuth == false && valid == 0) || (isAuth && valid == -1)" class="valid">
     <md-card-title>{{test.name}}</md-card-title>
-    <div class="studentInfo">
+    <div class="student-info">
       <md-icon>person</md-icon>
       <md-input-container>
         <input mdInput placeholder="姓名" [(ngModel)]="studentName">
