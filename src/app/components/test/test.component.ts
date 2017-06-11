@@ -29,7 +29,7 @@ export class TestComponent implements OnInit {
   username: string = "";
   studentName: string = "";
   studentId: string = "";
-  studentAnswers: string[] = [];
+  studentAnswers: any[] = [];
 
   // 页面状态
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
@@ -48,6 +48,9 @@ export class TestComponent implements OnInit {
         // 装载数据
         that.test = data;
         that.questions = that.test.questions;
+        for (let i = 0; i < that.questions.length; i++) {
+          that.studentAnswers.push([]);
+        }
         // 改变填空题的空的显示
         for (let question of that.questions)
           if (question.type == 3)
@@ -213,7 +216,22 @@ export class TestComponent implements OnInit {
       this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName).subscribe((data) => {
         if (data.isOK) {
           if (data.exit) {
-            this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, this.studentAnswers).subscribe((data) => {
+            let submitAnswers = [];
+            for (let i = 0; i < this.studentAnswers.length; i++) {
+              submitAnswers[i] = this.studentAnswers[i];
+            }
+            for (let i = 0; i < this.questions.length; i++) {
+              if (this.questions[i].type == 2) {
+                let tempAnswer = '';
+                for (let j = 0; j < this.questions[i].choices.length; j++) {
+                  if (this.studentAnswers[i][j] == true) {
+                    tempAnswer = tempAnswer + (this.questions[i].choices[j]) + ' ';
+                  }
+                }
+                submitAnswers[i] = tempAnswer.substring(0, tempAnswer.length-1);
+              }
+            }
+            this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, submitAnswers).subscribe((data) => {
             });
           } else {
             this.snackBar.open('你尚未加入本课程', '知道了', { duration: 2000 });
