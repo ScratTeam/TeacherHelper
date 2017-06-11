@@ -29,7 +29,7 @@ export class TestComponent implements OnInit {
   username: string = "";
   studentName: string = "";
   studentId: string = "";
-  studentAnswers: string[] = [];
+  studentAnswers: any = [[], []];
 
   // 页面状态
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
@@ -48,7 +48,10 @@ export class TestComponent implements OnInit {
         // 装载数据
         that.test = data;
         that.questions = that.test.questions;
-        console.log(that.questions);
+        // for (let i = 0; i < that.questions.length - 1; i++) {
+        //   that.studentAnswers.push([]);
+        // }
+        // console.log(that.studentAnswers);
         // 判断用户
         this.isAuth = data.isOK;
         // 判断考试的时间
@@ -72,7 +75,7 @@ export class TestComponent implements OnInit {
 
   toDateString(date_: Date) {
     let date = new Date(date_);
-    return date.getFullYear() + '/' + (date.getMonth()+1) + '/' +
+    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
            date.getDate();
   }
 
@@ -158,7 +161,7 @@ export class TestComponent implements OnInit {
       }
       var resultCount = [];
       for (var element in myAnswerCount) {
-        resultCount.push({name: element, y: (myAnswerCount[element])*100/this.answersNumber[index]});
+        resultCount.push({name: element, y: (myAnswerCount[element]) * 100 / this.answersNumber[index]});
       }
       resultCount.sort(function(x, y) {
         return (x.count > y.count) ? 1: -1;
@@ -207,7 +210,7 @@ export class TestComponent implements OnInit {
   // 有效时可以提交题目按钮
   submitTest() {
     if (this.studentId != "" && this.studentName != "") {
-      this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName ).subscribe((data) => {
+      this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName).subscribe((data) => {
         if (data.isOK) {
           if (data.exit) {
             this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, this.studentAnswers).subscribe((data) => {
@@ -217,9 +220,6 @@ export class TestComponent implements OnInit {
               duration: 2000
             });
           }
-        } else {
-          // TODO 异常处理
-          console.log("wrong");
         }
       });
     }

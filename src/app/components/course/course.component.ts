@@ -147,7 +147,7 @@ export class CourseComponent implements OnInit {
   shareTest(testName) {
     let config = new MdDialogConfig();
     let dialogRef: MdDialogRef<ShareTestComponent> = this.dialog.open(ShareTestComponent, config);
-    dialogRef.componentInstance.testUrl = this.router.url + testName;
+    dialogRef.componentInstance.testUrl = this.router.url.replace(/\/course\//, '/test/') + '/' + testName;
   }
 
   // 跳转到编辑试题页面

@@ -298,7 +298,6 @@ module.exports = function(app, shareData) {
             test.questions[index].answers.push({id: ctx.request.body.studentId, answer: studentAnswer});
           }
         });
-        console.log(test.questions[0].answers);
         await test.save();
         ctx.body = { isOK: true };
       }

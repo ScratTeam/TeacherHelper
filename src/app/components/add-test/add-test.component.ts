@@ -182,7 +182,6 @@ export class AddTestComponent implements OnInit {
 
   // 清空编辑时的报错信息
   editClear(index: number) {
-    console.log(this.questions[index].type);
     this.editedQuestionErr = '';
     this.tempChoices = [{ value: '' }, { value: '' }];
     this.questions[index].stem = "";
