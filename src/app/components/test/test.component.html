@@ -33,8 +33,7 @@
         </div>
         <div class="analyse-container" fxHide="{{analyseHide[myIndex]}}">
           <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答。</div>
-          <div class="highchart-container" id="{{myIndex}}">
-          </div>
+          <div class="highchart-container" id="{{myIndex}}"></div>
         </div>
       </div>
     </md-card-content>
@@ -63,19 +62,19 @@
       <div class="stem">{{myIndex + 1}}. {{question.stem}}</div>
       <div>
         <!-- 如果是单项选择题，则显示选项 -->
-        <md-radio-group fxLayout="column" *ngIf="question.type == 1" [(ngModel)]="studentAnswers[myIndex]">
+        <md-radio-group fxLayout="column" *ngIf="question.type == 1" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl>
           <md-radio-button class="choices" *ngFor="let choice of question.choices" [value]="choice">{{choice}}</md-radio-button>
         </md-radio-group>
         <!-- 如果是多项选择题，则显示选项 -->
         <div fxLayout="column" *ngIf="question.type == 2">
-          <md-checkbox *ngFor="let choice of question.choices; let i = index"  [(ngModel)]="studentAnswers[myIndex][i]">{{choice}}</md-checkbox>
+          <md-checkbox *ngFor="let choice of question.choices; let i = index" [(ngModel)]="studentAnswers[myIndex][i]" ngDefaultControl>{{choice}}</md-checkbox>
         </div>
         <!-- 如果是填空题，则显示输入的横线 -->
-        <md-input-container *ngIf="question.type == 3" [(ngModel)]="studentAnswers[myIndex]">
+        <md-input-container *ngIf="question.type == 3" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl>
           <input mdInput placeholder="在此作答">
         </md-input-container>
         <!-- 如果是简答题，则显示 textarea 的小三角框 -->
-        <md-input-container *ngIf="question.type == 4" [(ngModel)]="studentAnswers[myIndex]" class="text-container">
+        <md-input-container *ngIf="question.type == 4" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl class="text-container">
           <textarea mdInput placeholder="在此作答"></textarea>
         </md-input-container>
       </div>

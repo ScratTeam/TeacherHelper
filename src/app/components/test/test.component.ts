@@ -35,42 +35,73 @@ export class TestComponent implements OnInit {
   valid: number;  // 值为 -1 表示未开始，值为 0 表示正在进行，值为 1 表示已结束
   isAuth: boolean;  // true 为老师，false 为学生
 
+  // 表格
+  charts: any = [];
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private snackBar: MdSnackBar, private testService: TestService,
               private courseService: CourseService) {
-    let that = this;
     activatedRoute.params.subscribe((params: Params) => {
       this.courseName = params['course'];
       this.testName = params['test'];
       this.username = params['username'];
-      // 取回测试信息
-      that.testService.getTest(this.courseName, this.testName, this.username).subscribe((data) => {
-        // 装载数据
-        that.test = data;
-        that.questions = that.test.questions;
-        for (let i = 0; i < that.questions.length; i++) {
-          that.studentAnswers.push([]);
+      this.getTestAndDisplay(true);
+      // 等待取回身份
+      let that = this;
+      let requestLoop = setInterval(() => {
+        if (that.isAuth != undefined && that.isAuth != null) {
+          clearInterval(requestLoop);
+          // 轮询
+          if (that.isAuth == true) {
+            setInterval(() => {
+              that.getTestAndDisplay(false);
+            }, 2000);
+          }
         }
+      }, 100);
+    });
+  }
+
+  getTestAndDisplay(isInit: boolean) {
+    // 取回测试信息
+    this.testService.getTest(this.courseName, this.testName, this.username).subscribe((data) => {
+      // 如果是第一次请求
+      if (isInit) {
+        // 装载数据
+        this.test = data;
+        this.questions = this.test.questions;
+        for (let i = 0; i < this.questions.length; i++)
+          this.studentAnswers.push([]);
         // 改变填空题的空的显示
-        for (let question of that.questions)
+        for (let question of this.questions)
           if (question.type == 3)
             question.stem = question.stem.replace('[空]', ' _____ ');
+        // 更新答题人数
+        for (let i = 0; i < this.questions.length; i++)
+          this.answersNumber.push(this.questions[i].answers.length);
         // 判断用户
         this.isAuth = data.isOK;
         // 判断考试的时间
         let current = new Date();
-        if (current < new Date(that.test.startTime))
-          that.valid = -1;
-        else if (current <= new Date(that.test.endTime))
-          that.valid = 0;
-        else
-          that.valid = 1;
+        if (current < new Date(this.test.startTime)) this.valid = -1;
+        else if (current <= new Date(this.test.endTime)) this.valid = 0;
+        else this.valid = 1;
         // 将分析结果初始化为隐藏
-        for (let i = 0; i < that.questions.length; i++) {
-          that.analyseHide.push(true);
-          that.answersNumber.push(that.questions[i].answers.length);
+        for (let i = 0; i < this.questions.length; i++)
+          this.analyseHide.push(true);
+      // 如果不是第一次请求
+      } else {
+        for (let i = 0; i < this.questions.length; i++)
+          this.questions[i].answers = data.questions[i].answers;
+        for (let i = 0; i < this.questions.length; i++) {
+          if (this.charts[i] != null && this.charts[i] != undefined) {
+            if (this.questions[i].type == 1 || this.questions[i].type == 2)
+              this.charts[i].series[0].update({ data: this.calculateChoiceData(i) });
+            else if (this.questions[i].type == 3)
+              this.charts[i].series[0].update({ data: this.calculateCompletionData(i) });
+          }
         }
-      });
+      }
     });
   }
 
@@ -82,107 +113,90 @@ export class TestComponent implements OnInit {
            date.getDate();
   }
 
+  // 计算选择题绑定到图表的数据
+  calculateChoiceData(index) {
+    let myQuestion = this.questions[index];
+    // 预处理
+    let myChoicesLength = myQuestion.choices.length;
+    let data = [];
+    let myChoices = [];
+    // 初始化计数器
+    for (let i = 0; i < myChoicesLength; i++) myChoices.push(0);
+    // 计算每个选项选择的人数
+    for (let i = 0; i < this.answersNumber[index]; i++) {
+      let muitiAnswer = (myQuestion.answers[i].answer).split(' ');
+      for (let j = 0; j < muitiAnswer.length; j++) {
+        if (muitiAnswer[j] in myChoices) myChoices[muitiAnswer[j]]++;
+        else myChoices[muitiAnswer[j]] = 1;
+      }
+    }
+    for (let i = 0; i < myChoicesLength; i++)
+      data.push({ name: String.fromCharCode(65 + i),
+                  y: myChoices[myQuestion.choices[i]] / (this.answersNumber[index]) });
+    return data;
+  }
+
+  // 计算填空题绑定到图表的数据
+  calculateCompletionData(index) {
+    let myQuestion = this.questions[index];
+    // 预处理，对答案计数，显示出最高频的几个答案及其百分比
+    let myAnswers = myQuestion.answers;
+    let myAnswerCount = {};
+    for (let i = 0; i < myAnswers.length; i++) {
+      let tempAnswer = myAnswers[i].answer;
+      if (tempAnswer in myAnswerCount)
+        myAnswerCount[tempAnswer]++;
+      else
+        myAnswerCount[tempAnswer] = 1;
+    }
+    let resultCount = [];
+    for (let element in myAnswerCount)
+      resultCount.push({ name: element,
+                         y: (myAnswerCount[element]) * 100 / this.answersNumber[index] });
+    resultCount.sort(function(x, y) {
+      return (x.count > y.count) ? 1 : -1;
+    });
+    return resultCount;
+  }
+
   expandMore(index) {
     this.analyseHide[index] = false;
-    var myQuestion = this.questions[index];
     // 如果是选择题，则用饼状图显示每个选项的答题人数
+    let myQuestion = this.questions[index];
     if (myQuestion.type == 1 || myQuestion.type == 2) {
-      // 预处理
-      var myChoicesLength = myQuestion.choices.length;
-      var data = [];
-      var myChoices = [];
-      var i, j;
-      // 初始化计数器
-      for (i = 0; i < myChoicesLength; i++) {
-        myChoices.push(0);
-      }
-      // 计算每个选项选择的人数
-      for (i = 0; i < this.answersNumber[index]; i++) {
-        var muitiAnswer = (myQuestion.answers[i].answer).split(' ');
-        for (j = 0; j < muitiAnswer.length; j++) {
-          if (muitiAnswer[j] in myChoices) {
-            myChoices[muitiAnswer[j]]++;
-          } else {
-            myChoices[muitiAnswer[j]] = 1;
-          }
-        }
-      }
-      for (i = 0; i < myChoicesLength; i++) {
-        data.push({name: String.fromCharCode(65 + i), y: myChoices[myQuestion.choices[i]]/(this.answersNumber[index])});
-      }
-      var myChart = Highcharts.chart(String(index), {
-        chart: {
-          type: 'column'
-        },
-        title: {
-          text: '第' + String(index + 1) + '题答题情况'
-        },
-        legend: {
-          enabled: false
-        },
-        xAxis: {
-          type: 'category'
-        },
-        yAxis: {
-          title: {
-            text: '该选项选择人数占总人数的百分比'
-          }
-        },
+      this.charts[index] = Highcharts.chart(String(index), {
+        chart: { type: 'column' },
+        title: { text: '第' + String(index + 1) + '题答题情况' },
+        legend: { enabled: false },
+        xAxis: { type: 'category' },
+        yAxis: { title: { text: '该选项选择人数占总人数的百分比' } },
         tooltip: {
-          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
           pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
         },
         plotOptions: {
           series: {
             borderWidth: 0,
-            dataLabels: {
-              enabled: true,
-              format: '{point.y:.1f}%'
-            }
+            dataLabels: { enabled: true, format: '{point.y:.1f}%' }
           }
         },
         series: [{
           name: 'Brands',
           colorByPoint: true,
-          data: data
+          data: this.calculateChoiceData(index)
         }]
       });
-    }
     // 如果是填空题，显示答题的情况
-    else if (myQuestion.type == 3) {
-      // 预处理，对答案计数，显示出最高频的几个答案及其百分比
-      var myAnswers = myQuestion.answers;
-      var myAnswerCount = {};
-      var i;
-      for (i = 0; i < myAnswers.length; i++) {
-        var tempAnswer = myAnswers[i].answer;
-        if (tempAnswer in myAnswerCount) {
-          myAnswerCount[tempAnswer]++;
-        } else {
-          myAnswerCount[tempAnswer] = 1;
-        }
-      }
-      var resultCount = [];
-      for (var element in myAnswerCount) {
-        resultCount.push({name: element, y: (myAnswerCount[element]) * 100 / this.answersNumber[index]});
-      }
-      resultCount.sort(function(x, y) {
-        return (x.count > y.count) ? 1: -1;
-      });
+    } else if (myQuestion.type == 3) {
       // 使用饼状图显示数据
-      var myChart = Highcharts.chart(String(index), {
+      this.charts[index] = Highcharts.chart(String(index), {
         chart: {
           plotBackgroundColor: null,
           plotBorderWidth: null,
           plotShadow: false,
           type: 'pie'
         },
-        title: {
-          text: '第'+String(index+1)+'题答题情况'
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
+        title: { text: '第' + String(index + 1) + '题答题情况' },
+        tooltip: { pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' },
         plotOptions: {
           pie: {
             allowPointSelect: true,
@@ -199,7 +213,7 @@ export class TestComponent implements OnInit {
         series: [{
           name: 'Brands',
           colorByPoint: true,
-          data: resultCount
+          data: this.calculateCompletionData(index)
         }]
       });
     }
@@ -231,6 +245,7 @@ export class TestComponent implements OnInit {
                 submitAnswers[i] = tempAnswer.substring(0, tempAnswer.length-1);
               }
             }
+            console.log(submitAnswers, this.studentAnswers);
             this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, submitAnswers).subscribe((data) => {
             });
           } else {
