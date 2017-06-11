@@ -171,6 +171,7 @@ export class CourseComponent implements OnInit {
         for (let i = 1; i <= totalPages; i++) this.testsPages.push(i);
         // 显示提示信息
         this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+        this.currentTestsPage = 1;
       } else {
         this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
       }
@@ -192,6 +193,7 @@ export class CourseComponent implements OnInit {
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
         // 显示提示信息
         this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+        this.currentStudentsPage = 1;
       } else {
         this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
       }
