@@ -27,7 +27,7 @@
             <input mdInput placeholder="在此作答" disabled>
           </md-input-container>
           <!-- 如果是简答题，则显示 textarea 的小三角框 -->
-          <md-input-container *ngIf="question.type == 4">
+          <md-input-container *ngIf="question.type == 4" class="text-container">
             <textarea mdInput placeholder="在此作答" disabled></textarea>
           </md-input-container>
         </div>

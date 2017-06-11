@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 import { Test } from './test';
-import { Question } from './question';
 
 @Injectable()
 export class TestService {

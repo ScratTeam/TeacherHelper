@@ -50,7 +50,7 @@
                     <md-icon>share</md-icon>
                     <span>分 享</span>
                   </button>
-                  <button md-menu-item (click)="editTest(test.name)">
+                  <button md-menu-item (click)="editTest(test.name)" *ngIf="checkState(myIndex) == '未开始'">
                     <md-icon>edit</md-icon>
                     <span>编 辑</span>
                   </button>

@@ -2,7 +2,7 @@ export class Question {
   type: number;
   stem: string;
   choices: string[] = [];
-  answers: StudentAnswer[];
+  answers: StudentAnswer[] = [];
 
   constructor(type: number, stem: string, choices: string[],
               answers: StudentAnswer[]) {
