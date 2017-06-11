@@ -286,8 +286,6 @@ module.exports = function(app, shareData) {
                                       courseName: ctx.request.body.course,
                                       name: ctx.request.body.testName});
         let test = tests[0];
-        test.questions[0].answer = [];
-        test.questions[1].answer = [];
         ctx.request.body.studentAnswers.forEach((studentAnswer, index) => {
           let exit = false;
           for (let answer of test.questions[index].answers) {
