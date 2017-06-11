@@ -41,7 +41,7 @@
           <p fxFlex="30">课程时间</p>
           <p fxFlex="30">课程地点</p>
         </md-list-item>
-        <div class="no-courses" *ngIf="courses.length == 0">暂时没有任何课程~</div>
+        <div class="no-courses" *ngIf="courses && courses.length == 0">暂时没有任何课程~</div>
         <md-list-item class="course-list" *ngFor = "let course of courses">
           <p fxFlex="30" fxFlex.xs="80" (click) = gotoCourse(course)>{{course.name}}</p>
           <p fxFlex="30" (click) = gotoCourse(course)>{{course.time}}</p>
