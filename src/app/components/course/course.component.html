@@ -38,10 +38,10 @@
                 <p fxFlex="40px" class="icon-header">操作</p>
               </md-list-item>
               <div class="no-test" *ngIf="displayTests.length == 0">暂时没有任何试题~</div>
-              <md-list-item class="test-list" *ngFor="let test of displayTests; let myindex = index">
+              <md-list-item class="test-list" *ngFor="let test of displayTests; let myIndex = index">
                 <p fxFlex="33" (click)=gotoTest(test)>{{test.name}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</p>
-                <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myindex)}}</p>
+                <p fxFlex="33" (click)=gotoTest(test)>{{checkState(myIndex)}}</p>
                 <button md-icon-button [mdMenuTriggerFor]="menu">
                   <md-icon>more_vert</md-icon>
                 </button>

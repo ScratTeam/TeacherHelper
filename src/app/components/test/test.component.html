@@ -5,10 +5,10 @@
     <md-card-title>{{test.name}}</md-card-title>
     <md-card-subtitle>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
-      <div class="questions" *ngFor="let question of questions; let myindex = index">
+      <div class="questions" *ngFor="let question of questions; let myIndex = index">
         <div class="stem">
-          <button md-icon-button class="detail-button" fxHide="{{!analyseHide[myindex]}}" (click)=expandMore(myindex)><md-icon>chevron_right</md-icon></button>
-          <button md-icon-button class="detail-button" fxHide="{{analyseHide[myindex]}}" (click)=expandLess(myindex)><md-icon>expand_more</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{!analyseHide[myIndex]}}" (click)=expandMore(myIndex)><md-icon>chevron_right</md-icon></button>
+          <button md-icon-button class="detail-button" fxHide="{{analyseHide[myIndex]}}" (click)=expandLess(myIndex)><md-icon>expand_more</md-icon></button>
           {{questions.indexOf(question) + 1}}. {{question.stem}}
         </div>
         <div class="choices-container">
@@ -31,9 +31,9 @@
             <textarea mdInput placeholder="在此作答" disabled></textarea>
           </md-input-container>
         </div>
-        <div class="analyse-container" fxHide="{{analyseHide[myindex]}}">
+        <div class="analyse-container" fxHide="{{analyseHide[myIndex]}}">
           <div class="overview">本题共 {{answersNumber[questions.indexOf(question)]}} 人参与作答。</div>
-          <div class="highchart-container" id="{{myindex}}">
+          <div class="highchart-container" id="{{myIndex}}">
           </div>
         </div>
       </div>
@@ -59,23 +59,23 @@
         <input mdInput placeholder="学号" [(ngModel)]="studentId">
       </md-input-container>
     </div>
-    <div class="questions" *ngFor="let question of questions; let myindex = index">
-      <div class="stem">{{myindex + 1}}. {{question.stem}}</div>
+    <div class="questions" *ngFor="let question of questions; let myIndex = index">
+      <div class="stem">{{myIndex + 1}}. {{question.stem}}</div>
       <div>
         <!-- 如果是单项选择题，则显示选项 -->
-        <md-radio-group fxLayout="column" *ngIf="question.type == 1" [(ngModel)]="studentAnswers[myindex]" ngDefaultControl>
+        <md-radio-group fxLayout="column" *ngIf="question.type == 1" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl>
           <md-radio-button class="choices" *ngFor="let choice of question.choices" [value]="choice">{{choice}}</md-radio-button>
         </md-radio-group>
         <!-- 如果是多项选择题，则显示选项 -->
-        <div fxLayout="column" *ngIf="question.type == 2" [(ngModel)]="studentAnswers[myindex]" ngDefaultControl>
+        <div fxLayout="column" *ngIf="question.type == 2" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl>
           <md-checkbox *ngFor="let choice of question.choices">{{choice}}</md-checkbox>
         </div>
         <!-- 如果是填空题，则显示输入的横线 -->
-        <md-input-container *ngIf="question.type == 3" [(ngModel)]="studentAnswers[myindex]" ngDefaultControl>
+        <md-input-container *ngIf="question.type == 3" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl>
           <input mdInput placeholder="在此作答">
         </md-input-container>
         <!-- 如果是简答题，则显示 textarea 的小三角框 -->
-        <md-input-container *ngIf="question.type == 4" [(ngModel)]="studentAnswers[myindex]" ngDefaultControl class="text-container">
+        <md-input-container *ngIf="question.type == 4" [(ngModel)]="studentAnswers[myIndex]" ngDefaultControl class="text-container">
           <textarea mdInput placeholder="在此作答"></textarea>
         </md-input-container>
       </div>
