@@ -16,5 +16,5 @@ cp package.json pack
 cp run-server.sh pack
 
 ##### 拷贝文件至服务器 #####
-scp -r pack ubuntu@119.29.140.129:~
-ssh ubuntu@119.29.140.129 "sudo sh pack/run-server.sh"
+scp -r pack ubuntu@scrat.pw:~
+ssh ubuntu@scrat.pw "sudo sh pack/run-server.sh"
