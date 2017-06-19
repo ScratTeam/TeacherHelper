@@ -29,6 +29,7 @@ export class CourseComponent implements OnInit {
   currentStudentsPage: number = 1;
   studentsPages = [];
   displayTests = [];  // 当前显示的测试
+  displayCheckIns = []; 
   currentTestsPage: number = 1;
   testsPages = [];
 
@@ -118,6 +119,11 @@ export class CourseComponent implements OnInit {
     if (pageNumber != this.testsPages.length) min = 8;
     else min = this.tests.length - 8 * (this.testsPages.length - 1);
     this.displayTests = this.tests.slice(8 * (pageNumber - 1), 8 * pageNumber);
+  }
+
+  // 创建新的签到事件
+  creatCheckIn() {
+    this.router.navigate(['/add-check-in', this.user.username, this.course.name]);
   }
 
   // 创建新的试题

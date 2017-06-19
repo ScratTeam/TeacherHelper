@@ -247,9 +247,7 @@ export class AddTestComponent implements OnInit {
 
     // 校验
     let present = new Date();
-    if (this.startDate < present)
-      this.testErr = '考试时间需要在当前之后';
-    else if (this.endDate < this.startDate)
+    if (this.endDate < this.startDate)
       this.testErr = '考试开始时间需在结束时间之前';
     else if (this.testTitle == '')
       this.testErr = '试题标题不能为空';

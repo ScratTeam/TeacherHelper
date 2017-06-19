@@ -22,6 +22,25 @@
     <!-- 考题列表 -->
     <md-card fxFlex.gt-xs="70" class="test">
       <md-tab-group>
+        <md-tab label="签到列表">
+          <div class="tab-content">
+            <md-card-title class="title-container">
+              <span class="title">签到列表</span>
+              <button md-icon-button class="add-button" mdTooltip="添加签到" (click)="creatCheckIn()">
+                <md-icon>add</md-icon>
+              </button>
+            </md-card-title>
+            <md-list>
+              <md-list-item class="table-header">
+                <p fxFlex="33">签到次数</p>
+                <p fxFlex="33">有效时间</p>
+                <p fxFlex="33">已签到人数</p>
+                <p fxFlex="40px" class="icon-header">操作</p>
+              </md-list-item>
+              <div class="no-check-in" *ngIf="displayCheckIns && displayCheckIns.length == 0">暂时没有任何签到记录</div>
+            </md-list>
+          </div>
+        </md-tab>
         <md-tab label="试题列表">
           <div class="tab-content">
             <md-card-title class="title-container">
@@ -37,7 +56,7 @@
                 <p fxFlex="33">试题状态</p>
                 <p fxFlex="40px" class="icon-header">操作</p>
               </md-list-item>
-              <div class="no-test" *ngIf="displayTests && displayTests.length == 0">暂时没有任何试题~</div>
+              <div class="no-test" *ngIf="displayTests && displayTests.length == 0">暂时没有任何试题</div>
               <md-list-item class="test-list" *ngFor="let test of displayTests; let myIndex = index">
                 <p fxFlex="33" (click)=gotoTest(test)>{{test.name}}</p>
                 <p fxFlex="33" (click)=gotoTest(test)>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</p>
