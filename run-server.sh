@@ -9,4 +9,4 @@ sudo cp /etc/letsencrypt/live/scrat.pw/privkey.pem ssl/
 # 重启服务器并退出
 sudo pkill -f node
 sudo npm install
-sudo node https-server.js & (sleep 1 && exit)
+sudo node https-server.js & (sleep 10 && exit)
