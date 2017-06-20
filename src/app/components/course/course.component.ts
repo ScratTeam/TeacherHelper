@@ -29,7 +29,7 @@ export class CourseComponent implements OnInit {
   currentStudentsPage: number = 1;
   studentsPages = [];
   displayTests = [];  // 当前显示的测试
-  displayCheckIns = []; 
+  displayCheckIns = [];
   currentTestsPage: number = 1;
   testsPages = [];
 
@@ -123,7 +123,8 @@ export class CourseComponent implements OnInit {
 
   // 创建新的签到事件
   creatCheckIn() {
-    this.router.navigate(['/add-check-in', this.user.username, this.course.name]);
+    console.log("开始测试");
+    // 生成二维码，TODO 开始签到
   }
 
   // 创建新的试题

@@ -27,7 +27,7 @@ import { UserService } from './services/user/user.service';
 import { CourseService } from './services/course/course.service';
 import { TestService } from './services/test/test.service';
 import { AddTestComponent } from './components/add-test/add-test.component';
-import { AddCheckInComponent } from './components/add-check-in/add-check-in.component';
+import { CheckInComponent } from './components/check-in/check-in.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { AddCheckInComponent } from './components/add-check-in/add-check-in.comp
     AddTestComponent,
     ShareTestComponent,
     AddStudentComponent,
-    AddCheckInComponent
+    CheckInComponent
   ],
   imports: [
     BrowserModule,

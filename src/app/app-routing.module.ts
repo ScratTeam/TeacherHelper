@@ -8,7 +8,7 @@ import { CourseComponent } from './components/course/course.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { TestComponent } from './components/test/test.component';
 import { AddTestComponent } from './components/add-test/add-test.component';
-import { AddCheckInComponent } from './components/add-check-in/add-check-in.component';
+import { CheckInComponent } from './components/check-in/check-in.component';
 
 const appRouters: Routes = [
   {
@@ -37,8 +37,8 @@ const appRouters: Routes = [
     component: TestComponent
   },
   {
-    path: 'add-check-in/:username/:course',
-    component: AddCheckInComponent
+    path: 'check-in/:username/:course/:check-in',
+    component: CheckInComponent
   },
   {
     path: 'add-test/:username/:course',
