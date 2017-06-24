@@ -33,7 +33,7 @@
       </div>
     </md-card>
     <md-card class="question" *ngIf="questions.length != 0">
-      <div *ngFor="let question of questions; let i = index">
+      <div *ngFor="let question of questions; index as i">
         <div fxHide={{!editHide[i]}}>
           <!-- 显示题干和类型 -->
           <div class="stem-display">{{i + 1}}. {{compileStem(question.type, question.stem)}}
@@ -140,7 +140,7 @@
         <md-input-container class="stem">
           <input mdInput placeholder="单选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
-        <div class="choice-container" *ngFor="let choice of choices; let i = index">
+        <div class="choice-container" *ngFor="let choice of choices; index as i">
           <span class="index">{{indices[i]}}</span>
           <input class="choice" [(ngModel)]="choice.value">
           <button md-icon-button (click)="deleteChoice(i)">
@@ -153,7 +153,7 @@
         <md-input-container class="stem">
           <input mdInput placeholder="多选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
-        <div class="choice-container" *ngFor="let choice of choices; let i = index">
+        <div class="choice-container" *ngFor="let choice of choices; index as i">
           <span class="index">{{indices[i]}}</span>
           <input class="choice" [(ngModel)]="choice.value">
           <button md-icon-button (click)="deleteChoice(i)">
