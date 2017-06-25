@@ -8,7 +8,11 @@
       </md-input-container>
       <div class="time-select-container">
         <span class="time-select-title">测验开始时间：</span>
-        <material-datepicker [(date)]="startDate"></material-datepicker>
+        <md-input-container class="datepicker">
+          <input class="date-input" mdInput [mdDatepicker]="startPicker" [(ngModel)]="startDate">
+          <button class="date-button" mdSuffix [mdDatepickerToggle]="startPicker"></button>
+        </md-input-container>
+        <md-datepicker #startPicker></md-datepicker>
         <md-select placeholder=" " [(ngModel)]="startHour" class="time-select">
           <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
         </md-select>
@@ -18,7 +22,11 @@
       </div>
       <div class="time-select-container">
         <span class="time-select-title">测验结束时间：</span>
-        <material-datepicker [(date)]="endDate"></material-datepicker>
+        <md-input-container class="datepicker">
+          <input class="date-input" mdInput [mdDatepicker]="endPicker" [(ngModel)]="endDate">
+          <button class="date-button" mdSuffix [mdDatepickerToggle]="endPicker"></button>
+        </md-input-container>
+        <md-datepicker #endPicker></md-datepicker>
         <md-select placeholder=" " [(ngModel)]="endHour" class="time-select">
           <md-option *ngFor="let hour of hours" [value]="hour">{{hour}}</md-option>
         </md-select>

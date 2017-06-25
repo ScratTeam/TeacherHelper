@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DatepickerModule } from 'angular2-material-datepicker'
 import 'hammerjs';
 
 // 引入前端路由文件
@@ -51,7 +50,7 @@ import { CheckInComponent } from './components/check-in/check-in.component';
     FlexLayoutModule,
     // Material Design 模块
     MaterialModule,
-    DatepickerModule,
+    MdNativeDateModule,
     // 路由模块
     RoutingModule
   ],

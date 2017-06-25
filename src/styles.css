@@ -1,17 +1,6 @@
 /* 预设 Material Design 样式 */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-/* 矫正 date picker */
-.datepicker__input {
-  border-radius: 0px !important;
-  border: none !important;
-  border-bottom: 1px solid #eeeeee !important;
-  width: 76px;
-  font-size: 16px !important;
-  width: 88px;
-  padding-bottom: 5px !important;
-}
-
 /* 撑满页面 */
 html {
   margin: 0px;
