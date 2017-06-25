@@ -15,12 +15,12 @@ const courseSchema = new mongoose.Schema({
 });
 const Course = mongoose.model('Course', courseSchema);
 
-module.exports = function(app, shareData) {
+module.exports = (app, shareData) => {
   // 创建 router
-  var router = new Router({ prefix: '/course' });
+  let router = new Router({ prefix: '/course' });
 
   // 后端校验
-  courseValidator = function(ctx) {
+  courseValidator = (ctx) => {
     // request body 为空或 course 为空
     if (ctx.request.body == null || ctx.request.body == undefined ||
         ctx.request.body.course == null || ctx.request.body.course == undefined) {
@@ -42,7 +42,7 @@ module.exports = function(app, shareData) {
   }
 
   // 获取课程
-  router.post('/get-courses', async function(ctx, next) {
+  router.post('/get-courses', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -50,7 +50,7 @@ module.exports = function(app, shareData) {
       } else {
         let courses = await Course.find({ username: ctx.session.username });
         ctx.body = { isOK: true, courses: [] };
-        courses.forEach(function(course) {
+        courses.forEach((course) => {
           ctx.body.courses.push({
             name: course.name,
             classroom: course.classroom,
@@ -64,7 +64,7 @@ module.exports = function(app, shareData) {
   });
 
   // 获取某一门课程
-  router.post('/get-course', async function(ctx, next) {
+  router.post('/get-course', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -93,7 +93,7 @@ module.exports = function(app, shareData) {
   });
 
   // 增加课程
-  router.post('/add-course', async function(ctx, next) {
+  router.post('/add-course', async (ctx, next) => {
     try {
       // 若未通过后端校验
       if (!courseValidator(ctx) ||
@@ -103,7 +103,7 @@ module.exports = function(app, shareData) {
       } else if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
       } else {
-        var courses = await Course.find({
+        let courses = await Course.find({
           username: ctx.session.username,
           name: ctx.request.body.course.name
         });
@@ -131,7 +131,7 @@ module.exports = function(app, shareData) {
   });
 
   // 更新课程
-  router.post('/update-course', async function(ctx, next) {
+  router.post('/update-course', async (ctx, next) => {
     try {
       // 若未通过后端校验
       if (!courseValidator(ctx)) {
@@ -173,7 +173,7 @@ module.exports = function(app, shareData) {
   });
 
   // 删除课程
-  router.post('/delete-course', async function(ctx, next) {
+  router.post('/delete-course', async (ctx, next) => {
     try {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
@@ -193,7 +193,7 @@ module.exports = function(app, shareData) {
   });
 
   // 增加该课程中的一名学生
-  router.post('/add-student', async function(ctx, next) {
+  router.post('/add-student', async (ctx, next) => {
     try {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
@@ -207,7 +207,7 @@ module.exports = function(app, shareData) {
                                          name: ctx.request.body.course});
         let course = courses[0];
         let student = {id: ctx.request.body.studentId, name: ctx.request.body.studentName};
-        for (var i = course.students.length-1; i>= 0; i--) {
+        for (let i = course.students.length-1; i>= 0; i--) {
           if (course.students[i].id == ctx.request.body.studentId) {
             ctx.body = { isOK: false, message: '该学生信息已存在' };
             return;
@@ -225,7 +225,7 @@ module.exports = function(app, shareData) {
   });
 
   // 删除该课程的某一名学生
-  router.post('/delete-student', async function(ctx, next) {
+  router.post('/delete-student', async (ctx, next) => {
     try {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
@@ -237,7 +237,7 @@ module.exports = function(app, shareData) {
         let courses = await Course.find({ username: ctx.session.username,
                                          name: ctx.request.body.course});
         let course = courses[0];
-        for (var i = course.students.length-1; i >= 0; i--) {
+        for (let i = course.students.length-1; i >= 0; i--) {
           if (course.students[i].id == ctx.request.body.studentId) {
             course.students.splice(i, 1);
             break;
@@ -254,7 +254,7 @@ module.exports = function(app, shareData) {
   });
 
   // 检查某一个学生是否在该课程的数据库中
-  router.post('/check-student', async function(ctx, next) {
+  router.post('/check-student', async (ctx, next) => {
     try {
       if (ctx.request.body == null || ctx.request.body == undefined ||
           ctx.request.body.username == null || ctx.request.body.username == undefined ||
@@ -267,7 +267,7 @@ module.exports = function(app, shareData) {
                                          name: ctx.request.body.course});
         let course = courses[0];
         let exit = false;
-        for (var i = course.students.length-1; i >= 0; i--) {
+        for (let i = course.students.length-1; i >= 0; i--) {
           if (course.students[i].id == ctx.request.body.studentId &&
               course.students[i].name == ctx.request.body.studentName) {
             exit = true;

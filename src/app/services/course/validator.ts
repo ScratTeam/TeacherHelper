@@ -1,8 +1,8 @@
 export class Validator {
   constructor() {}
 
-  checkCourseInfo = function(name, classroom, time) {
-    var errorMessage = '';
+  checkCourseInfo = (name, classroom, time) => {
+    let errorMessage = '';
 
     // 对课程名称进行校验
     if (name == null || name == undefined || name == '')  // 防止为空的恶意攻击

@@ -82,7 +82,7 @@ export class AddTestComponent implements OnInit {
             this.endHour = (this.endDate.getHours()).toString() + ' 点';
             this.startMin = (this.startDate.getMinutes()).toString() + ' 分';
             this.endMin = (this.endDate.getMinutes()).toString() + ' 分';
-            for (var i = 0; i < data.questions.length; i++) {
+            for (let i = 0; i < data.questions.length; i++) {
               this.questions.push(new Question(data.questions[i].type, data.questions[i].stem, data.questions[i].choices, data.questions[i].answers));
               this.editHide.push(true);
             }
@@ -175,7 +175,7 @@ export class AddTestComponent implements OnInit {
   editQuestion(index: number) {
     this.editHide[index] = false;
     this.tempChoices = [];
-    for (var i = 0; i < this.questions[index].choices.length; i++) {
+    for (let i = 0; i < this.questions[index].choices.length; i++) {
       this.tempChoices.push({value: this.questions[index].choices[i]});
     }
   }

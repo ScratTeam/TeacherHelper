@@ -10,11 +10,11 @@ const mongoose = require('mongoose');
 const databaseUrl = 'mongodb://localhost:27017/scrat';
 mongoose.connect(databaseUrl);
 
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', () => {
   // 创建 app
-  var app = new Koa();
+  let app = new Koa();
 
   // 静态文件
   app.use(require('koa-static')(`${__dirname}/dist`));
@@ -30,7 +30,7 @@ db.once('open', function() {
   app.use(session({ key: 'scrat:sess' }, app));
 
   // 共享数据
-  var shareData = {};
+  let shareData = {};
 
   // 引入路径
   require('./routes/auth')(app, shareData);
@@ -44,7 +44,7 @@ db.once('open', function() {
   });
 
   // 监听
-  var port = 3000;
+  let port = 3000;
   app.listen(port);
   console.log('listening on port', port);
 });

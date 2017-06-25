@@ -69,7 +69,7 @@ export class AddCourseComponent implements OnInit {
     this.students = [];
 
     // 定义文件
-    var reader = new FileReader();
+    let reader = new FileReader();
 
     // 读取学生名单的信息
     reader.onload = (e: any) => {

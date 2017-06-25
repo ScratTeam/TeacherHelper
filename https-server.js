@@ -15,11 +15,11 @@ const mongoose = require('mongoose');
 const databaseUrl = 'mongodb://localhost:27017/scrat';
 mongoose.connect(databaseUrl);
 
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   // 创建 app
-  var app = new Koa();
+  let app = new Koa();
 
   // 强制所有页面使用 SSL
   app.use(forceSSL());
@@ -41,7 +41,7 @@ db.once('open', () => {
   app.use(session({ key: 'scrat:sess' }, app));
 
   // 共享数据
-  var shareData = {};
+  let shareData = {};
 
   // 引入路径
   require('./routes/auth')(app, shareData);
@@ -55,7 +55,7 @@ db.once('open', () => {
   });
 
   // SSL 配置
-  var options = {
+  let options = {
     key: fs.readFileSync('ssl/privkey.pem'),
     cert: fs.readFileSync('ssl/fullchain.pem')
   }

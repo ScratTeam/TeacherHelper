@@ -32,7 +32,7 @@ export class AppComponent {
       // 成功退出
       if (data.isOK) {
         // 删除浏览器的 cookies
-        document.cookie.split(";").forEach(function(c) {
+        document.cookie.split(";").forEach((c) => {
           document.cookie = c.replace(/^ +/, "")
                              .replace(/=.*/, "=;expires=" +
                                       new Date().toUTCString() +

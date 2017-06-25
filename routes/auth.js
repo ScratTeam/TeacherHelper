@@ -9,15 +9,15 @@ const passportSchema = new mongoose.Schema({
 });
 const Passport = mongoose.model('Passport', passportSchema);
 
-module.exports = function(app, shareData) {
+module.exports = (app, shareData) => {
   // 创建 router
-  var router = new Router({ prefix: '/auth' });
+  let router = new Router({ prefix: '/auth' });
 
   // 存入shareData
   shareData.Passport = Passport;
 
   // 后端校验
-  authValidator = function(ctx) {
+  authValidator = (ctx) => {
     // 后端校验规则
     let usernameRegex = /^[a-zA-Z0-9]+$/;  // 只能由字母和数字组成
     let passwordRegex = /^[a-f0-9]{32}$/;;  // 必须满足 MD5
@@ -41,7 +41,7 @@ module.exports = function(app, shareData) {
 
   // 对请求进行响应
   // 注册
-  router.post('/sign-up', async function(ctx, next) {
+  router.post('/sign-up', async (ctx, next) => {
     try {
       if (!authValidator(ctx)) {
         ctx.status = 403;
@@ -52,7 +52,7 @@ module.exports = function(app, shareData) {
           password: ctx.request.body.password
         });
         // 在数据库中匹配，若不存在该用户名则可以注册
-        var passports = await Passport.find({ username: passport.username });
+        let passports = await Passport.find({ username: passport.username });
         if (passports.length == 0) {
           await passport.save();
           // 创建新的用户
@@ -74,7 +74,7 @@ module.exports = function(app, shareData) {
   });
 
   // 登录
-  router.post('/sign-in', async function(ctx, next) {
+  router.post('/sign-in', async (ctx, next) => {
     try {
       if (!authValidator(ctx)) {
         ctx.status = 403;
@@ -85,7 +85,7 @@ module.exports = function(app, shareData) {
           password: ctx.request.body.password
         });
         // 在数据库中匹配，若不存在该用户名则可以注册
-        var passports = await Passport.find({ username: passport.username,
+        let passports = await Passport.find({ username: passport.username,
                                               password: passport.password });
         if (passports.length == 1) {
           // 将用户的登录信息存进 session
@@ -101,7 +101,7 @@ module.exports = function(app, shareData) {
   });
 
   // 退出登录
-  router.post('/sign-out', function(ctx, next) {
+  router.post('/sign-out', (ctx, next) => {
     // 如果 session 中存储了用户信息，则该用户已登录，可以退出
     if (ctx.session.username != null && ctx.session.username != undefined) {
       ctx.session = null;
@@ -112,7 +112,7 @@ module.exports = function(app, shareData) {
   });
 
   // 判断是否登录
-  router.post('/verify', function(ctx, next) {
+  router.post('/verify', (ctx, next) => {
     // 如果 session 中存储了用户信息，则该用户已登录
     if (ctx.session.username != null && ctx.session.username != undefined)
       ctx.body = { isOK: true, username: ctx.session.username };

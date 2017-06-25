@@ -36,10 +36,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   avatarChange(event) {
-    var reader = new FileReader();
-    var that = this;
+    let reader = new FileReader();
+    let that = this;
 
-    reader.onload = function(e: any) {
+    reader.onload = (e: any) => {
       that.user.avatar = e.target.result;
     };
 
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
 
   updateUserInfo(infoData) {
     const oldName = this.user.username;
-    var tempUser = new User(infoData.username, this.user.avatar,
+    let tempUser = new User(infoData.username, this.user.avatar,
                             infoData.university, infoData.school);
     // 提交修改
     let errorMessage = this.validator.checkUserInfo(this.user.avatar,infoData.username,

@@ -8,10 +8,10 @@ export class Question {
               answers: StudentAnswer[]) {
     this.type = type;
     this.stem = stem;
-    for (var element in choices) {
+    for (let element in choices) {
       this.choices.push(choices[element]);
     }
-    for (var element in answers) {
+    for (let element in answers) {
       this.answers.push({ id: answers[element].id, answer: answers[element].answer });
     }
   }

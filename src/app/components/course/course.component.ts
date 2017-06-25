@@ -211,8 +211,8 @@ export class CourseComponent implements OnInit {
   addStudent() {
     let dialogRef = this.dialog.open(AddStudentComponent);
     dialogRef.afterClosed().subscribe(result => {
-      var studentId = result.id;
-      var studentName = result.name;
+      let studentId = result.id;
+      let studentName = result.name;
       if (studentId == null || studentId == undefined || studentId == '' ||
           studentName == null || studentName == undefined || studentName == '') {
         this.snackBar.open('学生信息不能为空', '知道了', { duration: 2000 });
@@ -267,7 +267,7 @@ export class AddStudentComponent implements OnInit {
   ngOnInit() {}
 
   submit(formData) {
-    var student = {id: formData.studentId, name: formData.studentName}
+    let student = {id: formData.studentId, name: formData.studentName}
     this.dialogRef.close(student);
   }
 }

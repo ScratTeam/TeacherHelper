@@ -11,14 +11,14 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-module.exports = function(app, shareData) {
+module.exports = (app, shareData) => {
   // 创建 router
-  var router = new Router({ prefix: '/user' });
+  let router = new Router({ prefix: '/user' });
 
   // 存入shareData
   shareData.User = User;
 
-  userValidator = function(ctx) {
+  userValidator = (ctx) => {
     // 后端校验规则
     let usernameRegex = /^[a-zA-Z0-9]+$/;  // 只能由字母和数字组成
     // Base64 编码的图片
@@ -51,13 +51,13 @@ module.exports = function(app, shareData) {
   }
 
   // 获取用户信息
-  router.post('/get-user', async function(ctx, next) {
+  router.post('/get-user', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
       } else {
-        var users = await User.find({ username: ctx.session.username });
+        let users = await User.find({ username: ctx.session.username });
         ctx.body = {
           isOK: true,
           username: users[0].username,
@@ -71,7 +71,7 @@ module.exports = function(app, shareData) {
     }
   });
 
-  router.post('/update-user', async function(ctx, next) {
+  router.post('/update-user', async (ctx, next) => {
     try {
       // 后盾校验
       if (!userValidator(ctx)) {

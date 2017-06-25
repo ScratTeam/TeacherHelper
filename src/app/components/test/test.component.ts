@@ -7,7 +7,7 @@ import { Question } from '../../services/test/question';
 import { TestService } from '../../services/test/test.service';
 import { CourseService } from '../../services/course/course.service';
 
-declare var Highcharts: any;
+declare let Highcharts: any;
 
 @Component({
   selector: 'app-test',
@@ -153,7 +153,7 @@ export class TestComponent implements OnInit {
     for (let element in myAnswerCount)
       resultCount.push({ name: element,
                          y: (myAnswerCount[element]) * 100 / this.answersNumber[index] });
-    resultCount.sort(function(x, y) {
+    resultCount.sort((x, y) => {
       return (x.count > y.count) ? 1 : -1;
     });
     return resultCount;

@@ -1,8 +1,8 @@
 export class Validator {
   constructor() {}
 
-  checkUserInfo = function(image, username, university, school) {
-    var errorMessage = '';
+  checkUserInfo = (image, username, university, school) => {
+    let errorMessage = '';
 
     // 定义校验规则
     let imageRegex = /^(?:data:image\/([a-zA-Z]*);base64,)?(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/;

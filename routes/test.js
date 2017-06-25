@@ -25,12 +25,12 @@ testSchema = new mongoose.Schema({
 });
 const Test = mongoose.model('Test', testSchema);
 
-module.exports = function(app, shareData) {
+module.exports = (app, shareData) => {
   // 创建 router
-  var router = new Router({ prefix: '/test' });
+  let router = new Router({ prefix: '/test' });
 
   // 后端校验
-  testValidator = function(ctx) {
+  testValidator = (ctx) => {
     // 重要元素为空
     if (ctx.request.body == null || ctx.request.body == undefined ||
         ctx.request.body.test == null || ctx.request.body.test == undefined) {
@@ -77,7 +77,7 @@ module.exports = function(app, shareData) {
   }
 
   // 获取测试
-  router.post('/get-tests', async function(ctx, next) {
+  router.post('/get-tests', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -92,7 +92,7 @@ module.exports = function(app, shareData) {
         let tests = await Test.find({ username: ctx.session.username,
                                       courseName: course });
         let queryTests = [];
-        tests.forEach(function(test) {
+        tests.forEach((test) => {
           queryTests.push({
             name: test.name,
             startTime: test.startTime,
@@ -109,7 +109,7 @@ module.exports = function(app, shareData) {
   });
 
   // 获取单个测试
-  router.post('/get-test', async function(ctx, next) {
+  router.post('/get-test', async (ctx, next) => {
     try {
       // 后端校验
       if (ctx.request.body == null || ctx.request.body == undefined ||
@@ -140,7 +140,7 @@ module.exports = function(app, shareData) {
   });
 
   // 创建测验
-  router.post('/create-test', async function(ctx, next) {
+  router.post('/create-test', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -188,7 +188,7 @@ module.exports = function(app, shareData) {
   });
 
   // 更新测试
-  router.post('/update-test', async function(ctx, next) {
+  router.post('/update-test', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -246,7 +246,7 @@ module.exports = function(app, shareData) {
   });
 
   // 删除测试
-  router.post('/delete-test', async function(ctx, next) {
+  router.post('/delete-test', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
@@ -270,7 +270,7 @@ module.exports = function(app, shareData) {
   });
 
   // 提交学生成绩
-  router.post('/submit-answers', async function(ctx, next) {
+  router.post('/submit-answers', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
       if (ctx.request.body == null || ctx.request.body == undefined ||

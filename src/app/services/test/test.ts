@@ -14,7 +14,7 @@ export class Test {
     this.startTime = startTime;
     this.endTime = endTime;
     this.detail = detail;
-    for (var element in questions) {
+    for (let element in questions) {
       this.questions.push(new Question(questions[element].type,questions[element].stem, questions[element].choices, questions[element].answers));
     }
   }
