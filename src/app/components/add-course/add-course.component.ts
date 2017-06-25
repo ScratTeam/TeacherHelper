@@ -70,21 +70,27 @@ export class AddCourseComponent implements OnInit {
 
     // 定义文件
     var reader = new FileReader();
-    var that = this;
 
     // 读取学生名单的信息
-    reader.onload = function(e: any) {
+    reader.onload = (e: any) => {
       let workbook = XLSX.read(e.target.result, { type: 'binary' });
       let worksheet = workbook.Sheets[workbook.SheetNames[0]];
       let row = 1;  // 定义行号
+      let ids = new Set();  // 定义学生学号的集合
       while (true) {
+        console.log(1);
         // 取出第一张表
         if (worksheet['A' + row] == undefined || worksheet['A' + row] == undefined ||
             worksheet['B' + row] == null || worksheet['B' + row] == null) break;
         let id = worksheet['A' + row].v;  // 取出学号
         let name = worksheet['B' + row].v;  // 取出姓名
-        that.students.push({ id: id, name: name });
         row++;
+        if (ids.has(id)) {
+          this.snackBar.open('学生名单中有重复，已自动去重', '知道了', { duration: 2000 });
+          continue;  // 根据学号对表进行去重
+        }
+        ids.add(id);
+        this.students.push({ id: id, name: name });
       }
     };
 

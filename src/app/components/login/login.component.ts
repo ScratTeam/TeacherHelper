@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
 
   // 从注册页到登录页，从登录页到注册页
   changePage() {
+    this.signInError = '';
+    this.signUpError = '';
     if (this.router.url == '/login/sign-in')
       this.router.navigate(['/login', 'sign-up']);
     else if (this.router.url == '/login/sign-up')

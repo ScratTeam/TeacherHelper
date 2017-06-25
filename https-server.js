@@ -17,7 +17,7 @@ mongoose.connect(databaseUrl);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', () => {
   // 创建 app
   var app = new Koa();
 
