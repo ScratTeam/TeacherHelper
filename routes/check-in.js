@@ -19,7 +19,13 @@ module.exports = (app, shareData) => {
   // 创建签到
   router.post('/add-check-in', async (ctx, next) => {
     try {
-      console.log('add-check-in');
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else {
+        console.log('add-check-in');
+        ctx.body = { isOK: true };
+      }
     } catch(error) {
       console.log(error);
     }
