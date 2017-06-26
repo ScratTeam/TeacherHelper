@@ -10,6 +10,7 @@ import { Course } from '../../services/course/course';
 import { Validator } from '../../services/course/validator';
 import { Test } from '../../services/test/test';
 import { TestService } from '../../services/test/test.service';
+import { CheckIn } from '../../services/check-in/check-in';
 import { CheckInService } from '../../services/check-in/check-in.service';
 
 @Component({
@@ -20,10 +21,12 @@ import { CheckInService } from '../../services/check-in/check-in.service';
 export class CourseComponent implements OnInit {
   course;
   tests: Test[];
+  checkIns: CheckIn[];
   errorMessage: string;
   validator = new Validator();
   user: User;
   addStudentError: string;
+  courseName: string;
 
   // 表格管理
   displayStudents = [];  // 当前显示的学生名单
@@ -32,7 +35,9 @@ export class CourseComponent implements OnInit {
   displayTests = [];  // 当前显示的测试
   displayCheckIns = [];
   currentTestsPage: number = 1;
+  currentCheckInPage: number = 1;
   testsPages = [];
+  checkInPages = [];
 
   constructor(public userService: UserService, public router: Router,
               public snackBar: MdSnackBar, public testService: TestService,
@@ -52,7 +57,8 @@ export class CourseComponent implements OnInit {
     // 从 URL 中读取参数
     this.activatedRoute.params.subscribe((params: Params) => {
       // 取回课程信息
-      this.courseService.getCourse(params['course']).subscribe((data) => {
+      this.courseName = params['course'];
+      this.courseService.getCourse(this.courseName).subscribe((data) => {
         if (!data.isOK) this.router.navigate(['/login', 'sign-in']);
         else this.course = data;
         // 设置当前显示的学生名单
@@ -62,13 +68,23 @@ export class CourseComponent implements OnInit {
       });
 
       // 取回测试信息
-      let that = this;
-      this.testService.getTests(params['course']).subscribe((data) => {
-        that.tests = data;
+      this.testService.getTests(this.courseName).subscribe((data) => {
+        this.tests = data;
         // 设置当前显示的测试列表
-        that.displayTests = that.tests.slice(0, 8);
-        let totalPages = Math.ceil(that.tests.length / 8);
-        for (let i = 1; i <= totalPages; i++) that.testsPages.push(i);
+        this.displayTests = this.tests.slice(0, 8);
+        let totalPages = Math.ceil(this.tests.length / 8);
+        for (let i = 1; i <= totalPages; i++) this.testsPages.push(i);
+      });
+
+      // 取回签到信息
+      this.checkInService.getCheckIns().subscribe((data) => {
+        if (data.isOK) {
+          this.checkIns = data.checkIns;
+          // 设置当前显示的签到列表
+          this.displayCheckIns = this.checkIns.slice(0, 8);
+          let totalPages = Math.ceil(this.checkIns.length / 8);
+          for (let i = 1; i <= totalPages; i++) this.checkInPages.push(i);
+        }
       });
     });
   }
@@ -122,13 +138,6 @@ export class CourseComponent implements OnInit {
     this.displayTests = this.tests.slice(8 * (pageNumber - 1), 8 * pageNumber);
   }
 
-  // 创建新的签到事件
-  creatCheckIn() {
-    this.checkInService.createCheckIn().subscribe((data) => {
-      console.log(data);
-    });
-  }
-
   // 创建新的试题
   creatTest() {
     this.router.navigate(['/add-test', this.user.username, this.course.name]);
@@ -154,6 +163,7 @@ export class CourseComponent implements OnInit {
 
   // 生成二维码，分享课程
   shareTest(testName) {
+    console.log(this.router.url.replace(/\/course\//, '/test/') + '/' + testName);
     let config = new MdDialogConfig();
     let dialogRef: MdDialogRef<ShareTestComponent> = this.dialog.open(ShareTestComponent, config);
     dialogRef.componentInstance.testUrl = this.router.url.replace(/\/course\//, '/test/') + '/' + testName;
@@ -185,6 +195,73 @@ export class CourseComponent implements OnInit {
         this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
       }
     });
+  }
+
+  // 创建新的签到事件
+  creatCheckIn() {
+    this.checkInService.createCheckIn(this.courseName).subscribe((data) => {
+      if (data.isOK) {
+        let checkIn = new CheckIn(this.courseName, true, [], data.id);
+        console.log(checkIn);
+        this.checkIns.unshift(checkIn);
+        this.displayCheckIns = this.checkIns.slice(0, 8);
+        let totalPages = Math.ceil(this.checkIns.length / 8);
+        this.checkInPages = [];
+        for (let i = 1; i <= totalPages; i++) this.checkInPages.push(i);
+      } else {
+        this.snackBar.open('创建失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
+  }
+
+  // 开启或者关闭签到事件
+  toggleCheckIn(checkIn) {
+    this.checkInService.toggleCheckIn(this.courseName, checkIn.id).subscribe((data) => {
+      if (data.isOK) {
+        checkIn.state = !checkIn.state;
+      } else {
+        this.snackBar.open('状态转换失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
+  }
+
+  // 删除签到事件
+  deleteCheckIn(checkIn) {
+    this.checkInService.deleteCheckIn(this.courseName, checkIn.id).subscribe((data) => {
+      if (data.isOK) {
+        // 删除前端数据
+        for (let i = 0; i < this.checkIns.length; i++) {
+          if (this.checkIns[i] == checkIn)
+            this.checkIns.splice(i, 1);
+        }
+        // 重新设置当前显示的测试列表
+        this.displayCheckIns = this.checkIns.slice(0, 8);
+        let totalPages = Math.ceil(this.checkIns.length / 8);
+        this.checkInPages = [];
+        for (let i = 1; i <= totalPages; i++) this.checkInPages.push(i);
+        // 显示提示信息
+        this.snackBar.open('删除成功', '知道了', { duration: 2000 });
+        this.currentCheckInPage = 1;
+      } else {
+        this.snackBar.open('删除失败，请刷新重试', '知道了', { duration: 2000 });
+      }
+    });
+  }
+
+  // 分享签到页面的二维码
+  shareCheckIn(checkIn) {
+    let config = new MdDialogConfig();
+    let dialogRef: MdDialogRef<ShareCheckInComponent> = this.dialog.open(ShareCheckInComponent, config);
+    dialogRef.componentInstance.checkInUrl = this.router.url.replace(/\/course\//, '/check-in/') + '/' + checkIn.id;
+  }
+
+  // 为签到页面换页
+  gotoCheckInPage(pageNumber: number) {
+    this.currentCheckInPage = pageNumber;
+    let min;
+    if (pageNumber != this.checkInPages.length) min = 8;
+    else min = this.checkIns.length - 8 * (this.checkInPages.length - 1);
+    this.displayCheckIns = this.checkIns.slice(8 * (pageNumber - 1), 8 * pageNumber);
   }
 
   // 删除学生
@@ -255,6 +332,21 @@ export class ShareTestComponent implements OnInit {
     this.shareUrl = "http://qr.liantu.com/api.php?text=https://scrat.pw" + this.testUrl;
   }
 
+}
+
+@Component({
+  selector: 'shareCheckIn',
+  templateUrl: './share-check-in.component.html',
+  styleUrls: ['./share-check-in.component.sass']
+})
+export class ShareCheckInComponent implements OnInit {
+  checkInUrl: string;
+  shareUrl: string;
+  constructor(public dialogRef: MdDialogRef<ShareTestComponent>) {}
+
+  ngOnInit() {
+    this.shareUrl = "http://qr.liantu.com/api.php?text=https://scrat.pw" + this.checkInUrl;
+  }
 
 }
 
@@ -272,4 +364,5 @@ export class AddStudentComponent implements OnInit {
     let student = {id: formData.studentId, name: formData.studentName}
     this.dialogRef.close(student);
   }
+
 }

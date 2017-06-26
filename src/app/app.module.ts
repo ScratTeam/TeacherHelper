@@ -19,6 +19,7 @@ import { AddCourseComponent } from './components/add-course/add-course.component
 import { TestComponent } from './components/test/test.component';
 import { ShareTestComponent } from './components/course/course.component';
 import { AddStudentComponent } from './components/course/course.component';
+import { ShareCheckInComponent } from './components/course/course.component';
 import { AddTestComponent } from './components/add-test/add-test.component';
 import { CheckInComponent } from './components/check-in/check-in.component';
 
@@ -40,6 +41,7 @@ import { CheckInService } from './services/check-in/check-in.service';
     AddTestComponent,
     ShareTestComponent,
     AddStudentComponent,
+    ShareCheckInComponent,
     CheckInComponent
   ],
   imports: [
@@ -57,7 +59,8 @@ import { CheckInService } from './services/check-in/check-in.service';
   ],
   entryComponents: [
     ShareTestComponent,
-    AddStudentComponent
+    AddStudentComponent,
+    ShareCheckInComponent
   ],
   providers: [
     AuthService,

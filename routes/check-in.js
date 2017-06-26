@@ -33,6 +33,7 @@ module.exports = (app, shareData) => {
         for (let checkIn of checkIns)
           if (checkIn.id > maxIndex)
             maxIndex = checkIn.id;
+        maxIndex++;
         // 创建新的签到
         let newCheckIn = new CheckIn({
           username: ctx.session.username,

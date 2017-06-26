@@ -38,7 +38,37 @@
                 <p fxFlex="40px" class="icon-header">操作</p>
               </md-list-item>
               <div class="no-check-in" *ngIf="displayCheckIns && displayCheckIns.length == 0">暂时没有任何签到记录</div>
+              <md-list-item class="test-list" *ngFor="let checkIn of displayCheckIns; index as myIndex">
+                <p fxFlex="33" (click)=shareCheckIn(checkIn)>第 {{ (currentCheckInPage - 1)*8 + myIndex + 1}} 次</p>
+                <p *ngIf="checkIn.state" fxFlex="33" (click)=shareCheckIn(checkIn)>开启</p>
+                <p *ngIf="!checkIn.state" fxFlex="33" (click)=shareCheckIn(checkIn)>关闭</p>
+                <p fxFlex="33" (click)=shareCheckIn(checkIn)>{{checkIn.students.length}}</p>
+                <button md-icon-button [mdMenuTriggerFor]="menu">
+                  <md-icon>more_vert</md-icon>
+                </button>
+                <md-menu #menu="mdMenu">
+                  <button md-menu-item (click)="shareCheckIn(checkIn)">
+                    <md-icon>share</md-icon>
+                    <span>分 享</span>
+                  </button>
+                  <button *ngIf="checkIn.state" md-menu-item (click)="toggleCheckIn(checkIn)">
+                    <md-icon>cached</md-icon>
+                    <span>结 束</span>
+                  </button>
+                  <button *ngIf="!checkIn.state" md-menu-item (click)="toggleCheckIn(checkIn)">
+                    <md-icon>cached</md-icon>
+                    <span>开 启</span>
+                  </button>
+                  <button md-menu-item (click)="deleteCheckIn(checkIn)">
+                    <md-icon>delete</md-icon>
+                    <span>删 除</span>
+                  </button>
+                </md-menu>
+              </md-list-item>
             </md-list>
+            <div class="page-number-container">
+              <button md-icon-button [class.current]="page == currentCheckInPage" *ngFor="let page of checkInPages" (click)="gotoCheckInPage(page)">{{page}}</button>
+            </div>
           </div>
         </md-tab>
         <md-tab label="试题列表">
