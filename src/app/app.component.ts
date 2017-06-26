@@ -13,8 +13,8 @@ import { User } from './services/user/user';
 export class AppComponent {
   user: User;
 
-  constructor(private authService: AuthService, private router: Router,
-              private userService: UserService) {
+  constructor(public authService: AuthService, public router: Router,
+              public userService: UserService) {
     // 监听页面跳转
     this.router.events.subscribe(path => {
       // 判断是否登录

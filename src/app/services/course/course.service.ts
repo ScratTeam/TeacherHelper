@@ -5,10 +5,10 @@ import { Course } from './course';
 
 @Injectable()
 export class CourseService {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  public headers = new Headers({'Content-Type': 'application/json'});
   courses: Course[];
 
-  constructor(private http: Http) {}
+  constructor(public http: Http) {}
 
   // 获取某一个课程的详情
   getCourse(name: string) {

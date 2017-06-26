@@ -38,9 +38,9 @@ export class TestComponent implements OnInit {
   // 表格
   charts: any = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,
-              private snackBar: MdSnackBar, private testService: TestService,
-              private courseService: CourseService) {
+  constructor(public router: Router, public activatedRoute: ActivatedRoute,
+              public snackBar: MdSnackBar, public testService: TestService,
+              public courseService: CourseService) {
     activatedRoute.params.subscribe((params: Params) => {
       this.courseName = params['course'];
       this.testName = params['test'];

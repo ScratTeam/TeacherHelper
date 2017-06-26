@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
-import { MdDialog, MdDialogRef, MdDialogConfig} from '@angular/material';
+import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
@@ -10,6 +10,7 @@ import { Course } from '../../services/course/course';
 import { Validator } from '../../services/course/validator';
 import { Test } from '../../services/test/test';
 import { TestService } from '../../services/test/test.service';
+import { CheckInService } from '../../services/check-in/check-in.service';
 
 @Component({
   selector: 'app-course',
@@ -33,10 +34,10 @@ export class CourseComponent implements OnInit {
   currentTestsPage: number = 1;
   testsPages = [];
 
-  constructor(private userService: UserService, private router: Router,
-              private snackBar: MdSnackBar, private testService: TestService,
-              private courseService: CourseService, private activatedRoute: ActivatedRoute,
-              public dialog: MdDialog) {
+  constructor(public userService: UserService, public router: Router,
+              public snackBar: MdSnackBar, public testService: TestService,
+              public courseService: CourseService, public activatedRoute: ActivatedRoute,
+              public dialog: MdDialog, public checkInService: CheckInService) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)
@@ -123,8 +124,9 @@ export class CourseComponent implements OnInit {
 
   // 创建新的签到事件
   creatCheckIn() {
-    console.log("开始测试");
-    // 生成二维码，TODO 开始签到
+    this.checkInService.createCheckIn().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   // 创建新的试题

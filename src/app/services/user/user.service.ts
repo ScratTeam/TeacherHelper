@@ -6,11 +6,11 @@ import { User } from './user';
 @Injectable()
 export class UserService {
   // 声明必要的 request header
-  private headers = new Headers({'Content-Type': 'application/json'});
+  public headers = new Headers({'Content-Type': 'application/json'});
 
   user: User;
 
-  constructor(private http: Http) {}
+  constructor(public http: Http) {}
 
   getUser() {
     return this.http.post('/user/get-user', {}, { headers: this.headers })

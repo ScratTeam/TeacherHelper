@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   validator: Validator = new Validator();
   courses: Course[];
 
-  constructor(private userService: UserService, private router: Router,
-              private snackBar: MdSnackBar, private courseService: CourseService) {
+  constructor(public userService: UserService, public router: Router,
+              public snackBar: MdSnackBar, public courseService: CourseService) {
     userService.getUser().subscribe((data) => {
       if (data.isOK) {
         this.user = new User(data.username, data.avatar, data.university, data.school);

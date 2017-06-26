@@ -5,9 +5,9 @@ import { Http, Headers } from '@angular/http';
 @Injectable()
 export class AuthService {
   // 声明必要的 request header
-  private headers = new Headers({'Content-Type': 'application/json'});
+  public headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {}
+  constructor(public http: Http) {}
 
   // 加密密码
   encryptPassword(password: string) {

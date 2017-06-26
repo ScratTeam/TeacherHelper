@@ -21,8 +21,8 @@ export class AddCourseComponent implements OnInit {
   fileName: string = '';  // 学生文件
   students: { id: string, name: string }[] = [];  // 学生名单
 
-  constructor(private courseService: CourseService, private snackBar: MdSnackBar,
-              private router: Router, private userService: UserService) {
+  constructor(public courseService: CourseService, public snackBar: MdSnackBar,
+              public router: Router, public userService: UserService) {
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
       if (data.isOK)

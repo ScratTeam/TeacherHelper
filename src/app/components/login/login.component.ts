@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   validator: Validator = new Validator();  // 前端校验器
   isVerified: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService,
-              private snackBar: MdSnackBar) {
+  constructor(public router: Router, public authService: AuthService,
+              public snackBar: MdSnackBar) {
     // 自动登录
     authService.verify().subscribe((data) => {
       if (data.isOK) router.navigate(['/home', data.username]);

@@ -5,9 +5,9 @@ import { Test } from './test';
 
 @Injectable()
 export class TestService {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  public headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {}
+  constructor(public http: Http) {}
 
   // 获取所有测试概要
   getTests(course: string) {
