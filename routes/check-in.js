@@ -28,7 +28,7 @@ module.exports = (app, shareData) => {
       } else {
         // 正常情况
         let checkIns = await CheckIn.find({ username: ctx.session.username,
-                                            courseName: raw.courseName });
+                                            courseName: ctx.request.body.courseName });
         let maxIndex = 0;
         for (let checkIn of checkIns)
           if (checkIn.id > maxIndex)
@@ -42,7 +42,7 @@ module.exports = (app, shareData) => {
           students: []
         });
         await newCheckIn.save();
-        ctx.body = { isOK: true };
+        ctx.body = { isOK: true, id: maxIndex };
       }
     } catch(error) {
       console.error(error);
@@ -92,6 +92,29 @@ module.exports = (app, shareData) => {
         checkIn.state = !checkIn.state;
         // 保存更改
         await checkIn.save();
+        ctx.body = { isOK: true };
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+  // 删除签到
+  router.post('/delete-check-in', async(ctx, next) => {
+    try {
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined ||
+          ctx.request.body == null || ctx.request.body == undefined ||
+          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+          ctx.request.body.id == null || ctx.request.body.id == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      } else {
+        // 正常情况
+        let checkIns = await CheckIn.find({ username: ctx.session.username,
+                                            courseName: ctx.request.body.courseName,
+                                            id: ctx.request.body.id });
+        let checkIn = checkIns[0];
+        await checkIn.remove();
         ctx.body = { isOK: true };
       }
     } catch(error) {
