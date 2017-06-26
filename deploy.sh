@@ -13,6 +13,7 @@ cp -r dist pack
 cp -r routes pack
 cp https-server.js pack
 cp package.json pack
+cp package-lock.json
 cp run-server.sh pack
 
 ##### 拷贝文件至服务器 #####
