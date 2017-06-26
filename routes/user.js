@@ -128,7 +128,7 @@ module.exports = (app, shareData) => {
         }
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

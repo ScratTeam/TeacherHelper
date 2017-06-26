@@ -104,7 +104,7 @@ module.exports = (app, shareData) => {
         ctx.body = { isOK: true, tests: queryTests };
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -135,7 +135,7 @@ module.exports = (app, shareData) => {
         }
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -183,7 +183,7 @@ module.exports = (app, shareData) => {
         }
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -241,7 +241,7 @@ module.exports = (app, shareData) => {
         }
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -265,7 +265,7 @@ module.exports = (app, shareData) => {
         ctx.body = { isOK: true };
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -302,7 +302,7 @@ module.exports = (app, shareData) => {
         ctx.body = { isOK: true };
       }
     } catch(error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
