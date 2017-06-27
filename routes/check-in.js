@@ -20,11 +20,12 @@ module.exports = (app, shareData) => {
   router.post('/add-check-in', async (ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
-      // 判断请求是否包含关键信息
-      if (ctx.session.username == null || ctx.session.username == undefined ||
-          ctx.request.body == null || ctx.request.body == undefined ||
-          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined) {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
+      // 判断请求是否包含关键信息
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined) {
+        ctx.status = 403;
       } else {
         // 正常情况
         let checkIns = await CheckIn.find({ username: ctx.session.username,
@@ -78,11 +79,13 @@ module.exports = (app, shareData) => {
   router.post('/toggle', async(ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
-      if (ctx.session.username == null || ctx.session.username == undefined ||
-          ctx.request.body == null || ctx.request.body == undefined ||
-          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
-          ctx.request.body.id == null || ctx.request.body.id == undefined) {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
+      // 判断请求是否包含关键信息
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+                 ctx.request.body.id == null || ctx.request.body.id == undefined) {
+        ctx.status = 403;
       } else {
         // 正常情况
         let checkIns = await CheckIn.find({ username: ctx.session.username,
@@ -104,11 +107,13 @@ module.exports = (app, shareData) => {
   router.post('/delete-check-in', async(ctx, next) => {
     try {
       // 若请求不包含用户名，则未授权
-      if (ctx.session.username == null || ctx.session.username == undefined ||
-          ctx.request.body == null || ctx.request.body == undefined ||
-          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
-          ctx.request.body.id == null || ctx.request.body.id == undefined) {
+      if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
+      // 判断请求是否包含关键信息
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+                 ctx.request.body.id == null || ctx.request.body.id == undefined) {
+        ctx.status = 403;
       } else {
         // 正常情况
         let checkIns = await CheckIn.find({ username: ctx.session.username,
@@ -116,6 +121,56 @@ module.exports = (app, shareData) => {
                                             id: ctx.request.body.id });
         let checkIn = checkIns[0];
         await checkIn.remove();
+        ctx.body = { isOK: true };
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+  // 获得某一次签到
+  router.post('/get-check-in', async(ctx, next) => {
+    try {
+      // 若请求不包含用户名，则未授权
+      if (ctx.session.username == null || ctx.session.username == undefined) {
+        ctx.body = { isOK: false, message: '401' };
+      // 判断请求是否包含关键信息
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+                 ctx.request.body.id == null || ctx.request.body.id == undefined) {
+        ctx.status = 403;
+      } else {
+        // 正常情况
+        let checkIns = await CheckIn.find({ username: ctx.request.body.username,
+                                            courseName: ctx.request.body.courseName,
+                                            id: ctx.request.body.id });
+        let checkIn = checkIns[0];
+        ctx.body = { isOK: true, checkIn: checkIn };
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+  // 学生签到
+  router.post('/check-in', async(ctx, next) => {
+    try {
+      if (ctx.request.body == null || ctx.request.body == undefined ||
+          ctx.request.body.username == null || ctx.request.body.username == undefined ||
+          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+          ctx.request.body.id == null || ctx.request.body.id == undefined ||
+          ctx.request.body.studentId == null || ctx.request.body.studentId == undefined) {
+        ctx.status = 403;
+      } else {
+        // 正常情况
+        let checkIns = await CheckIn.find({ username: ctx.request.body.username,
+                                            courseName: ctx.request.body.courseName,
+                                            id: ctx.request.body.id });
+        let checkIn = checkIns[0];
+        if (checkIn.students.indexOf(ctx.request.body.studentId) == -1)
+          checkIn.students.push(ctx.request.body.studentId);
+        // 保存更改
+        await checkIn.save();
         ctx.body = { isOK: true };
       }
     } catch(error) {
