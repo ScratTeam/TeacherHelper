@@ -50,15 +50,14 @@ export class TestComponent implements OnInit {
       this.username = params['username'];
       this.getTestAndDisplay(true);
       // 等待取回身份
-      let that = this;
       let requestLoop = setInterval(() => {
-        if (that.isAuth != undefined && that.isAuth != null) {
+        if (this.isAuth != undefined && this.isAuth != null) {
           this.isLoaded = true;
           clearInterval(requestLoop);
           // 轮询
-          if (that.isAuth == true) {
+          if (this.isAuth == true) {
             setInterval(() => {
-              that.getTestAndDisplay(false);
+              this.getTestAndDisplay(false);
             }, 2000);
           }
         }
