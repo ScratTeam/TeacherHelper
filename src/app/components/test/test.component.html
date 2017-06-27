@@ -4,7 +4,7 @@
     <div>正在获取数据...</div>
   </div>
 </div>
-<div class="test-layout" fxLayout="row" *ngIf="test">
+<div class="test-layout" fxLayout="row" *ngIf="test && isLoaded">
   <div fxFlex="10" fxHide.xs></div>
   <!-- 如果已登录教师账号且考试开始或结束 -->
   <md-card fxFlex.gt-xs="80" *ngIf="isAuth && valid != -1" class="invalid">

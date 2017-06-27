@@ -4,7 +4,7 @@
     <div>正在获取数据...</div>
   </div>
 </div>
-<div class="course-layout" fxLayout="row" *ngIf="course">
+<div class="course-layout" fxLayout="row" *ngIf="course && isLoaded">
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100" fxLayout.xs="column" fxLayoutAlign.gt-xs="start start">
     <md-card fxFlex.gt-xs="30" class="course-info">
@@ -53,7 +53,7 @@
                   <md-icon>more_vert</md-icon>
                 </button>
                 <md-menu #menu="mdMenu">
-                  <button md-menu-item (click)="shareCheckIn(checkIn)">
+                  <button *ngIf="checkIn.state" md-menu-item (click)="shareCheckIn(checkIn)">
                     <md-icon>share</md-icon>
                     <span>分 享</span>
                   </button>
