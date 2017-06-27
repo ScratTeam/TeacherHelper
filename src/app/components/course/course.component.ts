@@ -249,6 +249,11 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  // 跳转到签到页面
+  gotoCheckIn(checkIn) {
+    this.router.navigate(['/check-in', this.user.username, this.courseName, checkIn.id]);
+  }
+
   // 分享签到页面的二维码
   shareCheckIn(checkIn) {
     let config = new MdDialogConfig();

@@ -141,7 +141,7 @@ module.exports = (app, shareData) => {
         ctx.status = 403;
       } else {
         // 正常情况
-        let checkIns = await CheckIn.find({ username: ctx.request.body.username,
+        let checkIns = await CheckIn.find({ username: ctx.session.username,
                                             courseName: ctx.request.body.courseName,
                                             id: ctx.request.body.id });
         let checkIn = checkIns[0];

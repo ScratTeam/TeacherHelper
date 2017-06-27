@@ -1,19 +1,26 @@
 <div class="check-in-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100">
-    <md-card>
-      <md-card-title>签到次数</md-card-title>
+    <md-card *ngIf="isAuth">
+      <md-card-title>签到情况</md-card-title>
+    </md-card>
+    <!-- 如果是学生 -->
+    <md-card *ngIf="!isAuth">
+      <md-card-title>学生签到</md-card-title>
       <div class="student-info">
         <md-icon>person</md-icon>
         <md-input-container>
-          <input mdInput placeholder="姓名">
+          <input mdInput placeholder="姓名" [(ngModel)]="studentName">
         </md-input-container>
       </div>
       <div class="student-info">
         <md-icon>school</md-icon>
         <md-input-container>
-          <input mdInput placeholder="学号">
+          <input mdInput placeholder="学号" [(ngModel)]="studentId">
         </md-input-container>
+      </div>
+      <div class="button-container">
+        <button md-raised-button *ngIf="!isAuth" class="submit-button" (click)="submitCheckIn()">提 交</button>
       </div>
     </md-card>
   </div>

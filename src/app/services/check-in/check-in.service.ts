@@ -41,4 +41,14 @@ export class CheckInService {
                     .map((res) => res.json());
   }
 
+  // 获取某一次签到
+  getCheckIn(courseName: string, checkInID: number, username: string) {
+    return this.http.post('/check-in/get-check-in',
+                          { courseName: courseName,
+                            id: checkInID,
+                            username: username },
+                          { headers: this.headers })
+                     .map((res) => res.json());
+  }
+
 }

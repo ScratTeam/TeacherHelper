@@ -40,10 +40,9 @@ export class HomeComponent implements OnInit {
 
   avatarChange(event) {
     let reader = new FileReader();
-    let that = this;
 
     reader.onload = (e: any) => {
-      that.user.avatar = e.target.result;
+      this.user.avatar = e.target.result;
     };
 
     if (event.target.files[0] != undefined)
