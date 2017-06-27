@@ -249,7 +249,11 @@ export class TestComponent implements OnInit {
               }
             }
             this.testService.submitAnswers(this.username, this.courseName,
-                                           this.testName, this.studentId, submitAnswers).subscribe();
+                                           this.testName, this.studentId, submitAnswers)
+                            .subscribe((data) => {
+              if (data.isOK)
+                this.snackBar.open('提交成功', '知道了', { duration: 2000 });
+            });
           } else {
             this.snackBar.open('你尚未加入本课程', '知道了', { duration: 2000 });
           }
