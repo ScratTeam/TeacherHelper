@@ -17,8 +17,9 @@ export class CheckInService {
   }
 
   // 获取所有的签到
-  getCheckIns() {
-    return this.http.post('/check-in/get-check-ins', {},
+  getCheckIns(courseName: string) {
+    return this.http.post('/check-in/get-check-ins',
+                          { courseName: courseName },
                           { headers: this.headers })
                     .map((res) => res.json());
   }

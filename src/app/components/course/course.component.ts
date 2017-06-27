@@ -80,7 +80,7 @@ export class CourseComponent implements OnInit {
       });
 
       // 取回签到信息
-      this.checkInService.getCheckIns().subscribe((data) => {
+      this.checkInService.getCheckIns(this.courseName).subscribe((data) => {
         if (data.isOK) {
           this.checkIns = data.checkIns;
           // 设置当前显示的签到列表
