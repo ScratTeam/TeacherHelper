@@ -15,7 +15,7 @@
         </md-list-item>
       </md-list>
     </md-card>
-    <!-- 如果是学生 -->
+    <!-- 如果是学生，且本次签到未结束 -->
     <md-card *ngIf="!isAuth && state">
       <md-card-title>学生签到</md-card-title>
       <div class="student-info">
@@ -33,6 +33,11 @@
       <div class="button-container">
         <button md-raised-button *ngIf="!isAuth" class="submit-button" (click)="submitCheckIn()">提 交</button>
       </div>
+    </md-card>
+    <!-- 如果是学生，且本次签到已结束  -->
+    <md-card *ngIf="!isAuth && !state">
+      <div class="logo"></div>
+      <div class="info">签到已终止</div>
     </md-card>
   </div>
   <div fxFlex="10" fxHide.xs></div>

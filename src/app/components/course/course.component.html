@@ -47,7 +47,7 @@
               <md-list-item class="test-list" *ngFor="let checkIn of displayCheckIns; index as i">
                 <p fxFlex="33" (click)=gotoCheckIn(checkIn)>第 {{(currentCheckInPage - 1) * 8 + i + 1}} 次</p>
                 <p *ngIf="checkIn.state" fxFlex="33" (click)=gotoCheckIn(checkIn)>开启</p>
-                <p *ngIf="!checkIn.state" fxFlex="33" (click)=gotoCheckIn(checkIn)>关闭</p>
+                <p *ngIf="!checkIn.state" fxFlex="33" (click)=gotoCheckIn(checkIn)>结束</p>
                 <p fxFlex="33" (click)=gotoCheckIn(checkIn)>{{checkIn.students.length}}</p>
                 <button md-icon-button [mdMenuTriggerFor]="menu">
                   <md-icon>more_vert</md-icon>
