@@ -231,13 +231,13 @@ export class TestComponent implements OnInit {
   // 有效时可以提交题目按钮
   submitTest() {
     if (this.studentId != '' && this.studentName != '') {
-      this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName).subscribe((data) => {
+      this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName)
+                        .subscribe((data) => {
         if (data.isOK) {
-          if (data.exit) {
+          if (data.exist) {
             let submitAnswers = [];
-            for (let i = 0; i < this.studentAnswers.length; i++) {
+            for (let i = 0; i < this.studentAnswers.length; i++)
               submitAnswers[i] = this.studentAnswers[i];
-            }
             for (let i = 0; i < this.questions.length; i++) {
               if (this.questions[i].type == 2) {
                 let tempAnswer = '';
@@ -249,8 +249,8 @@ export class TestComponent implements OnInit {
                 submitAnswers[i] = tempAnswer.substring(0, tempAnswer.length-1);
               }
             }
-            this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, submitAnswers).subscribe((data) => {
-            });
+            this.testService.submitAnswers(this.username, this.courseName,
+                                           this.testName, this.studentId, submitAnswers).subscribe();
           } else {
             this.snackBar.open('你尚未加入本课程', '知道了', { duration: 2000 });
           }

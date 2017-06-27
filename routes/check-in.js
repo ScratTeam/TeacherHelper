@@ -131,16 +131,23 @@ module.exports = (app, shareData) => {
   // 获得某一次签到
   router.post('/get-check-in', async(ctx, next) => {
     try {
-      // 若请求不包含用户名，则未授权
-      if (ctx.session.username == null || ctx.session.username == undefined) {
-        ctx.body = { isOK: false, message: '401' };
       // 判断请求是否包含关键信息
-      } else if (ctx.request.body == null || ctx.request.body == undefined ||
-                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
-                 ctx.request.body.id == null || ctx.request.body.id == undefined) {
+      if (ctx.request.body == null || ctx.request.body == undefined ||
+          ctx.request.body.courseName == null || ctx.request.body.courseName == undefined ||
+          ctx.request.body.id == null || ctx.request.body.id == undefined ||
+          ctx.request.body.username == null || ctx.request.body.username == undefined) {
         ctx.status = 403;
+      // 若请求不包含用户名，则未授权
+      } else if (ctx.session.username == null || ctx.session.username == undefined) {
+        // 学生获取信息
+        let checkIns = await CheckIn.find({ username: ctx.request.body.username,
+                                            courseName: ctx.request.body.courseName,
+                                            id: ctx.request.body.id });
+        let checkIn = checkIns[0];
+        ctx.body = { isOK: false, state: checkIn.state };
+      // 判断请求是否包含关键信息
       } else {
-        // 正常情况
+        // 老师获取信息
         let checkIns = await CheckIn.find({ username: ctx.request.body.username,
                                             courseName: ctx.request.body.courseName,
                                             id: ctx.request.body.id });

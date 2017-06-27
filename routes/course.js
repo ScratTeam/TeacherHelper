@@ -264,19 +264,17 @@ module.exports = (app, shareData) => {
         ctx.status = 403;
       } else {
         let courses = await Course.find({ username: ctx.request.body.username,
-                                         name: ctx.request.body.course});
+                                          name: ctx.request.body.course });
         let course = courses[0];
-        let exit = false;
-        for (let i = course.students.length-1; i >= 0; i--) {
+        let exist = false;
+        for (let i = course.students.length - 1; i >= 0; i--) {
           if (course.students[i].id == ctx.request.body.studentId &&
               course.students[i].name == ctx.request.body.studentName) {
-            exit = true;
+            exist = true;
             break;
           }
         }
-        ctx.body = { isOK: true,
-                     exit: exit
-                   };
+        ctx.body = { isOK: true, exist: exist };
       }
     } catch(error) {
       console.error(error);
