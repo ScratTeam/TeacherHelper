@@ -19,6 +19,9 @@ module.exports = (app, shareData) => {
   // 创建 router
   let router = new Router({ prefix: '/course' });
 
+  // 存入 shareData
+  shareData.Course = Course;
+
   // 后端校验
   courseValidator = (ctx) => {
     // request body 为空或 course 为空

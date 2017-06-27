@@ -15,7 +15,7 @@ module.exports = (app, shareData) => {
   // 创建 router
   let router = new Router({ prefix: '/user' });
 
-  // 存入shareData
+  // 存入 shareData
   shareData.User = User;
 
   userValidator = (ctx) => {

@@ -13,7 +13,7 @@ module.exports = (app, shareData) => {
   // 创建 router
   let router = new Router({ prefix: '/auth' });
 
-  // 存入shareData
+  // 存入 shareData
   shareData.Passport = Passport;
 
   // 后端校验
