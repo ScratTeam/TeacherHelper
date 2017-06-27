@@ -44,11 +44,15 @@ export class AddTestComponent implements OnInit {
   isEdit: boolean = false;  // 是否被编辑
   oldName: string;  // 旧测试名
 
+  isLoaded: boolean = false;
+
   constructor(public userService: UserService, public router: Router,
               public snackBar: MdSnackBar, public activatedRoute: ActivatedRoute,
               public testService: TestService) {
+    this.isLoaded = false;
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
+      this.isLoaded = true;
       if (data.isOK)
         this.user = new User(data.username, data.avatar,
                              data.university, data.school);

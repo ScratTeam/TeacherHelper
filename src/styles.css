@@ -42,6 +42,12 @@ body {
 .highcharts-container {
   margin: 0 auto !important;
 }
+.highcharts-container {
+  width: 100% !important;
+}
+.highcharts-root {
+  width: 100% !important;
+}
 
 /* 矫正 radio button */
 .mat-radio-container {
@@ -81,14 +87,6 @@ body {
 .mat-input-placeholder-wrapper {
   height: 24px !important;
 }
-
 .studentInfo .mat-input-wrapper {
   padding-bottom: 0px !important;
-}
-
-.highcharts-container {
-  width: 100% !important;
-}
-.highcharts-root {
-  width: 100% !important;
 }

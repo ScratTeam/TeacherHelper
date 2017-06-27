@@ -18,10 +18,13 @@ export class HomeComponent implements OnInit {
   user: User;
   validator: Validator = new Validator();
   courses: Course[];
+  isLoaded: boolean = false;
 
   constructor(public userService: UserService, public router: Router,
               public snackBar: MdSnackBar, public courseService: CourseService) {
+    this.isLoaded = false;
     userService.getUser().subscribe((data) => {
+      this.isLoaded = true;
       if (data.isOK) {
         this.user = new User(data.username, data.avatar, data.university, data.school);
         this.courseService.getCourses().subscribe((data_) => {

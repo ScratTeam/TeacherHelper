@@ -27,6 +27,7 @@ export class CourseComponent implements OnInit {
   user: User;
   addStudentError: string;
   courseName: string;
+  isLoaded: boolean = false;
 
   // 表格管理
   displayStudents = [];  // 当前显示的学生名单
@@ -43,8 +44,10 @@ export class CourseComponent implements OnInit {
               public snackBar: MdSnackBar, public testService: TestService,
               public courseService: CourseService, public activatedRoute: ActivatedRoute,
               public dialog: MdDialog, public checkInService: CheckInService) {
+    this.isLoaded = false;
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
+      this.isLoaded = true;
       if (data.isOK)
         this.user = new User(data.username, data.avatar,
                              data.university, data.school);
@@ -151,12 +154,12 @@ export class CourseComponent implements OnInit {
   }
 
   // 判断当前的测试的状态
-  checkState(myIndex) {
-    if (new Date(this.tests[myIndex].startTime) > new Date()) {
+  checkState(i: number) {
+    if (new Date(this.tests[i].startTime) > new Date()) {
       return "未开始";
-    } else if (new Date(this.tests[myIndex].endTime) > new Date()) {
+    } else if (new Date(this.tests[i].endTime) > new Date()) {
       return "正在进行中";
-    } else if (new Date(this.tests[myIndex].endTime) < new Date()) {
+    } else if (new Date(this.tests[i].endTime) < new Date()) {
       return "已结束";
     }
   }

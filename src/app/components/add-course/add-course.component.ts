@@ -20,11 +20,14 @@ export class AddCourseComponent implements OnInit {
   errorMessage: string = '';  // 课程校验的报错
   fileName: string = '';  // 学生文件
   students: { id: string, name: string }[] = [];  // 学生名单
+  isLoaded: boolean = false;
 
   constructor(public courseService: CourseService, public snackBar: MdSnackBar,
               public router: Router, public userService: UserService) {
+    this.isLoaded = false;
     // 如果用户未登录，则跳转到注册登录页面
     userService.getUser().subscribe((data) => {
+      this.isLoaded = true;
       if (data.isOK)
         this.user = new User(data.username, data.avatar,
                              data.university, data.school);

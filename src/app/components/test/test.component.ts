@@ -38,9 +38,12 @@ export class TestComponent implements OnInit {
   // 表格
   charts: any = [];
 
+  isLoaded: boolean = false;
+
   constructor(public router: Router, public activatedRoute: ActivatedRoute,
               public snackBar: MdSnackBar, public testService: TestService,
               public courseService: CourseService) {
+    this.isLoaded = false;
     activatedRoute.params.subscribe((params: Params) => {
       this.courseName = params['course'];
       this.testName = params['test'];
@@ -50,6 +53,7 @@ export class TestComponent implements OnInit {
       let that = this;
       let requestLoop = setInterval(() => {
         if (that.isAuth != undefined && that.isAuth != null) {
+          this.isLoaded = true;
           clearInterval(requestLoop);
           // 轮询
           if (that.isAuth == true) {

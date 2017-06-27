@@ -1,4 +1,10 @@
-<div class="addtest-layout" fxLayout="row">
+<div *ngIf="!isLoaded" class="loader-container">
+  <div>
+    <md-spinner class="spinner"></md-spinner>
+    <div>正在获取数据...</div>
+  </div>
+</div>
+<div *ngIf="isLoaded" class="addtest-layout" fxLayout="row">
   <div fxFlex="10" fxHide.xs></div>
   <div fxFlex="80" fxFlex.xs="100">
     <md-card>
