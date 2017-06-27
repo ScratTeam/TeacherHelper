@@ -18,6 +18,7 @@ export class CheckInComponent implements OnInit {
   students: any = [];
   studentName: string = "";
   studentId: string = "";
+  state: boolean;
 
   isLoaded: boolean = false;
 
@@ -49,13 +50,20 @@ export class CheckInComponent implements OnInit {
 
   getCheckInAndDisplay(isInit: boolean) {
     // 取回测试信息
-    this.checkInService.getCheckIn(this.courseName, this.checkInID. this.username).subscribe((data) => {
+    this.checkInService.getCheckIn(this.courseName, this.checkInID, this.username)
+                       .subscribe((data) => {
       // 如果是第一次请求
       if (isInit) {
-        // 装载数据
-        this.students = data.checkIn.students;
         // 判断用户
         this.isAuth = data.isOK;
+        if (this.isAuth) {
+          // 装载数据
+          this.students = data.checkIn.students;
+          console.log(this.students);
+          this.state = data.checkIn.state;
+        } else {
+          this.state = data.state;
+        }
       // 如果不是第一次请求
       } else {
         this.students = data.checkIn.students;
@@ -69,7 +77,13 @@ export class CheckInComponent implements OnInit {
       this.courseService.checkStudent(this.username, this.courseName, this.studentId, this.studentName).subscribe((data) => {
         if (data.isOK) {
           if (data.exist) {
-            console.log("right");
+            this.checkInService.submitCheckIn(this.courseName, this.checkInID, this.username, this.studentId).subscribe((data_) => {
+              if (data_.isOK) {
+                this.snackBar.open('你已经签到成功', '知道了', { duration: 2000 });
+              } else {
+                this.snackBar.open('签到失败，请刷新重试', '知道了', { duration: 2000 });
+              }
+            });
           } else {
             this.snackBar.open('你尚未加入本课程', '知道了', { duration: 2000 });
           }

@@ -42,13 +42,24 @@ export class CheckInService {
   }
 
   // 获取某一次签到
-  getCheckIn(courseName: string, checkInID: number, username: string) {
+  getCheckIn(courseName: string, id: number, username: string) {
     return this.http.post('/check-in/get-check-in',
                           { courseName: courseName,
-                            id: checkInID,
+                            id: id,
                             username: username },
                           { headers: this.headers })
-                     .map((res) => res.json());
+                    .map((res) => res.json());
+  }
+
+  // 签到
+  submitCheckIn(courseName: string, id: number, username: string, studentId: string) {
+    return this.http.post('/check-in/submit-check-in',
+                          { courseName: courseName,
+                            id: id,
+                            username: username,
+                            studentId: studentId },
+                          { headers: this.headers })
+                    .map((res) => res.json());
   }
 
 }

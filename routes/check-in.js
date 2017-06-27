@@ -171,7 +171,7 @@ module.exports = (app, shareData) => {
   });
 
   // 学生签到
-  router.post('/check-in', async(ctx, next) => {
+  router.post('/submit-check-in', async(ctx, next) => {
     try {
       if (ctx.request.body == null || ctx.request.body == undefined ||
           ctx.request.body.username == null || ctx.request.body.username == undefined ||

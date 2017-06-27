@@ -3,9 +3,19 @@
   <div fxFlex="80" fxFlex.xs="100">
     <md-card *ngIf="isAuth">
       <md-card-title>签到情况</md-card-title>
+      <md-list>
+        <md-list-item class="table-header">
+          <p fxFlex="30">学号</p>
+          <p fxFlex="30">姓名</p>
+        </md-list-item>
+        <md-list-item class="check-in-list" *ngFor="let student of students">
+          <p fxFlex="30">{{student}}</p>
+          <p fxFlex="30">{{student}}</p>
+        </md-list-item>
+      </md-list>
     </md-card>
     <!-- 如果是学生 -->
-    <md-card *ngIf="!isAuth">
+    <md-card *ngIf="!isAuth && state">
       <md-card-title>学生签到</md-card-title>
       <div class="student-info">
         <md-icon>person</md-icon>
