@@ -57,9 +57,14 @@ module.exports = (app, shareData) => {
       // 若请求不包含用户名，则未授权
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
+      // 判断请求是否包含关键信息
+      } else if (ctx.request.body == null || ctx.request.body == undefined ||
+                 ctx.request.body.courseName == null || ctx.request.body.courseName == undefined) {
+        ctx.status = 403;
       } else {
         // 正常情况
-        let checkIns = await CheckIn.find({ username: ctx.session.username });
+        let checkIns = await CheckIn.find({ username: ctx.session.username,
+                                            courseName: ctx.request.body.courseName });
         let queryCheckIns = [];
         checkIns.forEach((checkIn) => {
           queryCheckIns.push({
