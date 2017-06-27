@@ -245,7 +245,6 @@ export class TestComponent implements OnInit {
                 submitAnswers[i] = tempAnswer.substring(0, tempAnswer.length-1);
               }
             }
-            console.log(submitAnswers, this.studentAnswers);
             this.testService.submitAnswers(this.username, this.courseName, this.testName, this.studentId, submitAnswers).subscribe((data) => {
             });
           } else {

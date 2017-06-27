@@ -163,7 +163,6 @@ export class CourseComponent implements OnInit {
 
   // 生成二维码，分享课程
   shareTest(testName) {
-    console.log(this.router.url.replace(/\/course\//, '/test/') + '/' + testName);
     let config = new MdDialogConfig();
     let dialogRef: MdDialogRef<ShareTestComponent> = this.dialog.open(ShareTestComponent, config);
     dialogRef.componentInstance.testUrl = this.router.url.replace(/\/course\//, '/test/') + '/' + testName;
@@ -202,7 +201,6 @@ export class CourseComponent implements OnInit {
     this.checkInService.createCheckIn(this.courseName).subscribe((data) => {
       if (data.isOK) {
         let checkIn = new CheckIn(this.courseName, true, [], data.id);
-        console.log(checkIn);
         this.checkIns.unshift(checkIn);
         this.displayCheckIns = this.checkIns.slice(0, 8);
         let totalPages = Math.ceil(this.checkIns.length / 8);
@@ -320,8 +318,8 @@ export class CourseComponent implements OnInit {
 
 @Component({
   selector: 'shareTest',
-  templateUrl: './share-test.component.html',
-  styleUrls: ['./share-test.component.sass']
+  templateUrl: 'share-test/share-test.component.html',
+  styleUrls: ['share-test/share-test.component.sass']
 })
 export class ShareTestComponent implements OnInit {
   testUrl: string;
@@ -336,8 +334,8 @@ export class ShareTestComponent implements OnInit {
 
 @Component({
   selector: 'shareCheckIn',
-  templateUrl: './share-check-in.component.html',
-  styleUrls: ['./share-check-in.component.sass']
+  templateUrl: 'share-check-in/share-check-in.component.html',
+  styleUrls: ['share-check-in/share-check-in.component.sass']
 })
 export class ShareCheckInComponent implements OnInit {
   checkInUrl: string;
@@ -352,8 +350,8 @@ export class ShareCheckInComponent implements OnInit {
 
 @Component({
   selector: 'addStudent',
-  templateUrl: './add-student.component.html',
-  styleUrls: ['./add-student.component.sass']
+  templateUrl: 'add-student/add-student.component.html',
+  styleUrls: ['add-student/add-student.component.sass']
 })
 export class AddStudentComponent implements OnInit {
   constructor(public dialogRef: MdDialogRef<ShareTestComponent>) {}

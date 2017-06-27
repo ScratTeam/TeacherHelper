@@ -78,7 +78,6 @@ export class AddCourseComponent implements OnInit {
       let row = 1;  // 定义行号
       let ids = new Set();  // 定义学生学号的集合
       while (true) {
-        console.log(1);
         // 取出第一张表
         if (worksheet['A' + row] == undefined || worksheet['A' + row] == undefined ||
             worksheet['B' + row] == null || worksheet['B' + row] == null) break;
