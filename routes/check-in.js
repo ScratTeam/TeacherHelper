@@ -155,14 +155,17 @@ module.exports = (app, shareData) => {
         let courses = await shareData.Course.find({ username: ctx.request.body.username,
                                                     name: ctx.request.body.courseName });
         let students = courses[0].students;
-        checkIn.students.forEach((student) => {
+        for (let i = 0; i < checkIn.students.length; i++) {
           for (let student_ of students) {
-            if (student_.id == student) {
-              student = student_;
+            if (student_.id == checkIn.students[i]) {
+              checkIn.students[i] = {
+                id: student_.id,
+                name: student_.name
+              };
               break;
             }
           }
-        });
+        };
         ctx.body = { isOK: true, checkIn: checkIn };
       }
     } catch(error) {
