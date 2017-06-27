@@ -207,10 +207,10 @@ module.exports = (app, shareData) => {
         ctx.status = 403;
       } else {
         let courses = await Course.find({ username: ctx.session.username,
-                                         name: ctx.request.body.course});
+                                          name: ctx.request.body.course});
         let course = courses[0];
         let student = {id: ctx.request.body.studentId, name: ctx.request.body.studentName};
-        for (let i = course.students.length-1; i>= 0; i--) {
+        for (let i = course.students.length - 1; i >= 0; i--) {
           if (course.students[i].id == ctx.request.body.studentId) {
             ctx.body = { isOK: false, message: '该学生信息已存在' };
             return;
@@ -219,8 +219,7 @@ module.exports = (app, shareData) => {
         course.students.push(student);
         await course.save();
         ctx.body = { isOK: true,
-                     students: course.students
-                   };
+                     students: course.students };
       }
     } catch(error) {
       console.error(error);

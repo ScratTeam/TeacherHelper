@@ -2,7 +2,9 @@
 
 # 拷贝证书文件
 cd pack
-mkdir ssl
+if [ ! -d "ssl" ]; then
+  mkdir ssl
+fi
 sudo cp /etc/letsencrypt/live/scrat.pw/fullchain.pem ssl/
 sudo cp /etc/letsencrypt/live/scrat.pw/privkey.pem ssl/
 
