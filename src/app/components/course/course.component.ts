@@ -24,7 +24,6 @@ type AOA = Array<Array<any>>;
 export class CourseComponent implements OnInit {
   students:AOA = [];
   wopts:XLSX.WritingOptions = { bookType:'xlsx', type:'binary' };
-  fileName:string = "Student.xlsx";
   course: any;
   tests: Test[];
   checkIns: CheckIn[];
@@ -343,19 +342,15 @@ export class CourseComponent implements OnInit {
 
   // 导出学生答题情况
   writeToFile() {
-    /* generate worksheet */
+    // 生成 worksheet
     const ws = XLSX.utils.aoa_to_sheet(this.students);
-
-    /* generate workbook and add the worksheet */
+    // 生成 workbook，添加数据
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    /* save to file */
+    // 保存文件
     const wbout = XLSX.write(wb, this.wopts);
-    console.log(this.fileName);
-    saveAs(new Blob([this.s2ab(wbout)]), this.fileName);
+    saveAs(new Blob([this.s2ab(wbout)]), 'Students.xlsx');
   }
-
 }
 
 @Component({
