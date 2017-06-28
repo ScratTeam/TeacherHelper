@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/user';
@@ -12,6 +14,7 @@ import { Test } from '../../services/test/test';
 import { TestService } from '../../services/test/test.service';
 import { CheckIn } from '../../services/check-in/check-in';
 import { CheckInService } from '../../services/check-in/check-in.service';
+type AOA = Array<Array<any>>;
 
 @Component({
   selector: 'app-course',
@@ -19,7 +22,10 @@ import { CheckInService } from '../../services/check-in/check-in.service';
   styleUrls: ['./course.component.sass']
 })
 export class CourseComponent implements OnInit {
-  course;
+  students:AOA = [];
+  wopts:XLSX.WritingOptions = { bookType:'xlsx', type:'binary' };
+  fileName:string = "Student.xlsx";
+  course: any;
   tests: Test[];
   checkIns: CheckIn[];
   errorMessage: string;
@@ -66,6 +72,10 @@ export class CourseComponent implements OnInit {
         else this.course = data;
         // 设置当前显示的学生名单
         this.displayStudents = data.students.slice(0, 8);
+        this.students.push(["学号", "姓名", "平均成绩", "历史签到率"]);
+        for (let i = 0; i < data.students.length; i++) {
+          this.students.push([data.students[i].id, data.students[i].name]);
+        }
         let totalPages = Math.ceil(data.students.length / 8);
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
@@ -320,6 +330,30 @@ export class CourseComponent implements OnInit {
         });
       }
     });
+  }
+
+  s2ab(s:string) {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i !== s.length; ++i) {
+      view[i] = s.charCodeAt(i) & 0xFF;
+    };
+    return buf;
+  }
+
+  // 导出学生答题情况
+  writeToFile() {
+    /* generate worksheet */
+    const ws = XLSX.utils.aoa_to_sheet(this.students);
+
+    /* generate workbook and add the worksheet */
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    const wbout = XLSX.write(wb, this.wopts);
+    console.log(this.fileName);
+    saveAs(new Blob([this.s2ab(wbout)]), this.fileName);
   }
 
 }

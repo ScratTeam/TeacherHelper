@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import * as XLSX from 'xlsx/xlsx';
+import * as XLSX from 'xlsx';
 
 import { CourseService } from '../../services/course/course.service';
 import { Course } from '../../services/course/course';

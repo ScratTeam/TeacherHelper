@@ -8,7 +8,7 @@
           <p fxFlex="30">学号</p>
           <p fxFlex="30">姓名</p>
         </md-list-item>
-        <div class="no-students" *ngIf="students && students.length == 0">暂时没有任何学生签到~</div>
+        <div class="no-students" *ngIf="students && students.length == 0">暂时没有任何学生签到</div>
         <md-list-item class="check-in-list" *ngFor="let student of students">
           <p fxFlex="30">{{student.id}}</p>
           <p fxFlex="30">{{student.name}}</p>
