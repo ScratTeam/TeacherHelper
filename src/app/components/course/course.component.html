@@ -131,17 +131,17 @@
             </md-card-title>
             <md-list>
               <md-list-item class="table-header">
-                <p fxFlex="24">学号</p>
-                <p fxFlex="24">姓名</p>
-                <p fxFlex="24">平均成绩</p>
-                <p fxFlex="24">历史签到率</p>
-                <p fxFlex="8"></p>
+                <p fxFlex="25">学号</p>
+                <p fxFlex="25">姓名</p>
+                <p fxFlex="25">平均成绩</p>
+                <p fxFlex="25">历史签到率</p>
+                <p fxFlex="40px"></p>
               </md-list-item>
               <md-list-item class="test-list" *ngFor="let student of displayStudents">
-                <p fxFlex="24">{{student.id}}</p>
-                <p fxFlex="24">{{student.name}}</p>
-                <p fxFlex="24">0</p>
-                <p fxFlex="24">0%</p>
+                <p fxFlex="25">{{student.id}}</p>
+                <p fxFlex="25">{{student.name}}</p>
+                <p fxFlex="25">0</p>
+                <p fxFlex="25">0%</p>
                 <button md-icon-button (click)="deleteStudent(student.id)">
                   <md-icon>delete</md-icon>
                 </button>
