@@ -73,7 +73,7 @@ export class CourseComponent implements OnInit {
         this.displayStudents = data.students.slice(0, 8);
         this.students.push(["学号", "姓名", "平均成绩", "历史签到率"]);
         for (let i = 0; i < data.students.length; i++) {
-          this.students.push([data.students[i].id, data.students[i].name]);
+          this.students.push([data.students[i].id, data.students[i].name, 0, data.students[i].ratio]);
         }
         let totalPages = Math.ceil(data.students.length / 8);
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);

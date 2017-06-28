@@ -73,8 +73,7 @@ module.exports = (app, shareData) => {
       if (ctx.session.username == null || ctx.session.username == undefined) {
         ctx.body = { isOK: false, message: '401' };
       } else if (ctx.request.body == null || ctx.request.body == undefined ||
-                 ctx.request.body.name == null ||
-                 ctx.request.body.name == undefined) {
+                 ctx.request.body.name == null || ctx.request.body.name == undefined) {
         ctx.status = 403;
       } else {
         let courses = await Course.find({
@@ -82,12 +81,31 @@ module.exports = (app, shareData) => {
           name: ctx.request.body.name
         });
         let course = courses[0];
+
+        // 计算每个学生的签到情况
+        let checkIns = await shareData.CheckIn.find({ username: ctx.session.username,
+                                                      courseName: ctx.request.body.name });
+        let students = course.students;
+        for (let i = 0; i < students.length; i++) {
+          students[i] = {
+            id: students[i].id,
+            name: students[i].name,
+            ratio: 0
+          };
+          checkIns.forEach((checkIn) => {
+            if (checkIn.students.indexOf(students[i].id) != -1)
+              students[i].ratio++;
+          });
+          if (students[i].ratio == 0) students[i].ratio = '暂无记录';
+          else students[i].ratio = ((students[i].ratio / checkIns.length) * 100).toFixed(2) + '%';
+        }
+
         ctx.body = {
           isOK: true,
           name: course.name,
           classroom: course.classroom,
           time: course.time,
-          students: course.students
+          students: students
         }
       }
     } catch(error) {

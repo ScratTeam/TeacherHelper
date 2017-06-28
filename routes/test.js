@@ -29,6 +29,9 @@ module.exports = (app, shareData) => {
   // 创建 router
   let router = new Router({ prefix: '/test' });
 
+  // 存入 shareData
+  shareData.Test = Test;
+
   // 后端校验
   testValidator = (ctx) => {
     // 重要元素为空

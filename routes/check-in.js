@@ -16,6 +16,9 @@ module.exports = (app, shareData) => {
   // 创建 router
   let router = new Router({ prefix: '/check-in' });
 
+  // 存入 shareData
+  shareData.CheckIn = CheckIn;
+
   // 创建签到
   router.post('/add-check-in', async (ctx, next) => {
     try {
