@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
@@ -20,7 +20,9 @@ export class CheckInComponent implements OnInit {
   studentId: string = "";
   state: boolean;
 
+  // 页面状态
   isLoaded: boolean = false;
+  updateInterval: any;
 
   constructor(public router: Router, public activatedRoute: ActivatedRoute,
               public snackBar: MdSnackBar, public checkInService: CheckInService,
@@ -37,7 +39,7 @@ export class CheckInComponent implements OnInit {
                       clearInterval(requestLoop);
                       // 轮询
                       if (this.isAuth == true) {
-                        setInterval(() => {
+                        this.updateInterval = setInterval(() => {
                           this.getCheckInAndDisplay(false);
                         }, 2000);
                       }
@@ -92,6 +94,11 @@ export class CheckInComponent implements OnInit {
     } else {
       this.snackBar.open('学号和姓名不能为空', '知道了', { duration: 2000 });
     }
+  }
+
+    // 停止更新循环
+  ngOnDestroy() {
+    clearInterval(this.updateInterval);
   }
 
 }
