@@ -15,7 +15,9 @@ export class Test {
     this.endTime = endTime;
     this.detail = detail;
     for (let element in questions) {
-      this.questions.push(new Question(questions[element].type,questions[element].stem, questions[element].choices, questions[element].answers));
+      this.questions.push(new Question(questions[element].type, questions[element].stem,
+                          questions[element].choices, questions[element].answers,
+                          questions[element].rightAnswers));
     }
   }
 };

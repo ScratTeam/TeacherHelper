@@ -29,7 +29,7 @@ export class AddTestComponent implements OnInit {
   endMin: string;
   minutes = [];
   questions: Question[] = [];  // 试题
-  newQuestion: Question = new Question(1, '', [], []);  // 正在创建的新试题
+  newQuestion: Question = new Question(1, '', [], [], '');  // 正在创建的新试题
   testErr: string = '';  // 创建试卷时的报错信息
 
   // 试题相关变量
@@ -38,6 +38,10 @@ export class AddTestComponent implements OnInit {
   tempChoices = [];
   questionErr: string = '';  // 添加新问题时的报错信息
   editedQuestionErr: string = ''; // 编辑问题提交时的报错信息
+  singleAnswers: number = 0;  // 新问题的单选答案
+  tempSingleAnswers: number = 0;  // 被修改的问题的单选答案
+  multiAnswers: boolean[] = [true];  // 新问题的多选答案
+  tempMultiAnswers: boolean[] = [true];  // 被修改的问题的多选答案
 
   // 编辑页面
   editHide: boolean[] = [];  // 是否显示编辑界面
@@ -87,7 +91,9 @@ export class AddTestComponent implements OnInit {
             this.startMin = (this.startDate.getMinutes()).toString() + ' 分';
             this.endMin = (this.endDate.getMinutes()).toString() + ' 分';
             for (let i = 0; i < data.questions.length; i++) {
-              this.questions.push(new Question(data.questions[i].type, data.questions[i].stem, data.questions[i].choices, data.questions[i].answers));
+              this.questions.push(new Question(data.questions[i].type, data.questions[i].stem,
+                                  data.questions[i].choices, data.questions[i].answers,
+                                  data.questions[i].rightAnswers));
               this.editHide.push(true);
             }
           } else {
@@ -118,28 +124,41 @@ export class AddTestComponent implements OnInit {
 
   // 清空报错信息
   clear() {
-    this.newQuestion = new Question(1, '', [], []);
+    this.newQuestion = new Question(1, '', [], [], '');
     this.questionErr = '';
     this.choices = [{ value: '' }, { value: '' }];
   }
 
   // 对提交的题目信息进行校验
-  checkSubmitQuestion(type_, choices_, stem_) {
+  checkSubmitQuestion(type, choices, stem) {
     let error = '';
-    if (type_ == 1 || type_ == 2) {
-      if (stem_ == '')
+    if (type == 1 || type == 2) {
+      if (stem == '')
         error = '选择题题干不能为空';
-      choices_.forEach((choice, index) => {
+      choices.forEach((choice, index) => {
+        // 去除空格
+        choice.value = choice.value.replace(/\s/g, '');
         if (choice.value == '')
           error = '选择题选项不能为空，选项 ' + this.indices[index] + ' 为空';
       });
-    } else if (type_ == 3) {
-      if (stem_ == '')
+      let sortedChoices = [];
+      choices.forEach((choice) => {
+        sortedChoices.push(choice.value);
+      });
+      sortedChoices.sort();
+      for (let i = 0; i < sortedChoices.length - 1; i++) {
+        if (sortedChoices[i + 1] == sortedChoices[i]) {
+          error = '选择题选项有重复';
+          break;
+        }
+      }
+    } else if (type == 3) {
+      if (stem == '')
         error = '填空题题干不能为空';
-      else if (stem_.indexOf('[空]') < 0)
+      else if (stem.indexOf('[空]') < 0)
         error = '填空题题干中至少需要包含一个空';
-    } else if (type_ == 4) {
-      if (stem_ == '')
+    } else if (type == 4) {
+      if (stem == '')
         error = '简答题题干不能为空';
     }
     return error;
@@ -147,8 +166,18 @@ export class AddTestComponent implements OnInit {
 
   // 提交新的问题
   submitQuestion() {
-    this.questionErr = this.checkSubmitQuestion(this.newQuestion.type, this.choices, this.newQuestion.stem);
-
+    this.questionErr = this.checkSubmitQuestion(this.newQuestion.type, this.choices,
+                                                this.newQuestion.stem);
+    // 添加正确答案
+    if (this.newQuestion.type == 1)
+      this.newQuestion.rightAnswers = this.choices[this.singleAnswers].value;
+    else if (this.newQuestion.type == 2) {
+      this.newQuestion.rightAnswers = '';
+      for (let i = 0; i < this.multiAnswers.length; i++) {
+        if (this.multiAnswers[i])
+          this.newQuestion.rightAnswers += (this.choices[i].value + ' ');
+      }
+    }
     if (this.questionErr != '') return;
     // 为题目添加选项
     this.choices.forEach((choice) => {
@@ -157,8 +186,10 @@ export class AddTestComponent implements OnInit {
     // 清空
     this.choices = [{ value: '' }, { value: '' }];
     this.questions.push(this.newQuestion);
-    this.newQuestion = new Question(1, '', [], []);
+    this.newQuestion = new Question(1, '', [], [], '');
     this.editHide.push(true);
+    this.singleAnswers = 0;
+    this.multiAnswers = [true];
   }
 
   // 删除某个问题
@@ -181,6 +212,14 @@ export class AddTestComponent implements OnInit {
     this.tempChoices = [];
     for (let i = 0; i < this.questions[index].choices.length; i++) {
       this.tempChoices.push({value: this.questions[index].choices[i]});
+      // 为单选题添加正确答案
+      if (this.questions[index].type == 1 &&
+          this.questions[index].rightAnswers == this.questions[index].choices[i]) {
+        this.tempSingleAnswers = i;
+      } else if (this.questions[index].type == 2) {
+        if (this.questions[index].rightAnswers.split(' ').indexOf(this.questions[index].choices[i]) >= 0)
+          this.tempMultiAnswers[i] = true;
+      }
     }
   }
 
@@ -225,7 +264,18 @@ export class AddTestComponent implements OnInit {
 
   // 提交某个编译好了的问题
   submitEditedQuestion(index) {
-    this.editedQuestionErr = this.checkSubmitQuestion(this.questions[index].type, this.tempChoices, this.questions[index].stem);
+    this.editedQuestionErr = this.checkSubmitQuestion(this.questions[index].type, this.tempChoices,
+                                                      this.questions[index].stem);
+    // 添加正确答案
+    if (this.questions[index].type == 1) {
+      this.questions[index].rightAnswers = this.tempChoices[this.tempSingleAnswers].value;
+    } else if (this.questions[index].type == 2) {
+      this.questions[index].rightAnswers = '';
+      for (let i = 0; i < this.tempMultiAnswers.length; i++) {
+        if (this.tempMultiAnswers[i])
+          this.questions[index].rightAnswers += (this.tempChoices[i].value + ' ');
+      }
+    }
     if (this.editedQuestionErr != '') return;
 
     this.questions[index].choices = [];

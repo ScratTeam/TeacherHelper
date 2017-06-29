@@ -3,11 +3,14 @@ export class Question {
   stem: string;
   choices: string[] = [];
   answers: StudentAnswer[] = [];
+  rightAnswers: string;
 
   constructor(type: number, stem: string, choices: string[],
-              answers: StudentAnswer[]) {
+              answers: StudentAnswer[], rightAnswers: string) {
     this.type = type;
     this.stem = stem;
+    this.rightAnswers = rightAnswers;
+
     for (let element in choices) {
       this.choices.push(choices[element]);
     }

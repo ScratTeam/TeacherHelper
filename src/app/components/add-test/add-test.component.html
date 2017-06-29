@@ -70,14 +70,14 @@
           </div>
           <!-- 显示选项等信息 -->
           <!-- 显示单项选择题的选项 -->
-          <md-radio-group fxLayout="column" *ngIf="question.type == 1">
-            <md-radio-button class="mychoice" *ngFor="let choice of question.choices" value disabled>
+          <md-radio-group fxLayout="column" *ngIf="question.type == 1" [ngModel]="question.rightAnswers">
+            <md-radio-button class="mychoice" *ngFor="let choice of question.choices" [value]="choice" disabled>
               {{choice}}
             </md-radio-button>
           </md-radio-group>
           <!-- 显示多项选择题的选项 -->
           <div fxLayout="column" *ngIf="question.type == 2">
-            <md-checkbox class="mychoice" *ngFor="let choice of question.choices" disabled>{{choice}}</md-checkbox>
+            <md-checkbox class="mychoice" *ngFor="let choice of question.choices" [ngModel]="question.rightAnswers.split(' ').indexOf(choice) != -1" disabled>{{choice}}</md-checkbox>
           </div>
           <!-- 显示填空题的答题线 -->
           <md-input-container *ngIf="question.type == 3">
@@ -100,12 +100,19 @@
             <md-input-container class="stem">
               <input mdInput placeholder="单选题题干" [(ngModel)]="question.stem">
             </md-input-container>
-            <div class="choice-container" *ngFor="let choice of tempChoices; let i_ = index">
-              <span class="index">{{indices[i_]}}</span>
-              <input class="choice" [(ngModel)]="choice.value">
-              <button md-icon-button (click)="deleteEditchoice(i_)">
-                <md-icon>delete</md-icon>
-              </button>
+            <div>
+              <md-radio-group class="radio-container" [(ngModel)]="tempSingleAnswers">
+                <md-radio-button class="radio-button" *ngFor="let choice of tempChoices; index as j" [value]="j">
+                </md-radio-button>
+              </md-radio-group>
+              <div class="choices-container">
+                <div class="choice-container" *ngFor="let choice of tempChoices; index as j">
+                  <input class="choice" [(ngModel)]="choice.value">
+                  <button md-icon-button (click)="deleteChoice(j)">
+                    <md-icon>delete</md-icon>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
           </div>
@@ -113,12 +120,18 @@
             <md-input-container class="stem">
               <input mdInput placeholder="多选题题干" [(ngModel)]="question.stem">
             </md-input-container>
-            <div class="choice-container" *ngFor="let choice of tempChoices; let i_ = index">
-              <span class="index">{{indices[i_]}}</span>
-              <input class="choice" [(ngModel)]="choice.value">
-              <button md-icon-button (click)="deleteEditchoice(i_)">
-                <md-icon>delete</md-icon>
-              </button>
+            <div>
+              <section class="checkbox-container">
+                <md-checkbox class="checkbox-button" *ngFor="let choice of tempChoices; index as i" [(ngModel)]="tempMultiAnswers[i]"></md-checkbox>
+              </section>
+              <div class="choices-container">
+                <div class="choice-container" *ngFor="let choice of tempChoices; let i_ = index">
+                  <input class="choice" [(ngModel)]="choice.value">
+                  <button md-icon-button (click)="deleteEditchoice(i_)">
+                    <md-icon>delete</md-icon>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
           </div>
@@ -154,12 +167,19 @@
         <md-input-container class="stem">
           <input mdInput placeholder="单选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
-        <div class="choice-container" *ngFor="let choice of choices; index as i">
-          <span class="index">{{indices[i]}}</span>
-          <input class="choice" [(ngModel)]="choice.value">
-          <button md-icon-button (click)="deleteChoice(i)">
-            <md-icon>delete</md-icon>
-          </button>
+        <div>
+          <md-radio-group class="radio-container" [(ngModel)]="singleAnswers">
+            <md-radio-button class="radio-button" *ngFor="let choice of choices; index as i" [value]="i">
+            </md-radio-button>
+          </md-radio-group>
+          <div class="choices-container">
+            <div class="choice-container" *ngFor="let choice of choices; index as i">
+              <input class="choice" [(ngModel)]="choice.value">
+              <button md-icon-button (click)="deleteChoice(i)">
+                <md-icon>delete</md-icon>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
       </div>
@@ -167,12 +187,18 @@
         <md-input-container class="stem">
           <input mdInput placeholder="多选题题干" [(ngModel)]="newQuestion.stem">
         </md-input-container>
-        <div class="choice-container" *ngFor="let choice of choices; index as i">
-          <span class="index">{{indices[i]}}</span>
-          <input class="choice" [(ngModel)]="choice.value">
-          <button md-icon-button (click)="deleteChoice(i)">
-            <md-icon>delete</md-icon>
-          </button>
+        <div>
+          <section class="checkbox-container">
+            <md-checkbox class="checkbox-button" *ngFor="let choice of choices; index as i" [(ngModel)]="multiAnswers[i]"></md-checkbox>
+          </section>
+          <div class="choices-container">
+            <div class="choice-container" *ngFor="let choice of choices; index as i">
+              <input class="choice" [(ngModel)]="choice.value">
+              <button md-icon-button (click)="deleteChoice(i)">
+                <md-icon>delete</md-icon>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
       </div>

@@ -100,23 +100,41 @@
       .hint
         font-size: 0.9em
         color: #757575
+      
+      .radio-container
+        display: inline-flex
+        flex-direction: column
+        vertical-align: top
 
-      .choice-container
+        .radio-button
+          height: 40px
+          line-height: 42px
+          padding-right: 0px !important
+      
+      .checkbox-container
+        display: inline-flex
+        flex-direction: column
+        vertical-align: top
 
-        .index
-          display: inline-block
-          vertical-align: middle
-          width: 20px
+        .checkbox-button
+          height: 40px
+          line-height: 40px
+          padding-right: 8px !important
+      
+      .choices-container
+        display: inline-block
 
-        .choice
-          outline: none
-          display: inline-block
-          vertical-align: middle
-          height: 24px
-          margin-left: 8px
-          border: none
-          border-bottom: 1px solid #dfdfdf
-          font-size: 16px
+        .choice-container
+
+          .choice
+            outline: none
+            display: inline-block
+            vertical-align: middle
+            height: 24px
+            margin-left: 8px
+            border: none
+            border-bottom: 1px solid #dfdfdf
+            font-size: 16px
 
       .add-new-choice
         color: #2196f3
