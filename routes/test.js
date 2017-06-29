@@ -10,9 +10,9 @@ answerSchema = new mongoose.Schema({
 questionSchema = new mongoose.Schema({
   type: Number,
   stem: String,
+  rightAnswers: String,
   choices: [String],
-  answers: [answerSchema],
-  correctStudents: [String],
+  answers: [answerSchema]
 });
 testSchema = new mongoose.Schema({
   username: String,
@@ -61,10 +61,15 @@ module.exports = (app, shareData) => {
           if (question.type == 1 || question.type == 2) {
             // 校验选项是否为空
             question.choices.forEach((choice) => {
-              if (choice == '') isValid = false;
+              if (choice == '' || choice == null || choice == undefined) isValid = false;
             });
             // 校验题干是否为空
-            if (question.stem == '') isValid = false;
+            if (question.stem == '' || question.stem == null || question.stem == undefined)
+              isValid = false;
+            // 校验答案是否为空
+            if (question.rightAnswers == '' || question.rightAnswers == null ||
+                question.rightAnswers == undefined)
+              isValid == false;
           // 如果为填空题
           } else if (question.type == 3) {
             if (question.stem == '' || question.stem.indexOf('[空]') < 0)
@@ -175,8 +180,8 @@ module.exports = (app, shareData) => {
               type: question.type,
               stem: question.stem,
               choices: question.choices,
-              answers: [],
-              correctStudents: []
+              rightAnswers: question.rightAnswers,
+              answers: []
             };
           });
           await test.save();
@@ -224,8 +229,8 @@ module.exports = (app, shareData) => {
               type: question.type,
               stem: question.stem,
               choices: question.choices,
-              answers: [],
-              correctStudents: []
+              rightAnswers: question.rightAnswers,
+              answers: []
             }
           });
           await test.save();
@@ -298,7 +303,8 @@ module.exports = (app, shareData) => {
             }
           }
           if (exit == false) {
-            test.questions[index].answers.push({id: ctx.request.body.studentId, answer: studentAnswer});
+            test.questions[index].answers.push({ id: ctx.request.body.studentId,
+                                                 answer: studentAnswer });
           }
         });
         await test.save();
