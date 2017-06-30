@@ -11,6 +11,10 @@
   <md-card fxFlex.gt-xs="80" *ngIf="isAuth && valid != -1" class="invalid">
     <md-card-title>{{test.name}}</md-card-title>
     <md-card-subtitle>{{toDateString(test.startTime)}} 至 {{toDateString(test.endTime)}}</md-card-subtitle>
+    <div>
+      <md-progress-bar [value]='(answerNumber / totalNumber) * 100'></md-progress-bar>
+      <span class="answer-num">{{answerNumber}} 人参与了答题</span>
+    </div>
     <md-card-content>
       <div class="questions" *ngFor="let question of questions; index as i">
         <div class="stem">

@@ -22,6 +22,10 @@ export class TestComponent implements OnInit {
   analyseHide : Boolean[] = [];
   // 答题人数
   answersNumber: number[] = [];
+  // 答题人数占总人数比例
+  answerNumber: number = 0;
+  // 课程人数
+  totalNumber: number = 1;
 
   // 学生答题信息
   courseName: string = "";
@@ -55,6 +59,10 @@ export class TestComponent implements OnInit {
       let requestLoop = setInterval(() => {
         if (this.isAuth != undefined && this.isAuth != null) {
           this.isLoaded = true;
+          // 拿回课程人数
+          this.courseService.getCourse(this.courseName).subscribe((data) => {
+            this.totalNumber = data.students.length;
+          });
           clearInterval(requestLoop);
           // 轮询
           if (this.isAuth == true) {
@@ -87,6 +95,7 @@ export class TestComponent implements OnInit {
         if (this.isAuth) {
           for (let i = 0; i < this.questions.length; i++)
             this.answersNumber.push(this.questions[i].answers.length);
+          this.answerNumber = Math.max.apply(null, this.answersNumber);
         }
         // 判断考试的时间
         let current = new Date();
