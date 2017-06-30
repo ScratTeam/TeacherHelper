@@ -3,6 +3,17 @@ const Router = require('koa-router');
 const mongoose = require('mongoose');
 
 // 定义凭证
+answerSchema = new mongoose.Schema({
+  id: String,
+  answer: String
+});
+questionSchema = new mongoose.Schema({
+  type: Number,
+  stem: String,
+  rightAnswers: String,
+  choices: [String],
+  answers: [answerSchema]
+});
 testSchema = new mongoose.Schema({
   username: String,
   courseName: String,
@@ -10,16 +21,7 @@ testSchema = new mongoose.Schema({
   startTime: Date,
   endTime: Date,
   detail: String,
-  questions: [{
-    type: Number,
-    stem: String,
-    rightAnswers: String,
-    choices: [String],
-    answers: [{
-      id: String,
-      answer: String
-    }]
-  }]
+  questions: [questionSchema]
 });
 const Test = mongoose.model('Test', testSchema);
 
