@@ -33,6 +33,9 @@ export class CourseComponent implements OnInit {
   addStudentError: string;
   courseName: string;
   isLoaded: boolean = false;
+  sortByScore: boolean;
+  sortByRatio: boolean;
+  sortById: boolean;
 
   // 表格管理
   displayStudents = [];  // 当前显示的学生名单
@@ -71,10 +74,6 @@ export class CourseComponent implements OnInit {
         else this.course = data;
         // 设置当前显示的学生名单
         this.displayStudents = data.students.slice(0, 8);
-        this.students.push(["学号", "姓名", "平均成绩", "历史签到率"]);
-        for (let i = 0; i < data.students.length; i++) {
-          this.students.push([data.students[i].id, data.students[i].name, 0, data.students[i].ratio]);
-        }
         let totalPages = Math.ceil(data.students.length / 8);
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
       });
@@ -342,6 +341,10 @@ export class CourseComponent implements OnInit {
 
   // 导出学生答题情况
   writeToFile() {
+    this.students.push(["学号", "姓名", "选择题成绩", "历史签到率"]);
+    for (let i = 0; i < this.course.students.length; i++) {
+      this.students.push([this.course.students[i].id, this.course.students[i].name, this.course.students[i].score, this.course.students[i].ratio]);
+    }
     // 生成 worksheet
     const ws = XLSX.utils.aoa_to_sheet(this.students);
     // 生成 workbook，添加数据
@@ -350,6 +353,96 @@ export class CourseComponent implements OnInit {
     // 保存文件
     const wbout = XLSX.write(wb, this.wopts);
     saveAs(new Blob([this.s2ab(wbout)]), 'Students.xlsx');
+  }
+
+  // 按学生成绩排序
+  sortByScores() {
+    if (this.sortByScore) {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.score > studentB.score)
+          return 1;
+        if (studentA.score < studentB.score)
+          return -1;
+        return 0;
+      });
+    } else {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.score < studentB.score)
+          return 1;
+        if (studentA.score > studentB.score)
+          return -1;
+        return 0;
+      });
+    }
+    // 重新设置当前显示的测试列表
+    this.displayStudents = this.course.students.slice(0, 8);
+    let totalPages = Math.ceil(this.course.students.length / 8);
+    this.studentsPages = [];
+    for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+    this.currentStudentsPage = 1;
+    this.sortByScore = !this.sortByScore;
+    this.sortByRatio = undefined;
+    this.sortById = undefined;
+  }
+
+  // 按学生出勤率排序
+  sortByRatios() {
+    if (this.sortByRatio) {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.ratio > studentB.ratio)
+          return 1;
+        if (studentA.ratio < studentB.ratio)
+          return -1;
+        return 0;
+      });
+    } else {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.ratio < studentB.ratio)
+          return 1;
+        if (studentA.ratio > studentB.ratio)
+          return -1;
+        return 0;
+      });
+    }
+    // 重新设置当前显示的测试列表
+    this.displayStudents = this.course.students.slice(0, 8);
+    let totalPages = Math.ceil(this.course.students.length / 8);
+    this.studentsPages = [];
+    for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+    this.currentStudentsPage = 1;
+    this.sortByRatio = !this.sortByRatio;
+    this.sortByScore = undefined;
+    this.sortById = undefined;
+  }
+
+  // 按照学号排序
+  sortByStudentId() {
+    if (this.sortById) {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.id > studentB.id)
+          return 1;
+        if (studentA.id < studentB.id)
+          return -1;
+        return 0;
+      });
+    } else {
+      this.course.students.sort(function(studentA, studentB) {
+        if (studentA.id < studentB.id)
+          return 1;
+        if (studentA.id > studentB.id)
+          return -1;
+        return 0;
+      });
+    }
+    // 重新设置当前显示的测试列表
+    this.displayStudents = this.course.students.slice(0, 8);
+    let totalPages = Math.ceil(this.course.students.length / 8);
+    this.studentsPages = [];
+    for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+    this.currentStudentsPage = 1;
+    this.sortById = !this.sortById;
+    this.sortByRatio = undefined;
+    this.sortByScore = undefined;
   }
 }
 

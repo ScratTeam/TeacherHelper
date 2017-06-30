@@ -131,10 +131,22 @@
             </md-card-title>
             <md-list>
               <md-list-item class="table-header">
-                <p fxFlex="25">学号</p>
+                <p fxFlex="25" (click)="sortByStudentId()">
+                  <span class="span-icon" *ngIf="sortById != undefined && sortById"><md-icon class="mdIcon">arrow_downward</md-icon></span>
+                  <span class="span-icon" *ngIf="sortById != undefined && !sortById"><md-icon class="mdIcon">arrow_upward</md-icon></span>
+                  <span class="span-text">学号</span>
+                </p>
                 <p fxFlex="25">姓名</p>
-                <p fxFlex="25">选择平均成绩</p>
-                <p fxFlex="25">历史签到率</p>
+                <p fxFlex="25" (click)="sortByScores()">
+                  <span class="span-icon" *ngIf="sortByScore != undefined && sortByScore"><md-icon class="mdIcon">arrow_downward</md-icon></span>
+                  <span class="span-icon" *ngIf="sortByScore != undefined && !sortByScore"><md-icon class="mdIcon">arrow_upward</md-icon></span>
+                  <span class="span-text">选择题成绩</span>
+                </p>
+                <p fxFlex="25" (click)="sortByRatios()">
+                  <span class="span-icon" *ngIf="sortByRatio != undefined && sortByRatio"><md-icon class="mdIcon">arrow_downward</md-icon></span>
+                  <span class="span-icon" *ngIf="sortByRatio != undefined && !sortByRatio"><md-icon class="mdIcon">arrow_upward</md-icon></span>
+                  <span class="span-text">历史签到率</span>
+                </p>
                 <p fxFlex="40px"></p>
               </md-list-item>
               <md-list-item class="test-list" *ngFor="let student of displayStudents">

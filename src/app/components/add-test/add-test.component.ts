@@ -312,7 +312,7 @@ export class AddTestComponent implements OnInit {
     if (this.endDate < this.startDate)
       this.testErr = '考试开始时间需在结束时间之前';
     else if (this.endDate < present)
-      this.testErr = '考试结束时间需在当前之后'; 
+      this.testErr = '考试结束时间需在当前之后';
     else if (this.testTitle == '')
       this.testErr = '试题标题不能为空';
     else
