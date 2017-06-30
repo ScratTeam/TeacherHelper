@@ -82,22 +82,46 @@ module.exports = (app, shareData) => {
         });
         let course = courses[0];
 
-        // 计算每个学生的签到情况
+        // 计算每个学生的签到情况和选择平均成绩
         let checkIns = await shareData.CheckIn.find({ username: ctx.session.username,
                                                       courseName: ctx.request.body.name });
+        let tests = await shareData.Test.find({ username: ctx.session.username,
+                                                courseName: ctx.request.body.name });
         let students = course.students;
         for (let i = 0; i < students.length; i++) {
           students[i] = {
             id: students[i].id,
             name: students[i].name,
-            ratio: 0
+            ratio: 0,
+            score: 0
           };
+          // 计算签到
           checkIns.forEach((checkIn) => {
             if (checkIn.students.indexOf(students[i].id) != -1)
               students[i].ratio++;
           });
-          if (students[i].ratio == 0) students[i].ratio = '暂无记录';
+          if (checkIns.length == 0) students[i].ratio = '暂无记录';
           else students[i].ratio = ((students[i].ratio / checkIns.length) * 100).toFixed(2) + '%';
+          // 计算选择成绩
+          let numOfQuestions = 0;
+          for (let test of tests) {
+            if (new Date(test.startTime) > new Date()) continue;
+            test.questions.forEach((question) => {
+              // 选择题
+              if (question.type == 1 || question.type == 2) {
+                numOfQuestions++;
+                for (let answer of question.answers) {
+                  if (answer.id == students[i].id &&
+                      answer.answer == question.rightAnswers) {
+                    students[i].score++;
+                    break;
+                  }
+                }
+              }
+            });
+          }
+          if (numOfQuestions == 0) students[i].score = '暂无记录';
+          else students[i].score = ((students[i].score / numOfQuestions) * 100).toFixed(2);
         }
 
         ctx.body = {

@@ -120,6 +120,7 @@ export class AddTestComponent implements OnInit {
       return;
     }
     this.choices.splice(index, 1);
+    this.multiAnswers.splice(index, 1);
   }
 
   // 清空报错信息
@@ -243,6 +244,7 @@ export class AddTestComponent implements OnInit {
       return;
     }
     this.tempChoices.splice(index, 1);
+    this.tempMultiAnswers.splice(index, 1);
   }
 
   // 添加新的选项

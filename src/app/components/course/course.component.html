@@ -133,14 +133,14 @@
               <md-list-item class="table-header">
                 <p fxFlex="25">学号</p>
                 <p fxFlex="25">姓名</p>
-                <p fxFlex="25">平均成绩</p>
+                <p fxFlex="25">选择平均成绩</p>
                 <p fxFlex="25">历史签到率</p>
                 <p fxFlex="40px"></p>
               </md-list-item>
               <md-list-item class="test-list" *ngFor="let student of displayStudents">
                 <p fxFlex="25">{{student.id}}</p>
                 <p fxFlex="25">{{student.name}}</p>
-                <p fxFlex="25">0</p>
+                <p fxFlex="25">{{student.score}}</p>
                 <p fxFlex="25">{{student.ratio}}</p>
                 <button md-icon-button (click)="deleteStudent(student.id)">
                   <md-icon>delete</md-icon>

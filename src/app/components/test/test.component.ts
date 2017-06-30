@@ -249,7 +249,7 @@ export class TestComponent implements OnInit {
                     tempAnswer = tempAnswer + (this.questions[i].choices[j]) + ' ';
                   }
                 }
-                submitAnswers[i] = tempAnswer.substring(0, tempAnswer.length-1);
+                submitAnswers[i] = tempAnswer;
               }
             }
             this.testService.submitAnswers(this.username, this.courseName,
