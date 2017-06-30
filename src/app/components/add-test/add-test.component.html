@@ -115,6 +115,7 @@
               </div>
             </div>
             <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
+            <div class="hint">*请在左侧勾选出正确的选项</div>
           </div>
           <div *ngIf="question.type == 2" class="question-format">
             <md-input-container class="stem">
@@ -134,6 +135,7 @@
               </div>
             </div>
             <div class="add-new-choice" (click)="addNewEditChoice()">+ 添加选项</div>
+            <div class="hint">*请在左侧勾选出正确的选项</div>
           </div>
           <div *ngIf="question.type == 3" class="question-format">
             <md-input-container class="stem">
@@ -182,6 +184,7 @@
           </div>
         </div>
         <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+        <div class="hint">*请在左侧勾选出正确的选项</div>
       </div>
       <div *ngIf="newQuestion.type == 2" class="question-format">
         <md-input-container class="stem">
@@ -201,6 +204,7 @@
           </div>
         </div>
         <div class="add-new-choice" (click)="addNewChoice()">+ 添加选项</div>
+        <div class="hint">*请在左侧勾选出正确的选项</div>
       </div>
       <div *ngIf="newQuestion.type == 3" class="question-format">
         <md-input-container class="stem">
