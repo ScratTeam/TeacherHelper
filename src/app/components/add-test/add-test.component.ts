@@ -208,6 +208,12 @@ export class AddTestComponent implements OnInit {
 
   // 修改某个问题
   editQuestion(index: number) {
+    for (let edit of this.editHide) {
+      if (!edit) {
+        this.snackBar.open('请完成当前正在编辑的修改', '知道了', { duration: 2000 });
+        return;
+      }
+    }
     this.editHide[index] = false;
     this.tempChoices = [];
     for (let i = 0; i < this.questions[index].choices.length; i++) {

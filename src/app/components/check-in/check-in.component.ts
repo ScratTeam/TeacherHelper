@@ -61,7 +61,6 @@ export class CheckInComponent implements OnInit {
         if (this.isAuth) {
           // 装载数据
           this.students = data.checkIn.students;
-          console.log(this.students);
           this.state = data.checkIn.state;
         } else {
           this.state = data.state;

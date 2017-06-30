@@ -3,17 +3,6 @@ const Router = require('koa-router');
 const mongoose = require('mongoose');
 
 // 定义凭证
-answerSchema = new mongoose.Schema({
-  id: String,
-  answer: String
-});
-questionSchema = new mongoose.Schema({
-  type: Number,
-  stem: String,
-  rightAnswers: String,
-  choices: [String],
-  answers: [answerSchema]
-});
 testSchema = new mongoose.Schema({
   username: String,
   courseName: String,
@@ -21,7 +10,16 @@ testSchema = new mongoose.Schema({
   startTime: Date,
   endTime: Date,
   detail: String,
-  questions: [questionSchema]
+  questions: [{
+    type: Number,
+    stem: String,
+    rightAnswers: String,
+    choices: [String],
+    answers: [{
+      id: String,
+      answer: String
+    }]
+  }]
 });
 const Test = mongoose.model('Test', testSchema);
 
@@ -133,13 +131,34 @@ module.exports = (app, shareData) => {
         // 通过 course 查找测试
         let tests = await Test.find({ username: username, courseName: course,
                                       name: test });
+        let isAuth = ctx.session.username != null && ctx.session.username != undefined;
+        let questions = [];
+        if (!isAuth) {
+          for (let question of tests[0].questions) {
+            questions.push({
+              type: question.type,
+              stem: question.stem,
+              choices: question.choices
+            });
+          }
+        } else {
+          for (let question of tests[0].questions) {
+            questions.push({
+              type: question.type,
+              stem: question.stem,
+              rightAnswers: question.rightAnswers,
+              answers: question.answers,
+              choices: question.choices
+            });
+          }
+        }
         ctx.body = {
-          isOK: ctx.session.username != null && ctx.session.username != undefined,
+          isOK: isAuth,
           name: tests[0].name,
           startTime: tests[0].startTime,
           endTime: tests[0].endTime,
           detail: tests[0].detail,
-          questions: tests[0].questions
+          questions: questions
         }
       }
     } catch(error) {

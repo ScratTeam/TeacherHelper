@@ -6,6 +6,7 @@
 </div>
 <div class="test-layout" fxLayout="row" *ngIf="test && isLoaded">
   <div fxFlex="10" fxHide.xs></div>
+
   <!-- 如果已登录教师账号且考试开始或结束 -->
   <md-card fxFlex.gt-xs="80" *ngIf="isAuth && valid != -1" class="invalid">
     <md-card-title>{{test.name}}</md-card-title>
@@ -18,21 +19,20 @@
           {{questions.indexOf(question) + 1}}. {{question.stem}}
         </div>
         <div class="choices-container">
-          <!-- 如果是单项选择题，则显示选项 -->
-          <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1">
-            <md-radio-button class="mychoice" *ngFor="let choice of question.choices" value disabled>
+          <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1" [ngModel]="question.rightAnswers">
+            <md-radio-button class="mychoice" *ngFor="let choice of question.choices" [value]="choice" disabled>
               {{choice}}
             </md-radio-button>
           </md-radio-group>
-          <!-- 如果是多项选择题，则显示选项 -->
-          <div class="choices" fxLayout="column" *ngIf="question.type == 2">
-            <md-checkbox *ngFor="let choice of question.choices" class="mychoice" disabled>{{choice}}</md-checkbox>
+          <!-- 显示多项选择题的选项 -->
+          <div fxLayout="column" class="choices" *ngIf="question.type == 2">
+            <md-checkbox class="mychoice" *ngFor="let choice of question.choices" [ngModel]="question.rightAnswers.split(' ').indexOf(choice) != -1" disabled>{{choice}}</md-checkbox>
           </div>
-          <!-- 如果是填空题，则显示输入的横线 -->
+          <!-- 显示填空题的答题线 -->
           <md-input-container *ngIf="question.type == 3">
             <input mdInput placeholder="在此作答" disabled>
           </md-input-container>
-          <!-- 如果是简答题，则显示 textarea 的小三角框 -->
+          <!-- 显示简答题的答题框 -->
           <md-input-container *ngIf="question.type == 4" class="text-container">
             <textarea mdInput placeholder="在此作答" disabled></textarea>
           </md-input-container>
@@ -44,21 +44,23 @@
       </div>
     </md-card-content>
   </md-card>
+
   <!-- 如果未登录教师账号且考试未开始 -->
   <md-card fxFlex.gt-xs="80" *ngIf="isAuth == false && valid == -1" class="valid">
     <div class="logo"></div>
     <div class="info">考试未开始...</div>
   </md-card>
+
   <!-- 如果未登录教师账号且考试正在进行或登录老师账号且考试未进行 -->
   <md-card fxFlex.gt-xs="80" *ngIf="(isAuth == false && valid == 0) || (isAuth && valid == -1)" class="valid">
     <md-card-title>{{test.name}}</md-card-title>
-    <div class="student-info">
+    <div class="student-info" *ngIf="!isAuth">
       <md-icon>person</md-icon>
       <md-input-container>
         <input mdInput placeholder="姓名" [(ngModel)]="studentName">
       </md-input-container>
     </div>
-    <div class="student-info">
+    <div class="student-info" *ngIf="!isAuth">
       <md-icon>school</md-icon>
       <md-input-container>
         <input mdInput placeholder="学号" [(ngModel)]="studentId">
@@ -66,14 +68,15 @@
     </div>
     <div class="questions" *ngFor="let question of questions; index as i">
       <div class="stem">{{i + 1}}. {{question.stem}}</div>
-      <div>
+      <!-- 如果是学生界面，不显示正确答案 -->
+      <div *ngIf="!isAuth">
         <!-- 如果是单项选择题，则显示选项 -->
         <md-radio-group fxLayout="column" *ngIf="question.type == 1" [(ngModel)]="studentAnswers[i]" ngDefaultControl>
           <md-radio-button class="choices" *ngFor="let choice of question.choices" [value]="choice">{{choice}}</md-radio-button>
         </md-radio-group>
         <!-- 如果是多项选择题，则显示选项 -->
         <div fxLayout="column" *ngIf="question.type == 2">
-          <md-checkbox *ngFor="let choice of question.choices; index as j" [(ngModel)]="studentAnswers[i][j]" ngDefaultControl>{{choice}}</md-checkbox>
+          <md-checkbox class="choices" *ngFor="let choice of question.choices; index as j" [(ngModel)]="studentAnswers[i][j]" ngDefaultControl>{{choice}}</md-checkbox>
         </div>
         <!-- 如果是填空题，则显示输入的横线 -->
         <md-input-container *ngIf="question.type == 3" [(ngModel)]="studentAnswers[i]" ngDefaultControl>
@@ -84,13 +87,34 @@
           <textarea mdInput placeholder="在此作答"></textarea>
         </md-input-container>
       </div>
+      <!-- 如果是老师界面，显示正确答案 -->
+      <div *ngIf="isAuth">
+        <md-radio-group fxLayout="column" *ngIf="question.type == 1" [ngModel]="question.rightAnswers">
+          <md-radio-button class="choices" *ngFor="let choice of question.choices" [value]="choice" disabled>
+            {{choice}}
+          </md-radio-button>
+        </md-radio-group>
+        <!-- 显示多项选择题的选项 -->
+        <div fxLayout="column" *ngIf="question.type == 2">
+          <md-checkbox class="choices" *ngFor="let choice of question.choices" [ngModel]="question.rightAnswers.split(' ').indexOf(choice) != -1" disabled>{{choice}}</md-checkbox>
+        </div>
+        <!-- 显示填空题的答题线 -->
+        <md-input-container *ngIf="question.type == 3">
+          <input mdInput placeholder="在此作答" disabled>
+        </md-input-container>
+        <!-- 显示简答题的答题框 -->
+        <md-input-container *ngIf="question.type == 4" class="text-container">
+          <textarea mdInput placeholder="在此作答" disabled></textarea>
+        </md-input-container>
+      </div>
     </div>
     <div class="button-container">
-      <button md-raised-button *ngIf="isAuth == false" class="submit-button" (click)="submitTest()">提 交</button>
+      <button md-raised-button *ngIf="!isAuth" class="submit-button" (click)="submitTest()">提 交</button>
     </div>
   </md-card>
+
   <!-- 如果未登录教师账号且考试已结束 -->
-  <md-card fxFlex.gt-xs="80" *ngIf="isAuth == false && valid == 1" class="valid">
+  <md-card fxFlex.gt-xs="80" *ngIf="!isAuth && valid == 1" class="valid">
     <div class="logo"></div>
     <div class="info">考试已结束</div>
   </md-card>

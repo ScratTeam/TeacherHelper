@@ -81,11 +81,13 @@ export class TestComponent implements OnInit {
         for (let question of this.questions)
           if (question.type == 3)
             question.stem = question.stem.replace('[空]', ' _____ ');
-        // 更新答题人数
-        for (let i = 0; i < this.questions.length; i++)
-          this.answersNumber.push(this.questions[i].answers.length);
         // 判断用户
         this.isAuth = data.isOK;
+        // 更新答题人数
+        if (this.isAuth) {
+          for (let i = 0; i < this.questions.length; i++)
+            this.answersNumber.push(this.questions[i].answers.length);
+        }
         // 判断考试的时间
         let current = new Date();
         if (current < new Date(this.test.startTime)) this.valid = -1;

@@ -164,7 +164,6 @@ export class CourseComponent implements OnInit {
 
   // 判断当前的测试的状态
   checkState(i: number) {
-    console.log(new Date(this.tests[i].startTime), new Date());
     if (new Date(this.tests[i].startTime) > new Date()) {
       return "未开始";
     } else if (new Date(this.tests[i].endTime) > new Date()) {
