@@ -117,7 +117,7 @@ export class TestComponent implements OnInit {
   toDateString(date_: Date) {
     let date = new Date(date_);
     return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' +
-           date.getDate();
+           date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
   }
 
   // 计算选择题绑定到图表的数据

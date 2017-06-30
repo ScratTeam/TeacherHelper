@@ -10,7 +10,7 @@
   <!-- 如果已登录教师账号且考试开始或结束 -->
   <md-card fxFlex.gt-xs="80" *ngIf="isAuth && valid != -1" class="invalid">
     <md-card-title>{{test.name}}</md-card-title>
-    <md-card-subtitle>{{toDateString(test.startTime)}} - {{toDateString(test.endTime)}}</md-card-subtitle>
+    <md-card-subtitle>{{toDateString(test.startTime)}} 至 {{toDateString(test.endTime)}}</md-card-subtitle>
     <md-card-content>
       <div class="questions" *ngFor="let question of questions; index as i">
         <div class="stem">
