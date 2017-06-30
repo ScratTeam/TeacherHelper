@@ -24,6 +24,13 @@
 
       .detail-button
         color: rgb(114, 114, 114)
+        display: inline-block
+        vertical-align: top
+      
+      .stem-text
+        line-height: 40px
+        height: 40px
+        display: inline-block
 
     .choices-container
       padding-left: 40px
@@ -37,12 +44,14 @@
     .analyse-container
 
       .overview
-        padding-left: 40px
+        padding-left: 38px
         font-size: 16px
         margin: 8px
 
       .highchart-container
-        width: 100%
+        width: calc(100% - 40px)
+        padding: 0px 0px 0px 40px
+        display: block
 
   .valid
     .logo

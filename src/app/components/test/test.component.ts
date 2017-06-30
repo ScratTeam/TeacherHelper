@@ -168,62 +168,71 @@ export class TestComponent implements OnInit {
 
   expandMore(index) {
     this.analyseHide[index] = false;
-    // 如果是选择题，则用饼状图显示每个选项的答题人数
-    let myQuestion = this.questions[index];
-    if (myQuestion.type == 1 || myQuestion.type == 2) {
-      this.charts[index] = Highcharts.chart(String(index), {
-        chart: { type: 'column' },
-        title: { text: '第' + String(index + 1) + '题答题情况' },
-        legend: { enabled: false },
-        xAxis: { type: 'category' },
-        yAxis: { title: { text: '该选项选择人数占总人数的百分比' } },
-        tooltip: {
-          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> <br/>'
-        },
-        plotOptions: {
-          series: {
-            borderWidth: 0,
-            dataLabels: { enabled: true, format: '{point.y:.1f}%' }
-          }
-        },
-        series: [{
-          name: 'Brands',
-          colorByPoint: true,
-          data: this.calculateChoiceData(index)
-        }]
-      });
-    // 如果是填空题，显示答题的情况
-    } else if (myQuestion.type == 3) {
-      // 使用饼状图显示数据
-      this.charts[index] = Highcharts.chart(String(index), {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
-        },
-        title: { text: '第' + String(index + 1) + '题答题情况' },
-        tooltip: { pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-              style: {
-                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+    // 获取元素的宽度
+    let getWidth = setInterval(() => {
+      let width = (<HTMLElement>document.getElementsByClassName('highchart-container')[0]).offsetWidth;
+      if (width != 0) {
+        clearInterval(getWidth);
+        // 如果是选择题，则用饼状图显示每个选项的答题人数
+        let myQuestion = this.questions[index];
+        if (myQuestion.type == 1 || myQuestion.type == 2) {
+          this.charts[index] = Highcharts.chart(String(index), {
+            width: width,
+            height: 400,
+            chart: { type: 'column' },
+            title: { text: '第 ' + String(index + 1) + ' 题答题情况' },
+            legend: { enabled: false },
+            xAxis: { type: 'category' },
+            yAxis: { title: { text: '该选项选择人数占总人数的百分比' } },
+            tooltip: {
+              enabled: false
+            },
+            plotOptions: {
+              series: {
+                animation: false,
+                borderWidth: 0,
+                dataLabels: { enabled: true, format: '{point.y:.1f}' }
               }
-            }
-          }
-        },
-        series: [{
-          name: 'Brands',
-          colorByPoint: true,
-          data: this.calculateCompletionData(index)
-        }]
-      });
-    }
+            },
+            series: [{
+              colorByPoint: true,
+              data: this.calculateChoiceData(index)
+            }]
+          });
+        // 如果是填空题，显示答题的情况
+        } else if (myQuestion.type == 3) {
+          // 使用饼状图显示数据
+          this.charts[index] = Highcharts.chart(String(index), {
+            chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
+            },
+            title: { text: '第' + String(index + 1) + '题答题情况' },
+            tooltip: { pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>' },
+            plotOptions: {
+              pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                  enabled: true,
+                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                  style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                  }
+                }
+              }
+            },
+            series: [{
+              name: 'Brands',
+              colorByPoint: true,
+              data: this.calculateCompletionData(index)
+            }]
+          });
+        }
+      }
+    }, 100);
   }
 
   // 隐藏题目显示

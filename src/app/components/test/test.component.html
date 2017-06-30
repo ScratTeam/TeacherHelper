@@ -16,7 +16,7 @@
         <div class="stem">
           <button md-icon-button class="detail-button" fxHide="{{!analyseHide[i]}}" (click)=expandMore(i)><md-icon>chevron_right</md-icon></button>
           <button md-icon-button class="detail-button" fxHide="{{analyseHide[i]}}" (click)=expandLess(i)><md-icon>expand_more</md-icon></button>
-          {{questions.indexOf(question) + 1}}. {{question.stem}}
+          <span class="stem-text">{{questions.indexOf(question) + 1}}. {{question.stem}}</span>
         </div>
         <div class="choices-container">
           <md-radio-group class="choices" fxLayout="column" *ngIf="question.type == 1" [ngModel]="question.rightAnswers">
