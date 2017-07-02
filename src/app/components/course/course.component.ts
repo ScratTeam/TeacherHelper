@@ -323,6 +323,7 @@ export class CourseComponent implements OnInit {
             for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
             this.currentStudentsPage = 1;
             // 显示提示信息
+            this.addStudentError = '';
             this.snackBar.open('添加成功', '知道了', { duration: 2000 });
           } else {
             if (data.message == '401')
