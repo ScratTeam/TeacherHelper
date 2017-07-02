@@ -217,6 +217,7 @@ export class CourseComponent implements OnInit {
         let totalPages = Math.ceil(this.checkIns.length / 8);
         this.checkInPages = [];
         for (let i = 1; i <= totalPages; i++) this.checkInPages.push(i);
+        this.currentCheckInPage = 1;
       } else {
         this.snackBar.open('创建失败，请刷新重试', '知道了', { duration: 2000 });
       }
@@ -287,10 +288,12 @@ export class CourseComponent implements OnInit {
             this.displayStudents.splice(i, 1);
         }
         // 重新设置当前显示的测试列表
+        this.course.students = data.students;
         this.displayStudents = data.students.slice(0, 8);
         let totalPages = Math.ceil(data.students.length / 8);
         this.studentsPages = [];
         for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+        this.currentStudentsPage = 1;
         // 显示提示信息
         this.snackBar.open('删除成功', '知道了', { duration: 2000 });
         this.currentStudentsPage = 1;
@@ -313,10 +316,12 @@ export class CourseComponent implements OnInit {
         this.courseService.addStudent(this.course.name, studentId, studentName).subscribe((data) => {
           if (data.isOK) {
             // 重新设置当前显示的测试列表
+            this.course.students = data.students;
             this.displayStudents = data.students.slice(0, 8);
             let totalPages = Math.ceil(data.students.length / 8);
             this.studentsPages = [];
             for (let i = 1; i <= totalPages; i++) this.studentsPages.push(i);
+            this.currentStudentsPage = 1;
             // 显示提示信息
             this.snackBar.open('添加成功', '知道了', { duration: 2000 });
           } else {
