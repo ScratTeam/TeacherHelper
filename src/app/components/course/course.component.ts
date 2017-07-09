@@ -348,6 +348,7 @@ export class CourseComponent implements OnInit {
 
   // 导出学生答题情况
   writeToFile() {
+    this.students = [];
     this.students.push(["学号", "姓名", "选择题成绩", "历史签到率"]);
     for (let i = 0; i < this.course.students.length; i++) {
       this.students.push([this.course.students[i].id, this.course.students[i].name, this.course.students[i].score, this.course.students[i].ratio]);
