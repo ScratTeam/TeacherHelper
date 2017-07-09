@@ -365,18 +365,22 @@ export class CourseComponent implements OnInit {
   sortByScores() {
     if (this.sortByScore) {
       this.course.students.sort(function(studentA, studentB) {
-        if (studentA.score > studentB.score)
+        let scoreA = parseFloat(studentA.score);
+        let scoreB = parseFloat(studentB.score);
+        if (scoreB == NaN || scoreA > scoreB)
           return 1;
-        if (studentA.score < studentB.score)
+        if (scoreA == NaN || scoreA < scoreB)
           return -1;
         return 0;
       });
     } else {
       this.course.students.sort(function(studentA, studentB) {
-        if (studentA.score < studentB.score)
-          return 1;
-        if (studentA.score > studentB.score)
+        let scoreA = parseFloat(studentA.score);
+        let scoreB = parseFloat(studentB.score);
+        if (scoreB == NaN || scoreA > scoreB)
           return -1;
+        if (scoreA == NaN || scoreA < scoreB)
+          return 1;
         return 0;
       });
     }
@@ -395,18 +399,22 @@ export class CourseComponent implements OnInit {
   sortByRatios() {
     if (this.sortByRatio) {
       this.course.students.sort(function(studentA, studentB) {
-        if (studentA.ratio > studentB.ratio)
+        let ratioA = parseFloat(studentA.ratio);
+        let ratioB = parseFloat(studentB.ratio);
+        if (ratioB == NaN || ratioA > ratioB)
           return 1;
-        if (studentA.ratio < studentB.ratio)
+        if (ratioA == NaN || ratioA < ratioB)
           return -1;
         return 0;
       });
     } else {
       this.course.students.sort(function(studentA, studentB) {
-        if (studentA.ratio < studentB.ratio)
-          return 1;
-        if (studentA.ratio > studentB.ratio)
+        let ratioA = parseFloat(studentA.ratio);
+        let ratioB = parseFloat(studentB.ratio);
+        if (ratioB == NaN || ratioA > ratioB)
           return -1;
+        if (ratioA == NaN || ratioA < ratioB)
+          return 1;
         return 0;
       });
     }
