@@ -45,7 +45,7 @@
               </md-list-item>
               <div class="no-check-in" *ngIf="displayCheckIns && displayCheckIns.length == 0">暂时没有任何签到记录</div>
               <md-list-item class="test-list" *ngFor="let checkIn of displayCheckIns; index as i">
-                <p fxFlex="33" (click)=gotoCheckIn(checkIn)>第 {{(currentCheckInPage - 1) * 8 + i + 1}} 次</p>
+                <p fxFlex="33" (click)=gotoCheckIn(checkIn)>第 {{checkIn.id}} 次</p>
                 <p *ngIf="checkIn.state" fxFlex="33" (click)=gotoCheckIn(checkIn)>开启</p>
                 <p *ngIf="!checkIn.state" fxFlex="33" (click)=gotoCheckIn(checkIn)>结束</p>
                 <p fxFlex="33" (click)=gotoCheckIn(checkIn)>{{checkIn.students.length}}</p>

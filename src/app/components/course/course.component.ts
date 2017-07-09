@@ -91,6 +91,7 @@ export class CourseComponent implements OnInit {
       this.checkInService.getCheckIns(this.courseName).subscribe((data) => {
         if (data.isOK) {
           this.checkIns = data.checkIns;
+          this.checkIns.reverse();
           // 设置当前显示的签到列表
           this.displayCheckIns = this.checkIns.slice(0, 8);
           let totalPages = Math.ceil(this.checkIns.length / 8);
