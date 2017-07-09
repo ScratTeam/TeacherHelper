@@ -19,7 +19,7 @@ export class TestComponent implements OnInit {
   options: any;
   questions: Question[];
   // 是否显示分析结果
-  analyseHide : Boolean[] = [];
+  analyseHide: Boolean[] = [];
   // 答题人数
   answersNumber: number[] = [];
   // 答题人数占总人数比例
@@ -109,6 +109,13 @@ export class TestComponent implements OnInit {
       } else {
         for (let i = 0; i < this.questions.length; i++)
           this.questions[i].answers = data.questions[i].answers;
+        // 更新人数
+        if (this.isAuth) {
+          this.answersNumber = [];
+          for (let i = 0; i < this.questions.length; i++)
+            this.answersNumber.push(this.questions[i].answers.length);
+          this.answerNumber = Math.max.apply(null, this.answersNumber);
+        }
         for (let i = 0; i < this.questions.length; i++) {
           if (this.charts[i] != null && this.charts[i] != undefined) {
             if (this.questions[i].type == 1 || this.questions[i].type == 2)
@@ -179,7 +186,7 @@ export class TestComponent implements OnInit {
     this.analyseHide[index] = false;
     // 获取元素的宽度
     let getWidth = setInterval(() => {
-      let width = (<HTMLElement>document.getElementsByClassName('highchart-container')[0]).offsetWidth;
+      let width = (<HTMLElement>document.getElementsByClassName('highchart-container')[index]).offsetWidth;
       if (width != 0) {
         clearInterval(getWidth);
         // 如果是选择题，则用饼状图显示每个选项的答题人数
